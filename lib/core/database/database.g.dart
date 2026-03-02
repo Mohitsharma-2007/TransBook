@@ -5887,6 +5887,914 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
   }
 }
 
+class $SummaryBillsTable extends SummaryBills
+    with TableInfo<$SummaryBillsTable, SummaryBill> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SummaryBillsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _summaryNumberMeta = const VerificationMeta(
+    'summaryNumber',
+  );
+  @override
+  late final GeneratedColumn<String> summaryNumber = GeneratedColumn<String>(
+    'summary_number',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _companyIdMeta = const VerificationMeta(
+    'companyId',
+  );
+  @override
+  late final GeneratedColumn<int> companyId = GeneratedColumn<int>(
+    'company_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES companies (id)',
+    ),
+  );
+  static const VerificationMeta _periodFromMeta = const VerificationMeta(
+    'periodFrom',
+  );
+  @override
+  late final GeneratedColumn<String> periodFrom = GeneratedColumn<String>(
+    'period_from',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _periodToMeta = const VerificationMeta(
+    'periodTo',
+  );
+  @override
+  late final GeneratedColumn<String> periodTo = GeneratedColumn<String>(
+    'period_to',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _totalAmountMeta = const VerificationMeta(
+    'totalAmount',
+  );
+  @override
+  late final GeneratedColumn<double> totalAmount = GeneratedColumn<double>(
+    'total_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _tdsAmountMeta = const VerificationMeta(
+    'tdsAmount',
+  );
+  @override
+  late final GeneratedColumn<double> tdsAmount = GeneratedColumn<double>(
+    'tds_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _payableAmountMeta = const VerificationMeta(
+    'payableAmount',
+  );
+  @override
+  late final GeneratedColumn<double> payableAmount = GeneratedColumn<double>(
+    'payable_amount',
+    aliasedName,
+    true,
+    type: DriftSqlType.double,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _amountInWordsMeta = const VerificationMeta(
+    'amountInWords',
+  );
+  @override
+  late final GeneratedColumn<String> amountInWords = GeneratedColumn<String>(
+    'amount_in_words',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('DRAFT'),
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    summaryNumber,
+    companyId,
+    periodFrom,
+    periodTo,
+    totalAmount,
+    tdsAmount,
+    payableAmount,
+    amountInWords,
+    status,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'summary_bills';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SummaryBill> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('summary_number')) {
+      context.handle(
+        _summaryNumberMeta,
+        summaryNumber.isAcceptableOrUnknown(
+          data['summary_number']!,
+          _summaryNumberMeta,
+        ),
+      );
+    }
+    if (data.containsKey('company_id')) {
+      context.handle(
+        _companyIdMeta,
+        companyId.isAcceptableOrUnknown(data['company_id']!, _companyIdMeta),
+      );
+    }
+    if (data.containsKey('period_from')) {
+      context.handle(
+        _periodFromMeta,
+        periodFrom.isAcceptableOrUnknown(data['period_from']!, _periodFromMeta),
+      );
+    }
+    if (data.containsKey('period_to')) {
+      context.handle(
+        _periodToMeta,
+        periodTo.isAcceptableOrUnknown(data['period_to']!, _periodToMeta),
+      );
+    }
+    if (data.containsKey('total_amount')) {
+      context.handle(
+        _totalAmountMeta,
+        totalAmount.isAcceptableOrUnknown(
+          data['total_amount']!,
+          _totalAmountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('tds_amount')) {
+      context.handle(
+        _tdsAmountMeta,
+        tdsAmount.isAcceptableOrUnknown(data['tds_amount']!, _tdsAmountMeta),
+      );
+    }
+    if (data.containsKey('payable_amount')) {
+      context.handle(
+        _payableAmountMeta,
+        payableAmount.isAcceptableOrUnknown(
+          data['payable_amount']!,
+          _payableAmountMeta,
+        ),
+      );
+    }
+    if (data.containsKey('amount_in_words')) {
+      context.handle(
+        _amountInWordsMeta,
+        amountInWords.isAcceptableOrUnknown(
+          data['amount_in_words']!,
+          _amountInWordsMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SummaryBill map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SummaryBill(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      summaryNumber: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}summary_number'],
+      ),
+      companyId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}company_id'],
+      ),
+      periodFrom: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}period_from'],
+      ),
+      periodTo: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}period_to'],
+      ),
+      totalAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}total_amount'],
+      ),
+      tdsAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}tds_amount'],
+      ),
+      payableAmount: attachedDatabase.typeMapping.read(
+        DriftSqlType.double,
+        data['${effectivePrefix}payable_amount'],
+      ),
+      amountInWords: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}amount_in_words'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      ),
+    );
+  }
+
+  @override
+  $SummaryBillsTable createAlias(String alias) {
+    return $SummaryBillsTable(attachedDatabase, alias);
+  }
+}
+
+class SummaryBill extends DataClass implements Insertable<SummaryBill> {
+  final int id;
+  final String? summaryNumber;
+  final int? companyId;
+  final String? periodFrom;
+  final String? periodTo;
+  final double? totalAmount;
+  final double? tdsAmount;
+  final double? payableAmount;
+  final String? amountInWords;
+  final String status;
+  final String? createdAt;
+  const SummaryBill({
+    required this.id,
+    this.summaryNumber,
+    this.companyId,
+    this.periodFrom,
+    this.periodTo,
+    this.totalAmount,
+    this.tdsAmount,
+    this.payableAmount,
+    this.amountInWords,
+    required this.status,
+    this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || summaryNumber != null) {
+      map['summary_number'] = Variable<String>(summaryNumber);
+    }
+    if (!nullToAbsent || companyId != null) {
+      map['company_id'] = Variable<int>(companyId);
+    }
+    if (!nullToAbsent || periodFrom != null) {
+      map['period_from'] = Variable<String>(periodFrom);
+    }
+    if (!nullToAbsent || periodTo != null) {
+      map['period_to'] = Variable<String>(periodTo);
+    }
+    if (!nullToAbsent || totalAmount != null) {
+      map['total_amount'] = Variable<double>(totalAmount);
+    }
+    if (!nullToAbsent || tdsAmount != null) {
+      map['tds_amount'] = Variable<double>(tdsAmount);
+    }
+    if (!nullToAbsent || payableAmount != null) {
+      map['payable_amount'] = Variable<double>(payableAmount);
+    }
+    if (!nullToAbsent || amountInWords != null) {
+      map['amount_in_words'] = Variable<String>(amountInWords);
+    }
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<String>(createdAt);
+    }
+    return map;
+  }
+
+  SummaryBillsCompanion toCompanion(bool nullToAbsent) {
+    return SummaryBillsCompanion(
+      id: Value(id),
+      summaryNumber: summaryNumber == null && nullToAbsent
+          ? const Value.absent()
+          : Value(summaryNumber),
+      companyId: companyId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(companyId),
+      periodFrom: periodFrom == null && nullToAbsent
+          ? const Value.absent()
+          : Value(periodFrom),
+      periodTo: periodTo == null && nullToAbsent
+          ? const Value.absent()
+          : Value(periodTo),
+      totalAmount: totalAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(totalAmount),
+      tdsAmount: tdsAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(tdsAmount),
+      payableAmount: payableAmount == null && nullToAbsent
+          ? const Value.absent()
+          : Value(payableAmount),
+      amountInWords: amountInWords == null && nullToAbsent
+          ? const Value.absent()
+          : Value(amountInWords),
+      status: Value(status),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+    );
+  }
+
+  factory SummaryBill.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SummaryBill(
+      id: serializer.fromJson<int>(json['id']),
+      summaryNumber: serializer.fromJson<String?>(json['summaryNumber']),
+      companyId: serializer.fromJson<int?>(json['companyId']),
+      periodFrom: serializer.fromJson<String?>(json['periodFrom']),
+      periodTo: serializer.fromJson<String?>(json['periodTo']),
+      totalAmount: serializer.fromJson<double?>(json['totalAmount']),
+      tdsAmount: serializer.fromJson<double?>(json['tdsAmount']),
+      payableAmount: serializer.fromJson<double?>(json['payableAmount']),
+      amountInWords: serializer.fromJson<String?>(json['amountInWords']),
+      status: serializer.fromJson<String>(json['status']),
+      createdAt: serializer.fromJson<String?>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'summaryNumber': serializer.toJson<String?>(summaryNumber),
+      'companyId': serializer.toJson<int?>(companyId),
+      'periodFrom': serializer.toJson<String?>(periodFrom),
+      'periodTo': serializer.toJson<String?>(periodTo),
+      'totalAmount': serializer.toJson<double?>(totalAmount),
+      'tdsAmount': serializer.toJson<double?>(tdsAmount),
+      'payableAmount': serializer.toJson<double?>(payableAmount),
+      'amountInWords': serializer.toJson<String?>(amountInWords),
+      'status': serializer.toJson<String>(status),
+      'createdAt': serializer.toJson<String?>(createdAt),
+    };
+  }
+
+  SummaryBill copyWith({
+    int? id,
+    Value<String?> summaryNumber = const Value.absent(),
+    Value<int?> companyId = const Value.absent(),
+    Value<String?> periodFrom = const Value.absent(),
+    Value<String?> periodTo = const Value.absent(),
+    Value<double?> totalAmount = const Value.absent(),
+    Value<double?> tdsAmount = const Value.absent(),
+    Value<double?> payableAmount = const Value.absent(),
+    Value<String?> amountInWords = const Value.absent(),
+    String? status,
+    Value<String?> createdAt = const Value.absent(),
+  }) => SummaryBill(
+    id: id ?? this.id,
+    summaryNumber: summaryNumber.present
+        ? summaryNumber.value
+        : this.summaryNumber,
+    companyId: companyId.present ? companyId.value : this.companyId,
+    periodFrom: periodFrom.present ? periodFrom.value : this.periodFrom,
+    periodTo: periodTo.present ? periodTo.value : this.periodTo,
+    totalAmount: totalAmount.present ? totalAmount.value : this.totalAmount,
+    tdsAmount: tdsAmount.present ? tdsAmount.value : this.tdsAmount,
+    payableAmount: payableAmount.present
+        ? payableAmount.value
+        : this.payableAmount,
+    amountInWords: amountInWords.present
+        ? amountInWords.value
+        : this.amountInWords,
+    status: status ?? this.status,
+    createdAt: createdAt.present ? createdAt.value : this.createdAt,
+  );
+  SummaryBill copyWithCompanion(SummaryBillsCompanion data) {
+    return SummaryBill(
+      id: data.id.present ? data.id.value : this.id,
+      summaryNumber: data.summaryNumber.present
+          ? data.summaryNumber.value
+          : this.summaryNumber,
+      companyId: data.companyId.present ? data.companyId.value : this.companyId,
+      periodFrom: data.periodFrom.present
+          ? data.periodFrom.value
+          : this.periodFrom,
+      periodTo: data.periodTo.present ? data.periodTo.value : this.periodTo,
+      totalAmount: data.totalAmount.present
+          ? data.totalAmount.value
+          : this.totalAmount,
+      tdsAmount: data.tdsAmount.present ? data.tdsAmount.value : this.tdsAmount,
+      payableAmount: data.payableAmount.present
+          ? data.payableAmount.value
+          : this.payableAmount,
+      amountInWords: data.amountInWords.present
+          ? data.amountInWords.value
+          : this.amountInWords,
+      status: data.status.present ? data.status.value : this.status,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SummaryBill(')
+          ..write('id: $id, ')
+          ..write('summaryNumber: $summaryNumber, ')
+          ..write('companyId: $companyId, ')
+          ..write('periodFrom: $periodFrom, ')
+          ..write('periodTo: $periodTo, ')
+          ..write('totalAmount: $totalAmount, ')
+          ..write('tdsAmount: $tdsAmount, ')
+          ..write('payableAmount: $payableAmount, ')
+          ..write('amountInWords: $amountInWords, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    summaryNumber,
+    companyId,
+    periodFrom,
+    periodTo,
+    totalAmount,
+    tdsAmount,
+    payableAmount,
+    amountInWords,
+    status,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SummaryBill &&
+          other.id == this.id &&
+          other.summaryNumber == this.summaryNumber &&
+          other.companyId == this.companyId &&
+          other.periodFrom == this.periodFrom &&
+          other.periodTo == this.periodTo &&
+          other.totalAmount == this.totalAmount &&
+          other.tdsAmount == this.tdsAmount &&
+          other.payableAmount == this.payableAmount &&
+          other.amountInWords == this.amountInWords &&
+          other.status == this.status &&
+          other.createdAt == this.createdAt);
+}
+
+class SummaryBillsCompanion extends UpdateCompanion<SummaryBill> {
+  final Value<int> id;
+  final Value<String?> summaryNumber;
+  final Value<int?> companyId;
+  final Value<String?> periodFrom;
+  final Value<String?> periodTo;
+  final Value<double?> totalAmount;
+  final Value<double?> tdsAmount;
+  final Value<double?> payableAmount;
+  final Value<String?> amountInWords;
+  final Value<String> status;
+  final Value<String?> createdAt;
+  const SummaryBillsCompanion({
+    this.id = const Value.absent(),
+    this.summaryNumber = const Value.absent(),
+    this.companyId = const Value.absent(),
+    this.periodFrom = const Value.absent(),
+    this.periodTo = const Value.absent(),
+    this.totalAmount = const Value.absent(),
+    this.tdsAmount = const Value.absent(),
+    this.payableAmount = const Value.absent(),
+    this.amountInWords = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  SummaryBillsCompanion.insert({
+    this.id = const Value.absent(),
+    this.summaryNumber = const Value.absent(),
+    this.companyId = const Value.absent(),
+    this.periodFrom = const Value.absent(),
+    this.periodTo = const Value.absent(),
+    this.totalAmount = const Value.absent(),
+    this.tdsAmount = const Value.absent(),
+    this.payableAmount = const Value.absent(),
+    this.amountInWords = const Value.absent(),
+    this.status = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  static Insertable<SummaryBill> custom({
+    Expression<int>? id,
+    Expression<String>? summaryNumber,
+    Expression<int>? companyId,
+    Expression<String>? periodFrom,
+    Expression<String>? periodTo,
+    Expression<double>? totalAmount,
+    Expression<double>? tdsAmount,
+    Expression<double>? payableAmount,
+    Expression<String>? amountInWords,
+    Expression<String>? status,
+    Expression<String>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (summaryNumber != null) 'summary_number': summaryNumber,
+      if (companyId != null) 'company_id': companyId,
+      if (periodFrom != null) 'period_from': periodFrom,
+      if (periodTo != null) 'period_to': periodTo,
+      if (totalAmount != null) 'total_amount': totalAmount,
+      if (tdsAmount != null) 'tds_amount': tdsAmount,
+      if (payableAmount != null) 'payable_amount': payableAmount,
+      if (amountInWords != null) 'amount_in_words': amountInWords,
+      if (status != null) 'status': status,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  SummaryBillsCompanion copyWith({
+    Value<int>? id,
+    Value<String?>? summaryNumber,
+    Value<int?>? companyId,
+    Value<String?>? periodFrom,
+    Value<String?>? periodTo,
+    Value<double?>? totalAmount,
+    Value<double?>? tdsAmount,
+    Value<double?>? payableAmount,
+    Value<String?>? amountInWords,
+    Value<String>? status,
+    Value<String?>? createdAt,
+  }) {
+    return SummaryBillsCompanion(
+      id: id ?? this.id,
+      summaryNumber: summaryNumber ?? this.summaryNumber,
+      companyId: companyId ?? this.companyId,
+      periodFrom: periodFrom ?? this.periodFrom,
+      periodTo: periodTo ?? this.periodTo,
+      totalAmount: totalAmount ?? this.totalAmount,
+      tdsAmount: tdsAmount ?? this.tdsAmount,
+      payableAmount: payableAmount ?? this.payableAmount,
+      amountInWords: amountInWords ?? this.amountInWords,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (summaryNumber.present) {
+      map['summary_number'] = Variable<String>(summaryNumber.value);
+    }
+    if (companyId.present) {
+      map['company_id'] = Variable<int>(companyId.value);
+    }
+    if (periodFrom.present) {
+      map['period_from'] = Variable<String>(periodFrom.value);
+    }
+    if (periodTo.present) {
+      map['period_to'] = Variable<String>(periodTo.value);
+    }
+    if (totalAmount.present) {
+      map['total_amount'] = Variable<double>(totalAmount.value);
+    }
+    if (tdsAmount.present) {
+      map['tds_amount'] = Variable<double>(tdsAmount.value);
+    }
+    if (payableAmount.present) {
+      map['payable_amount'] = Variable<double>(payableAmount.value);
+    }
+    if (amountInWords.present) {
+      map['amount_in_words'] = Variable<String>(amountInWords.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SummaryBillsCompanion(')
+          ..write('id: $id, ')
+          ..write('summaryNumber: $summaryNumber, ')
+          ..write('companyId: $companyId, ')
+          ..write('periodFrom: $periodFrom, ')
+          ..write('periodTo: $periodTo, ')
+          ..write('totalAmount: $totalAmount, ')
+          ..write('tdsAmount: $tdsAmount, ')
+          ..write('payableAmount: $payableAmount, ')
+          ..write('amountInWords: $amountInWords, ')
+          ..write('status: $status, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $SummaryBillInvoicesTable extends SummaryBillInvoices
+    with TableInfo<$SummaryBillInvoicesTable, SummaryBillInvoice> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $SummaryBillInvoicesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _summaryIdMeta = const VerificationMeta(
+    'summaryId',
+  );
+  @override
+  late final GeneratedColumn<int> summaryId = GeneratedColumn<int>(
+    'summary_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES summary_bills (id)',
+    ),
+  );
+  static const VerificationMeta _invoiceIdMeta = const VerificationMeta(
+    'invoiceId',
+  );
+  @override
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+    'invoice_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES invoices (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [summaryId, invoiceId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'summary_bill_invoices';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<SummaryBillInvoice> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('summary_id')) {
+      context.handle(
+        _summaryIdMeta,
+        summaryId.isAcceptableOrUnknown(data['summary_id']!, _summaryIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_summaryIdMeta);
+    }
+    if (data.containsKey('invoice_id')) {
+      context.handle(
+        _invoiceIdMeta,
+        invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_invoiceIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {summaryId, invoiceId};
+  @override
+  SummaryBillInvoice map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return SummaryBillInvoice(
+      summaryId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}summary_id'],
+      )!,
+      invoiceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}invoice_id'],
+      )!,
+    );
+  }
+
+  @override
+  $SummaryBillInvoicesTable createAlias(String alias) {
+    return $SummaryBillInvoicesTable(attachedDatabase, alias);
+  }
+}
+
+class SummaryBillInvoice extends DataClass
+    implements Insertable<SummaryBillInvoice> {
+  final int summaryId;
+  final int invoiceId;
+  const SummaryBillInvoice({required this.summaryId, required this.invoiceId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['summary_id'] = Variable<int>(summaryId);
+    map['invoice_id'] = Variable<int>(invoiceId);
+    return map;
+  }
+
+  SummaryBillInvoicesCompanion toCompanion(bool nullToAbsent) {
+    return SummaryBillInvoicesCompanion(
+      summaryId: Value(summaryId),
+      invoiceId: Value(invoiceId),
+    );
+  }
+
+  factory SummaryBillInvoice.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return SummaryBillInvoice(
+      summaryId: serializer.fromJson<int>(json['summaryId']),
+      invoiceId: serializer.fromJson<int>(json['invoiceId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'summaryId': serializer.toJson<int>(summaryId),
+      'invoiceId': serializer.toJson<int>(invoiceId),
+    };
+  }
+
+  SummaryBillInvoice copyWith({int? summaryId, int? invoiceId}) =>
+      SummaryBillInvoice(
+        summaryId: summaryId ?? this.summaryId,
+        invoiceId: invoiceId ?? this.invoiceId,
+      );
+  SummaryBillInvoice copyWithCompanion(SummaryBillInvoicesCompanion data) {
+    return SummaryBillInvoice(
+      summaryId: data.summaryId.present ? data.summaryId.value : this.summaryId,
+      invoiceId: data.invoiceId.present ? data.invoiceId.value : this.invoiceId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SummaryBillInvoice(')
+          ..write('summaryId: $summaryId, ')
+          ..write('invoiceId: $invoiceId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(summaryId, invoiceId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is SummaryBillInvoice &&
+          other.summaryId == this.summaryId &&
+          other.invoiceId == this.invoiceId);
+}
+
+class SummaryBillInvoicesCompanion extends UpdateCompanion<SummaryBillInvoice> {
+  final Value<int> summaryId;
+  final Value<int> invoiceId;
+  final Value<int> rowid;
+  const SummaryBillInvoicesCompanion({
+    this.summaryId = const Value.absent(),
+    this.invoiceId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  SummaryBillInvoicesCompanion.insert({
+    required int summaryId,
+    required int invoiceId,
+    this.rowid = const Value.absent(),
+  }) : summaryId = Value(summaryId),
+       invoiceId = Value(invoiceId);
+  static Insertable<SummaryBillInvoice> custom({
+    Expression<int>? summaryId,
+    Expression<int>? invoiceId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (summaryId != null) 'summary_id': summaryId,
+      if (invoiceId != null) 'invoice_id': invoiceId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  SummaryBillInvoicesCompanion copyWith({
+    Value<int>? summaryId,
+    Value<int>? invoiceId,
+    Value<int>? rowid,
+  }) {
+    return SummaryBillInvoicesCompanion(
+      summaryId: summaryId ?? this.summaryId,
+      invoiceId: invoiceId ?? this.invoiceId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (summaryId.present) {
+      map['summary_id'] = Variable<int>(summaryId.value);
+    }
+    if (invoiceId.present) {
+      map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('SummaryBillInvoicesCompanion(')
+          ..write('summaryId: $summaryId, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -5899,6 +6807,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $VehiclesTable vehicles = $VehiclesTable(this);
   late final $InvoicesTable invoices = $InvoicesTable(this);
   late final $InvoiceRowsTable invoiceRows = $InvoiceRowsTable(this);
+  late final $SummaryBillsTable summaryBills = $SummaryBillsTable(this);
+  late final $SummaryBillInvoicesTable summaryBillInvoices =
+      $SummaryBillInvoicesTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -5911,6 +6822,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     vehicles,
     invoices,
     invoiceRows,
+    summaryBills,
+    summaryBillInvoices,
   ];
 }
 
@@ -6442,6 +7355,24 @@ final class $$CompaniesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$SummaryBillsTable, List<SummaryBill>>
+  _summaryBillsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.summaryBills,
+    aliasName: $_aliasNameGenerator(db.companies.id, db.summaryBills.companyId),
+  );
+
+  $$SummaryBillsTableProcessedTableManager get summaryBillsRefs {
+    final manager = $$SummaryBillsTableTableManager(
+      $_db,
+      $_db.summaryBills,
+    ).filter((f) => f.companyId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_summaryBillsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$CompaniesTableFilterComposer
@@ -6574,6 +7505,31 @@ class $$CompaniesTableFilterComposer
           }) => $$InvoicesTableFilterComposer(
             $db: $db,
             $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> summaryBillsRefs(
+    Expression<bool> Function($$SummaryBillsTableFilterComposer f) f,
+  ) {
+    final $$SummaryBillsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.summaryBills,
+      getReferencedColumn: (t) => t.companyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillsTableFilterComposer(
+            $db: $db,
+            $table: $db.summaryBills,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -6790,6 +7746,31 @@ class $$CompaniesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> summaryBillsRefs<T extends Object>(
+    Expression<T> Function($$SummaryBillsTableAnnotationComposer a) f,
+  ) {
+    final $$SummaryBillsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.summaryBills,
+      getReferencedColumn: (t) => t.companyId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.summaryBills,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$CompaniesTableTableManager
@@ -6805,7 +7786,11 @@ class $$CompaniesTableTableManager
           $$CompaniesTableUpdateCompanionBuilder,
           (Company, $$CompaniesTableReferences),
           Company,
-          PrefetchHooks Function({bool freightRateCardsRefs, bool invoicesRefs})
+          PrefetchHooks Function({
+            bool freightRateCardsRefs,
+            bool invoicesRefs,
+            bool summaryBillsRefs,
+          })
         > {
   $$CompaniesTableTableManager(_$AppDatabase db, $CompaniesTable table)
     : super(
@@ -6899,12 +7884,17 @@ class $$CompaniesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({freightRateCardsRefs = false, invoicesRefs = false}) {
+              ({
+                freightRateCardsRefs = false,
+                invoicesRefs = false,
+                summaryBillsRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (freightRateCardsRefs) db.freightRateCards,
                     if (invoicesRefs) db.invoices,
+                    if (summaryBillsRefs) db.summaryBills,
                   ],
                   addJoins: null,
                   getPrefetchedDataCallback: (items) async {
@@ -6951,6 +7941,27 @@ class $$CompaniesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (summaryBillsRefs)
+                        await $_getPrefetchedData<
+                          Company,
+                          $CompaniesTable,
+                          SummaryBill
+                        >(
+                          currentTable: table,
+                          referencedTable: $$CompaniesTableReferences
+                              ._summaryBillsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$CompaniesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).summaryBillsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.companyId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -6971,7 +7982,11 @@ typedef $$CompaniesTableProcessedTableManager =
       $$CompaniesTableUpdateCompanionBuilder,
       (Company, $$CompaniesTableReferences),
       Company,
-      PrefetchHooks Function({bool freightRateCardsRefs, bool invoicesRefs})
+      PrefetchHooks Function({
+        bool freightRateCardsRefs,
+        bool invoicesRefs,
+        bool summaryBillsRefs,
+      })
     >;
 typedef $$FreightRateCardsTableCreateCompanionBuilder =
     FreightRateCardsCompanion Function({
@@ -8283,6 +9298,33 @@ final class $$InvoicesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<
+    $SummaryBillInvoicesTable,
+    List<SummaryBillInvoice>
+  >
+  _summaryBillInvoicesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.summaryBillInvoices,
+        aliasName: $_aliasNameGenerator(
+          db.invoices.id,
+          db.summaryBillInvoices.invoiceId,
+        ),
+      );
+
+  $$SummaryBillInvoicesTableProcessedTableManager get summaryBillInvoicesRefs {
+    final manager = $$SummaryBillInvoicesTableTableManager(
+      $_db,
+      $_db.summaryBillInvoices,
+    ).filter((f) => f.invoiceId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _summaryBillInvoicesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$InvoicesTableFilterComposer
@@ -8478,6 +9520,31 @@ class $$InvoicesTableFilterComposer
           }) => $$InvoiceRowsTableFilterComposer(
             $db: $db,
             $table: $db.invoiceRows,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> summaryBillInvoicesRefs(
+    Expression<bool> Function($$SummaryBillInvoicesTableFilterComposer f) f,
+  ) {
+    final $$SummaryBillInvoicesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.summaryBillInvoices,
+      getReferencedColumn: (t) => t.invoiceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillInvoicesTableFilterComposer(
+            $db: $db,
+            $table: $db.summaryBillInvoices,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -8845,6 +9912,32 @@ class $$InvoicesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> summaryBillInvoicesRefs<T extends Object>(
+    Expression<T> Function($$SummaryBillInvoicesTableAnnotationComposer a) f,
+  ) {
+    final $$SummaryBillInvoicesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.summaryBillInvoices,
+          getReferencedColumn: (t) => t.invoiceId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SummaryBillInvoicesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.summaryBillInvoices,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
 }
 
 class $$InvoicesTableTableManager
@@ -8860,7 +9953,11 @@ class $$InvoicesTableTableManager
           $$InvoicesTableUpdateCompanionBuilder,
           (Invoice, $$InvoicesTableReferences),
           Invoice,
-          PrefetchHooks Function({bool companyId, bool invoiceRowsRefs})
+          PrefetchHooks Function({
+            bool companyId,
+            bool invoiceRowsRefs,
+            bool summaryBillInvoicesRefs,
+          })
         > {
   $$InvoicesTableTableManager(_$AppDatabase db, $InvoicesTable table)
     : super(
@@ -9010,11 +10107,16 @@ class $$InvoicesTableTableManager
               )
               .toList(),
           prefetchHooksCallback:
-              ({companyId = false, invoiceRowsRefs = false}) {
+              ({
+                companyId = false,
+                invoiceRowsRefs = false,
+                summaryBillInvoicesRefs = false,
+              }) {
                 return PrefetchHooks(
                   db: db,
                   explicitlyWatchedTables: [
                     if (invoiceRowsRefs) db.invoiceRows,
+                    if (summaryBillInvoicesRefs) db.summaryBillInvoices,
                   ],
                   addJoins:
                       <
@@ -9071,6 +10173,27 @@ class $$InvoicesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (summaryBillInvoicesRefs)
+                        await $_getPrefetchedData<
+                          Invoice,
+                          $InvoicesTable,
+                          SummaryBillInvoice
+                        >(
+                          currentTable: table,
+                          referencedTable: $$InvoicesTableReferences
+                              ._summaryBillInvoicesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$InvoicesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).summaryBillInvoicesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.invoiceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -9091,7 +10214,11 @@ typedef $$InvoicesTableProcessedTableManager =
       $$InvoicesTableUpdateCompanionBuilder,
       (Invoice, $$InvoicesTableReferences),
       Invoice,
-      PrefetchHooks Function({bool companyId, bool invoiceRowsRefs})
+      PrefetchHooks Function({
+        bool companyId,
+        bool invoiceRowsRefs,
+        bool summaryBillInvoicesRefs,
+      })
     >;
 typedef $$InvoiceRowsTableCreateCompanionBuilder =
     InvoiceRowsCompanion Function({
@@ -9658,6 +10785,922 @@ typedef $$InvoiceRowsTableProcessedTableManager =
       InvoiceRow,
       PrefetchHooks Function({bool invoiceId, bool vehicleId})
     >;
+typedef $$SummaryBillsTableCreateCompanionBuilder =
+    SummaryBillsCompanion Function({
+      Value<int> id,
+      Value<String?> summaryNumber,
+      Value<int?> companyId,
+      Value<String?> periodFrom,
+      Value<String?> periodTo,
+      Value<double?> totalAmount,
+      Value<double?> tdsAmount,
+      Value<double?> payableAmount,
+      Value<String?> amountInWords,
+      Value<String> status,
+      Value<String?> createdAt,
+    });
+typedef $$SummaryBillsTableUpdateCompanionBuilder =
+    SummaryBillsCompanion Function({
+      Value<int> id,
+      Value<String?> summaryNumber,
+      Value<int?> companyId,
+      Value<String?> periodFrom,
+      Value<String?> periodTo,
+      Value<double?> totalAmount,
+      Value<double?> tdsAmount,
+      Value<double?> payableAmount,
+      Value<String?> amountInWords,
+      Value<String> status,
+      Value<String?> createdAt,
+    });
+
+final class $$SummaryBillsTableReferences
+    extends BaseReferences<_$AppDatabase, $SummaryBillsTable, SummaryBill> {
+  $$SummaryBillsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $CompaniesTable _companyIdTable(_$AppDatabase db) =>
+      db.companies.createAlias(
+        $_aliasNameGenerator(db.summaryBills.companyId, db.companies.id),
+      );
+
+  $$CompaniesTableProcessedTableManager? get companyId {
+    final $_column = $_itemColumn<int>('company_id');
+    if ($_column == null) return null;
+    final manager = $$CompaniesTableTableManager(
+      $_db,
+      $_db.companies,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_companyIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static MultiTypedResultKey<
+    $SummaryBillInvoicesTable,
+    List<SummaryBillInvoice>
+  >
+  _summaryBillInvoicesRefsTable(_$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(
+        db.summaryBillInvoices,
+        aliasName: $_aliasNameGenerator(
+          db.summaryBills.id,
+          db.summaryBillInvoices.summaryId,
+        ),
+      );
+
+  $$SummaryBillInvoicesTableProcessedTableManager get summaryBillInvoicesRefs {
+    final manager = $$SummaryBillInvoicesTableTableManager(
+      $_db,
+      $_db.summaryBillInvoices,
+    ).filter((f) => f.summaryId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(
+      _summaryBillInvoicesRefsTable($_db),
+    );
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$SummaryBillsTableFilterComposer
+    extends Composer<_$AppDatabase, $SummaryBillsTable> {
+  $$SummaryBillsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get summaryNumber => $composableBuilder(
+    column: $table.summaryNumber,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get periodFrom => $composableBuilder(
+    column: $table.periodFrom,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get periodTo => $composableBuilder(
+    column: $table.periodTo,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get totalAmount => $composableBuilder(
+    column: $table.totalAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get tdsAmount => $composableBuilder(
+    column: $table.tdsAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<double> get payableAmount => $composableBuilder(
+    column: $table.payableAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get amountInWords => $composableBuilder(
+    column: $table.amountInWords,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$CompaniesTableFilterComposer get companyId {
+    final $$CompaniesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.companyId,
+      referencedTable: $db.companies,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CompaniesTableFilterComposer(
+            $db: $db,
+            $table: $db.companies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<bool> summaryBillInvoicesRefs(
+    Expression<bool> Function($$SummaryBillInvoicesTableFilterComposer f) f,
+  ) {
+    final $$SummaryBillInvoicesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.summaryBillInvoices,
+      getReferencedColumn: (t) => t.summaryId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillInvoicesTableFilterComposer(
+            $db: $db,
+            $table: $db.summaryBillInvoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$SummaryBillsTableOrderingComposer
+    extends Composer<_$AppDatabase, $SummaryBillsTable> {
+  $$SummaryBillsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get summaryNumber => $composableBuilder(
+    column: $table.summaryNumber,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get periodFrom => $composableBuilder(
+    column: $table.periodFrom,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get periodTo => $composableBuilder(
+    column: $table.periodTo,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get totalAmount => $composableBuilder(
+    column: $table.totalAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get tdsAmount => $composableBuilder(
+    column: $table.tdsAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<double> get payableAmount => $composableBuilder(
+    column: $table.payableAmount,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get amountInWords => $composableBuilder(
+    column: $table.amountInWords,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$CompaniesTableOrderingComposer get companyId {
+    final $$CompaniesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.companyId,
+      referencedTable: $db.companies,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CompaniesTableOrderingComposer(
+            $db: $db,
+            $table: $db.companies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SummaryBillsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SummaryBillsTable> {
+  $$SummaryBillsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get summaryNumber => $composableBuilder(
+    column: $table.summaryNumber,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get periodFrom => $composableBuilder(
+    column: $table.periodFrom,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get periodTo =>
+      $composableBuilder(column: $table.periodTo, builder: (column) => column);
+
+  GeneratedColumn<double> get totalAmount => $composableBuilder(
+    column: $table.totalAmount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<double> get tdsAmount =>
+      $composableBuilder(column: $table.tdsAmount, builder: (column) => column);
+
+  GeneratedColumn<double> get payableAmount => $composableBuilder(
+    column: $table.payableAmount,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get amountInWords => $composableBuilder(
+    column: $table.amountInWords,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$CompaniesTableAnnotationComposer get companyId {
+    final $$CompaniesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.companyId,
+      referencedTable: $db.companies,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$CompaniesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.companies,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  Expression<T> summaryBillInvoicesRefs<T extends Object>(
+    Expression<T> Function($$SummaryBillInvoicesTableAnnotationComposer a) f,
+  ) {
+    final $$SummaryBillInvoicesTableAnnotationComposer composer =
+        $composerBuilder(
+          composer: this,
+          getCurrentColumn: (t) => t.id,
+          referencedTable: $db.summaryBillInvoices,
+          getReferencedColumn: (t) => t.summaryId,
+          builder:
+              (
+                joinBuilder, {
+                $addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer,
+              }) => $$SummaryBillInvoicesTableAnnotationComposer(
+                $db: $db,
+                $table: $db.summaryBillInvoices,
+                $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                joinBuilder: joinBuilder,
+                $removeJoinBuilderFromRootComposer:
+                    $removeJoinBuilderFromRootComposer,
+              ),
+        );
+    return f(composer);
+  }
+}
+
+class $$SummaryBillsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SummaryBillsTable,
+          SummaryBill,
+          $$SummaryBillsTableFilterComposer,
+          $$SummaryBillsTableOrderingComposer,
+          $$SummaryBillsTableAnnotationComposer,
+          $$SummaryBillsTableCreateCompanionBuilder,
+          $$SummaryBillsTableUpdateCompanionBuilder,
+          (SummaryBill, $$SummaryBillsTableReferences),
+          SummaryBill,
+          PrefetchHooks Function({bool companyId, bool summaryBillInvoicesRefs})
+        > {
+  $$SummaryBillsTableTableManager(_$AppDatabase db, $SummaryBillsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SummaryBillsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SummaryBillsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$SummaryBillsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> summaryNumber = const Value.absent(),
+                Value<int?> companyId = const Value.absent(),
+                Value<String?> periodFrom = const Value.absent(),
+                Value<String?> periodTo = const Value.absent(),
+                Value<double?> totalAmount = const Value.absent(),
+                Value<double?> tdsAmount = const Value.absent(),
+                Value<double?> payableAmount = const Value.absent(),
+                Value<String?> amountInWords = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => SummaryBillsCompanion(
+                id: id,
+                summaryNumber: summaryNumber,
+                companyId: companyId,
+                periodFrom: periodFrom,
+                periodTo: periodTo,
+                totalAmount: totalAmount,
+                tdsAmount: tdsAmount,
+                payableAmount: payableAmount,
+                amountInWords: amountInWords,
+                status: status,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String?> summaryNumber = const Value.absent(),
+                Value<int?> companyId = const Value.absent(),
+                Value<String?> periodFrom = const Value.absent(),
+                Value<String?> periodTo = const Value.absent(),
+                Value<double?> totalAmount = const Value.absent(),
+                Value<double?> tdsAmount = const Value.absent(),
+                Value<double?> payableAmount = const Value.absent(),
+                Value<String?> amountInWords = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => SummaryBillsCompanion.insert(
+                id: id,
+                summaryNumber: summaryNumber,
+                companyId: companyId,
+                periodFrom: periodFrom,
+                periodTo: periodTo,
+                totalAmount: totalAmount,
+                tdsAmount: tdsAmount,
+                payableAmount: payableAmount,
+                amountInWords: amountInWords,
+                status: status,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SummaryBillsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback:
+              ({companyId = false, summaryBillInvoicesRefs = false}) {
+                return PrefetchHooks(
+                  db: db,
+                  explicitlyWatchedTables: [
+                    if (summaryBillInvoicesRefs) db.summaryBillInvoices,
+                  ],
+                  addJoins:
+                      <
+                        T extends TableManagerState<
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic,
+                          dynamic
+                        >
+                      >(state) {
+                        if (companyId) {
+                          state =
+                              state.withJoin(
+                                    currentTable: table,
+                                    currentColumn: table.companyId,
+                                    referencedTable:
+                                        $$SummaryBillsTableReferences
+                                            ._companyIdTable(db),
+                                    referencedColumn:
+                                        $$SummaryBillsTableReferences
+                                            ._companyIdTable(db)
+                                            .id,
+                                  )
+                                  as T;
+                        }
+
+                        return state;
+                      },
+                  getPrefetchedDataCallback: (items) async {
+                    return [
+                      if (summaryBillInvoicesRefs)
+                        await $_getPrefetchedData<
+                          SummaryBill,
+                          $SummaryBillsTable,
+                          SummaryBillInvoice
+                        >(
+                          currentTable: table,
+                          referencedTable: $$SummaryBillsTableReferences
+                              ._summaryBillInvoicesRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$SummaryBillsTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).summaryBillInvoicesRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.summaryId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                    ];
+                  },
+                );
+              },
+        ),
+      );
+}
+
+typedef $$SummaryBillsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SummaryBillsTable,
+      SummaryBill,
+      $$SummaryBillsTableFilterComposer,
+      $$SummaryBillsTableOrderingComposer,
+      $$SummaryBillsTableAnnotationComposer,
+      $$SummaryBillsTableCreateCompanionBuilder,
+      $$SummaryBillsTableUpdateCompanionBuilder,
+      (SummaryBill, $$SummaryBillsTableReferences),
+      SummaryBill,
+      PrefetchHooks Function({bool companyId, bool summaryBillInvoicesRefs})
+    >;
+typedef $$SummaryBillInvoicesTableCreateCompanionBuilder =
+    SummaryBillInvoicesCompanion Function({
+      required int summaryId,
+      required int invoiceId,
+      Value<int> rowid,
+    });
+typedef $$SummaryBillInvoicesTableUpdateCompanionBuilder =
+    SummaryBillInvoicesCompanion Function({
+      Value<int> summaryId,
+      Value<int> invoiceId,
+      Value<int> rowid,
+    });
+
+final class $$SummaryBillInvoicesTableReferences
+    extends
+        BaseReferences<
+          _$AppDatabase,
+          $SummaryBillInvoicesTable,
+          SummaryBillInvoice
+        > {
+  $$SummaryBillInvoicesTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $SummaryBillsTable _summaryIdTable(_$AppDatabase db) =>
+      db.summaryBills.createAlias(
+        $_aliasNameGenerator(
+          db.summaryBillInvoices.summaryId,
+          db.summaryBills.id,
+        ),
+      );
+
+  $$SummaryBillsTableProcessedTableManager get summaryId {
+    final $_column = $_itemColumn<int>('summary_id')!;
+
+    final manager = $$SummaryBillsTableTableManager(
+      $_db,
+      $_db.summaryBills,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_summaryIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $InvoicesTable _invoiceIdTable(_$AppDatabase db) =>
+      db.invoices.createAlias(
+        $_aliasNameGenerator(db.summaryBillInvoices.invoiceId, db.invoices.id),
+      );
+
+  $$InvoicesTableProcessedTableManager get invoiceId {
+    final $_column = $_itemColumn<int>('invoice_id')!;
+
+    final manager = $$InvoicesTableTableManager(
+      $_db,
+      $_db.invoices,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_invoiceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$SummaryBillInvoicesTableFilterComposer
+    extends Composer<_$AppDatabase, $SummaryBillInvoicesTable> {
+  $$SummaryBillInvoicesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SummaryBillsTableFilterComposer get summaryId {
+    final $$SummaryBillsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.summaryId,
+      referencedTable: $db.summaryBills,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillsTableFilterComposer(
+            $db: $db,
+            $table: $db.summaryBills,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$InvoicesTableFilterComposer get invoiceId {
+    final $$InvoicesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableFilterComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SummaryBillInvoicesTableOrderingComposer
+    extends Composer<_$AppDatabase, $SummaryBillInvoicesTable> {
+  $$SummaryBillInvoicesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SummaryBillsTableOrderingComposer get summaryId {
+    final $$SummaryBillsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.summaryId,
+      referencedTable: $db.summaryBills,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillsTableOrderingComposer(
+            $db: $db,
+            $table: $db.summaryBills,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$InvoicesTableOrderingComposer get invoiceId {
+    final $$InvoicesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableOrderingComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SummaryBillInvoicesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $SummaryBillInvoicesTable> {
+  $$SummaryBillInvoicesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$SummaryBillsTableAnnotationComposer get summaryId {
+    final $$SummaryBillsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.summaryId,
+      referencedTable: $db.summaryBills,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$SummaryBillsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.summaryBills,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$InvoicesTableAnnotationComposer get invoiceId {
+    final $$InvoicesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$SummaryBillInvoicesTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $SummaryBillInvoicesTable,
+          SummaryBillInvoice,
+          $$SummaryBillInvoicesTableFilterComposer,
+          $$SummaryBillInvoicesTableOrderingComposer,
+          $$SummaryBillInvoicesTableAnnotationComposer,
+          $$SummaryBillInvoicesTableCreateCompanionBuilder,
+          $$SummaryBillInvoicesTableUpdateCompanionBuilder,
+          (SummaryBillInvoice, $$SummaryBillInvoicesTableReferences),
+          SummaryBillInvoice,
+          PrefetchHooks Function({bool summaryId, bool invoiceId})
+        > {
+  $$SummaryBillInvoicesTableTableManager(
+    _$AppDatabase db,
+    $SummaryBillInvoicesTable table,
+  ) : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$SummaryBillInvoicesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$SummaryBillInvoicesTableOrderingComposer(
+                $db: db,
+                $table: table,
+              ),
+          createComputedFieldComposer: () =>
+              $$SummaryBillInvoicesTableAnnotationComposer(
+                $db: db,
+                $table: table,
+              ),
+          updateCompanionCallback:
+              ({
+                Value<int> summaryId = const Value.absent(),
+                Value<int> invoiceId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => SummaryBillInvoicesCompanion(
+                summaryId: summaryId,
+                invoiceId: invoiceId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int summaryId,
+                required int invoiceId,
+                Value<int> rowid = const Value.absent(),
+              }) => SummaryBillInvoicesCompanion.insert(
+                summaryId: summaryId,
+                invoiceId: invoiceId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$SummaryBillInvoicesTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({summaryId = false, invoiceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (summaryId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.summaryId,
+                                referencedTable:
+                                    $$SummaryBillInvoicesTableReferences
+                                        ._summaryIdTable(db),
+                                referencedColumn:
+                                    $$SummaryBillInvoicesTableReferences
+                                        ._summaryIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+                    if (invoiceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.invoiceId,
+                                referencedTable:
+                                    $$SummaryBillInvoicesTableReferences
+                                        ._invoiceIdTable(db),
+                                referencedColumn:
+                                    $$SummaryBillInvoicesTableReferences
+                                        ._invoiceIdTable(db)
+                                        .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$SummaryBillInvoicesTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $SummaryBillInvoicesTable,
+      SummaryBillInvoice,
+      $$SummaryBillInvoicesTableFilterComposer,
+      $$SummaryBillInvoicesTableOrderingComposer,
+      $$SummaryBillInvoicesTableAnnotationComposer,
+      $$SummaryBillInvoicesTableCreateCompanionBuilder,
+      $$SummaryBillInvoicesTableUpdateCompanionBuilder,
+      (SummaryBillInvoice, $$SummaryBillInvoicesTableReferences),
+      SummaryBillInvoice,
+      PrefetchHooks Function({bool summaryId, bool invoiceId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -9676,4 +11719,8 @@ class $AppDatabaseManager {
       $$InvoicesTableTableManager(_db, _db.invoices);
   $$InvoiceRowsTableTableManager get invoiceRows =>
       $$InvoiceRowsTableTableManager(_db, _db.invoiceRows);
+  $$SummaryBillsTableTableManager get summaryBills =>
+      $$SummaryBillsTableTableManager(_db, _db.summaryBills);
+  $$SummaryBillInvoicesTableTableManager get summaryBillInvoices =>
+      $$SummaryBillInvoicesTableTableManager(_db, _db.summaryBillInvoices);
 }

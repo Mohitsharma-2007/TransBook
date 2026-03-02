@@ -128,3 +128,27 @@ class InvoiceRows extends Table {
   TextColumn get unloadingPlace => text().nullable()();
   RealColumn get rowAmount => real().withDefault(const Constant(0))();
 }
+
+@DataClassName('SummaryBill')
+class SummaryBills extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get summaryNumber => text().nullable()();
+  IntColumn get companyId => integer().nullable().references(Companies, #id)();
+  TextColumn get periodFrom => text().nullable()();
+  TextColumn get periodTo => text().nullable()();
+  RealColumn get totalAmount => real().nullable()();
+  RealColumn get tdsAmount => real().nullable()();
+  RealColumn get payableAmount => real().nullable()();
+  TextColumn get amountInWords => text().nullable()();
+  TextColumn get status => text().withDefault(const Constant('DRAFT'))();
+  TextColumn get createdAt => text().nullable()();
+}
+
+@DataClassName('SummaryBillInvoice')
+class SummaryBillInvoices extends Table {
+  IntColumn get summaryId => integer().references(SummaryBills, #id)();
+  IntColumn get invoiceId => integer().references(Invoices, #id)();
+
+  @override
+  Set<Column> get primaryKey => {summaryId, invoiceId};
+}
