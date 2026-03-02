@@ -16,7 +16,7 @@
 **Requirements**: REQ-MASTER
 
 ### Phase 2: Invoicing Heart
-**Status**: ⬜ Not Started
+**Status**: ✅ Complete
 **Objective**: New Invoice screen, GST calculator, PDF generation engine for individual invoices.
 **Requirements**: REQ-INVOICE
 

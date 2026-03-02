@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
 
 import '../../../core/constants/app_theme.dart';
+import '../../pdf_excel/domain/invoice_pdf_generator.dart';
 import '../data/invoice_repository.dart';
 import 'new_invoice_screen.dart';
 
@@ -104,8 +107,15 @@ class InvoicesScreen extends ConsumerWidget {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.print, size: 20, color: AppTheme.textSecondary),
-                                  onPressed: () {
-                                    // Implementation for Wave 4
+                                  onPressed: () async {
+                                    final fullInvoice = await ref.read(invoiceRepositoryProvider).getInvoiceWithRows(inv.id);
+                                    if (fullInvoice != null) {
+                                      final pdfBytes = await InvoicePdfGenerator.generate(fullInvoice);
+                                      await Printing.layoutPdf(
+                                        onLayout: (PdfPageFormat format) async => pdfBytes,
+                                        name: 'Invoice_${inv.invoiceNumber}',
+                                      );
+                                    }
                                   },
                                   tooltip: 'Print PDF',
                                 ),
