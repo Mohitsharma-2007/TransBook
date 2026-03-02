@@ -26,3 +26,8 @@ CompanyRepository companyRepository(CompanyRepositoryRef ref) {
   final db = ref.watch(appDatabaseProvider);
   return CompanyRepository(db);
 }
+
+@riverpod
+Stream<List<Company>> companies(CompaniesRef ref) {
+  return ref.watch(companyRepositoryProvider).watchAllCompanies();
+}

@@ -8,6 +8,8 @@ class AppTheme {
   static const Color surfaceWhite = Color(0xFFFFFFFF);
   static const Color surfaceLight = Color(0xFFF4F6FB);
   static const Color surfaceCard = Color(0xFFFFFFFF);
+  static const Color borderLight = Color(0xFFCBD5E0);
+  static const Color errorColor = Color(0xFFF44336);
 
   // Status Colors
   static const Color statusDraft = Color(0xFF9E9E9E);

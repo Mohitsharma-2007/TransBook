@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'features/master_data/presentation/companies_screen.dart';
 import 'features/master_data/presentation/vehicles_screen.dart';
 import 'features/master_data/presentation/rate_card_screen.dart';
+import 'features/invoicing/presentation/invoices_screen.dart';
 import 'core/constants/app_theme.dart';
 
 void main() {
@@ -35,7 +36,7 @@ class _MainShellState extends State<MainShell> {
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
-    const Center(child: Text('Dashboard Coming Soon', style: TextStyle(fontSize: 24, color: AppTheme.textSecondary))),
+    const InvoicesScreen(),
     const CompaniesScreen(),
     const VehiclesScreen(),
     const RateCardScreen(),
@@ -110,7 +111,7 @@ class _NavItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: selected ? AppTheme.brandPrimary.withOpacity(0.1) : Colors.transparent,
+      color: selected ? AppTheme.brandPrimary.withAlpha(25) : Colors.transparent,
       child: ListTile(
         leading: Icon(icon, color: selected ? AppTheme.brandPrimary : AppTheme.textSecondary, size: 20),
         title: Text(
