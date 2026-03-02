@@ -1,0 +1,130 @@
+import 'package:drift/drift.dart';
+
+@DataClassName('Firm')
+class Firms extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get address => text().nullable()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get email => text().nullable()();
+  TextColumn get pan => text().nullable()();
+  TextColumn get gstin => text().nullable()();
+  TextColumn get state => text().nullable()();
+  TextColumn get stateCode => text().nullable()();
+  TextColumn get logoPath => text().nullable()();
+  TextColumn get bankName => text().nullable()();
+  TextColumn get bankAccount => text().nullable()();
+  TextColumn get bankIfsc => text().nullable()();
+  TextColumn get beneficiaryName => text().nullable()();
+  TextColumn get invoicePrefix => text().withDefault(const Constant('JSV'))();
+  IntColumn get currentInvoiceSeq => integer().withDefault(const Constant(1))();
+  TextColumn get financialYearStart => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+}
+
+@DataClassName('Company')
+class Companies extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get address => text().nullable()();
+  TextColumn get pan => text().nullable()();
+  TextColumn get gstin => text().nullable()();
+  TextColumn get state => text().nullable()();
+  TextColumn get stateCode => text().nullable()();
+  TextColumn get hsnSac => text().withDefault(const Constant('996791'))();
+  TextColumn get invoiceType => text()(); // STATE or INTER_STATE
+  TextColumn get defaultLoadingPlace => text().nullable()();
+  TextColumn get contactName => text().nullable()();
+  TextColumn get contactEmail => text().nullable()();
+  TextColumn get contactPhone => text().nullable()();
+  IntColumn get isActive => integer().withDefault(const Constant(1))();
+  TextColumn get createdAt => text().nullable()();
+  TextColumn get updatedAt => text().nullable()();
+}
+
+@DataClassName('FreightRateCard')
+class FreightRateCards extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get companyId => integer().references(Companies, #id)();
+  TextColumn get loadingPlace => text().nullable()();
+  TextColumn get unloadingPlace => text()();
+  RealColumn get rateAmount => real()();
+  TextColumn get effectiveFrom => text().nullable()();
+  IntColumn get isActive => integer().withDefault(const Constant(1))();
+}
+
+@DataClassName('Partner')
+class Partners extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get phone => text().nullable()();
+  TextColumn get pan => text().nullable()();
+  TextColumn get bankName => text().nullable()();
+  TextColumn get bankAccount => text().nullable()();
+  TextColumn get bankIfsc => text().nullable()();
+  RealColumn get sharePercent => real().nullable()();
+  IntColumn get isActive => integer().withDefault(const Constant(1))();
+}
+
+@DataClassName('Vehicle')
+class Vehicles extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get vehicleNo => text().unique()();
+  IntColumn get partnerId => integer().nullable().references(Partners, #id)();
+  TextColumn get vehicleType => text().nullable()();
+  TextColumn get fitnessExpiry => text().nullable()();
+  TextColumn get insuranceExpiry => text().nullable()();
+  IntColumn get isActive => integer().withDefault(const Constant(1))();
+  TextColumn get notes => text().nullable()();
+}
+
+@DataClassName('Invoice')
+class Invoices extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get invoiceNumber => text().unique()();
+  TextColumn get invoiceDate => text()();
+  IntColumn get companyId => integer().nullable().references(Companies, #id)();
+  TextColumn get invoiceType => text().nullable()();
+  RealColumn get totalFreight => real().withDefault(const Constant(0))();
+  RealColumn get totalFastag => real().withDefault(const Constant(0))();
+  RealColumn get totalAmount => real().withDefault(const Constant(0))();
+  RealColumn get sgstRate => real().withDefault(const Constant(2.5))();
+  RealColumn get cgstRate => real().withDefault(const Constant(2.5))();
+  RealColumn get igstRate => real().withDefault(const Constant(5.0))();
+  RealColumn get sgstAmount => real().withDefault(const Constant(0))();
+  RealColumn get cgstAmount => real().withDefault(const Constant(0))();
+  RealColumn get igstAmount => real().withDefault(const Constant(0))();
+  RealColumn get gstRcmTotal => real().withDefault(const Constant(0))();
+  RealColumn get tdsRate => real().withDefault(const Constant(2.0))();
+  RealColumn get tdsAmount => real().withDefault(const Constant(0))();
+  RealColumn get payableAmount => real().withDefault(const Constant(0))();
+  TextColumn get amountInWords => text().nullable()();
+  TextColumn get status => text().withDefault(const Constant('DRAFT'))();
+  TextColumn get submissionDate => text().nullable()();
+  RealColumn get paymentReceived => real().withDefault(const Constant(0))();
+  TextColumn get paymentDate => text().nullable()();
+  TextColumn get pdfPath => text().nullable()();
+  IntColumn get cloudSynced => integer().withDefault(const Constant(0))();
+  IntColumn get templateId => integer().nullable()();
+  TextColumn get notes => text().nullable()();
+  TextColumn get financialYear => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+  TextColumn get updatedAt => text().nullable()();
+}
+
+@DataClassName('InvoiceRow')
+class InvoiceRows extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get invoiceId => integer().nullable().references(Invoices, #id)(); // Cascade handled via sql or foreignKey options
+  IntColumn get rowOrder => integer().nullable()();
+  TextColumn get tripDate => text().nullable()();
+  TextColumn get grNumber => text().nullable()();
+  IntColumn get vehicleId => integer().nullable().references(Vehicles, #id)();
+  TextColumn get vehicleNoText => text().nullable()();
+  RealColumn get freightCharge => real().withDefault(const Constant(0))();
+  RealColumn get fastagCharge => real().withDefault(const Constant(0))();
+  TextColumn get invoiceRefNo => text().nullable()();
+  TextColumn get loadingPlace => text().nullable()();
+  TextColumn get unloadingPlace => text().nullable()();
+  RealColumn get rowAmount => real().withDefault(const Constant(0))();
+}
