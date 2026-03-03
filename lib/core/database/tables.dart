@@ -152,3 +152,32 @@ class SummaryBillInvoices extends Table {
   @override
   Set<Column> get primaryKey => {summaryId, invoiceId};
 }
+
+@DataClassName('Payment')
+class Payments extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get invoiceId => integer().nullable().references(Invoices, #id)();
+  TextColumn get paymentDate => text().nullable()();
+  RealColumn get amount => real().withDefault(const Constant(0))();
+  TextColumn get paymentMode => text().nullable()(); // NEFT|RTGS|CHEQUE|CASH
+  TextColumn get referenceNo => text().nullable()();
+  RealColumn get tdsDeducted => real().withDefault(const Constant(0))();
+  TextColumn get notes => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+}
+
+@DataClassName('PartnerDistribution')
+class PartnerDistributions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get periodFrom => text().nullable()();
+  TextColumn get periodTo => text().nullable()();
+  IntColumn get partnerId => integer().nullable().references(Partners, #id)();
+  IntColumn get vehicleId => integer().nullable().references(Vehicles, #id)();
+  IntColumn get trips => integer().withDefault(const Constant(0))();
+  RealColumn get freightAmount => real().withDefault(const Constant(0))();
+  RealColumn get tdsShare => real().withDefault(const Constant(0))();
+  RealColumn get netAmount => real().withDefault(const Constant(0))();
+  RealColumn get paidAmount => real().withDefault(const Constant(0))();
+  TextColumn get paidDate => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+}
