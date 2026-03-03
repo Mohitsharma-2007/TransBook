@@ -192,3 +192,38 @@ class SyncQueue extends Table {
   TextColumn get lastAttempt => text().nullable()();
   TextColumn get createdAt => text().nullable()();
 }
+
+class Reminders extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get type => text()(); // PAYMENT|SUBMISSION|GST|TDS_CERT
+  IntColumn get referenceId => integer().nullable()();
+  TextColumn get referenceType => text().nullable()();
+  TextColumn get dueDate => text()();
+  IntColumn get escalationLevel => integer().withDefault(const Constant(0))();
+  BoolColumn get isResolved => boolean().withDefault(const Constant(false))();
+  TextColumn get lastNotified => text().nullable()();
+  TextColumn get notes => text().nullable()();
+}
+
+class EmailLogs extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get invoiceId => integer().nullable()();
+  TextColumn get direction => text()(); // SENT|RECEIVED
+  TextColumn get subject => text().nullable()();
+  TextColumn get body => text().nullable()();
+  TextColumn get sentAt => text().nullable()();
+  TextColumn get gmailMessageId => text().nullable()();
+  TextColumn get status => text().nullable()();
+}
+
+@DataClassName('AuditLogEntry')
+class AuditLog extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get entityType => text()();
+  IntColumn get entityId => integer()();
+  TextColumn get action => text()(); // CREATE|UPDATE|DELETE|EXPORT|EMAIL
+  TextColumn get oldValue => text().nullable()();
+  TextColumn get newValue => text().nullable()();
+  TextColumn get userNote => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+}

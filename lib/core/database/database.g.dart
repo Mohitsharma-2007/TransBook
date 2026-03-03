@@ -8531,6 +8531,1592 @@ class SyncQueueCompanion extends UpdateCompanion<SyncQueueEntry> {
   }
 }
 
+class $RemindersTable extends Reminders
+    with TableInfo<$RemindersTable, Reminder> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $RemindersTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  @override
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+    'type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _referenceIdMeta = const VerificationMeta(
+    'referenceId',
+  );
+  @override
+  late final GeneratedColumn<int> referenceId = GeneratedColumn<int>(
+    'reference_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _referenceTypeMeta = const VerificationMeta(
+    'referenceType',
+  );
+  @override
+  late final GeneratedColumn<String> referenceType = GeneratedColumn<String>(
+    'reference_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _dueDateMeta = const VerificationMeta(
+    'dueDate',
+  );
+  @override
+  late final GeneratedColumn<String> dueDate = GeneratedColumn<String>(
+    'due_date',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _escalationLevelMeta = const VerificationMeta(
+    'escalationLevel',
+  );
+  @override
+  late final GeneratedColumn<int> escalationLevel = GeneratedColumn<int>(
+    'escalation_level',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultValue: const Constant(0),
+  );
+  static const VerificationMeta _isResolvedMeta = const VerificationMeta(
+    'isResolved',
+  );
+  @override
+  late final GeneratedColumn<bool> isResolved = GeneratedColumn<bool>(
+    'is_resolved',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'CHECK ("is_resolved" IN (0, 1))',
+    ),
+    defaultValue: const Constant(false),
+  );
+  static const VerificationMeta _lastNotifiedMeta = const VerificationMeta(
+    'lastNotified',
+  );
+  @override
+  late final GeneratedColumn<String> lastNotified = GeneratedColumn<String>(
+    'last_notified',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+    'notes',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    type,
+    referenceId,
+    referenceType,
+    dueDate,
+    escalationLevel,
+    isResolved,
+    lastNotified,
+    notes,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'reminders';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Reminder> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+        _typeMeta,
+        type.isAcceptableOrUnknown(data['type']!, _typeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('reference_id')) {
+      context.handle(
+        _referenceIdMeta,
+        referenceId.isAcceptableOrUnknown(
+          data['reference_id']!,
+          _referenceIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('reference_type')) {
+      context.handle(
+        _referenceTypeMeta,
+        referenceType.isAcceptableOrUnknown(
+          data['reference_type']!,
+          _referenceTypeMeta,
+        ),
+      );
+    }
+    if (data.containsKey('due_date')) {
+      context.handle(
+        _dueDateMeta,
+        dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_dueDateMeta);
+    }
+    if (data.containsKey('escalation_level')) {
+      context.handle(
+        _escalationLevelMeta,
+        escalationLevel.isAcceptableOrUnknown(
+          data['escalation_level']!,
+          _escalationLevelMeta,
+        ),
+      );
+    }
+    if (data.containsKey('is_resolved')) {
+      context.handle(
+        _isResolvedMeta,
+        isResolved.isAcceptableOrUnknown(data['is_resolved']!, _isResolvedMeta),
+      );
+    }
+    if (data.containsKey('last_notified')) {
+      context.handle(
+        _lastNotifiedMeta,
+        lastNotified.isAcceptableOrUnknown(
+          data['last_notified']!,
+          _lastNotifiedMeta,
+        ),
+      );
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+        _notesMeta,
+        notes.isAcceptableOrUnknown(data['notes']!, _notesMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Reminder map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Reminder(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      type: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}type'],
+      )!,
+      referenceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}reference_id'],
+      ),
+      referenceType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}reference_type'],
+      ),
+      dueDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}due_date'],
+      )!,
+      escalationLevel: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}escalation_level'],
+      )!,
+      isResolved: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_resolved'],
+      )!,
+      lastNotified: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_notified'],
+      ),
+      notes: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}notes'],
+      ),
+    );
+  }
+
+  @override
+  $RemindersTable createAlias(String alias) {
+    return $RemindersTable(attachedDatabase, alias);
+  }
+}
+
+class Reminder extends DataClass implements Insertable<Reminder> {
+  final int id;
+  final String type;
+  final int? referenceId;
+  final String? referenceType;
+  final String dueDate;
+  final int escalationLevel;
+  final bool isResolved;
+  final String? lastNotified;
+  final String? notes;
+  const Reminder({
+    required this.id,
+    required this.type,
+    this.referenceId,
+    this.referenceType,
+    required this.dueDate,
+    required this.escalationLevel,
+    required this.isResolved,
+    this.lastNotified,
+    this.notes,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['type'] = Variable<String>(type);
+    if (!nullToAbsent || referenceId != null) {
+      map['reference_id'] = Variable<int>(referenceId);
+    }
+    if (!nullToAbsent || referenceType != null) {
+      map['reference_type'] = Variable<String>(referenceType);
+    }
+    map['due_date'] = Variable<String>(dueDate);
+    map['escalation_level'] = Variable<int>(escalationLevel);
+    map['is_resolved'] = Variable<bool>(isResolved);
+    if (!nullToAbsent || lastNotified != null) {
+      map['last_notified'] = Variable<String>(lastNotified);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    return map;
+  }
+
+  RemindersCompanion toCompanion(bool nullToAbsent) {
+    return RemindersCompanion(
+      id: Value(id),
+      type: Value(type),
+      referenceId: referenceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(referenceId),
+      referenceType: referenceType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(referenceType),
+      dueDate: Value(dueDate),
+      escalationLevel: Value(escalationLevel),
+      isResolved: Value(isResolved),
+      lastNotified: lastNotified == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastNotified),
+      notes: notes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(notes),
+    );
+  }
+
+  factory Reminder.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Reminder(
+      id: serializer.fromJson<int>(json['id']),
+      type: serializer.fromJson<String>(json['type']),
+      referenceId: serializer.fromJson<int?>(json['referenceId']),
+      referenceType: serializer.fromJson<String?>(json['referenceType']),
+      dueDate: serializer.fromJson<String>(json['dueDate']),
+      escalationLevel: serializer.fromJson<int>(json['escalationLevel']),
+      isResolved: serializer.fromJson<bool>(json['isResolved']),
+      lastNotified: serializer.fromJson<String?>(json['lastNotified']),
+      notes: serializer.fromJson<String?>(json['notes']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'type': serializer.toJson<String>(type),
+      'referenceId': serializer.toJson<int?>(referenceId),
+      'referenceType': serializer.toJson<String?>(referenceType),
+      'dueDate': serializer.toJson<String>(dueDate),
+      'escalationLevel': serializer.toJson<int>(escalationLevel),
+      'isResolved': serializer.toJson<bool>(isResolved),
+      'lastNotified': serializer.toJson<String?>(lastNotified),
+      'notes': serializer.toJson<String?>(notes),
+    };
+  }
+
+  Reminder copyWith({
+    int? id,
+    String? type,
+    Value<int?> referenceId = const Value.absent(),
+    Value<String?> referenceType = const Value.absent(),
+    String? dueDate,
+    int? escalationLevel,
+    bool? isResolved,
+    Value<String?> lastNotified = const Value.absent(),
+    Value<String?> notes = const Value.absent(),
+  }) => Reminder(
+    id: id ?? this.id,
+    type: type ?? this.type,
+    referenceId: referenceId.present ? referenceId.value : this.referenceId,
+    referenceType: referenceType.present
+        ? referenceType.value
+        : this.referenceType,
+    dueDate: dueDate ?? this.dueDate,
+    escalationLevel: escalationLevel ?? this.escalationLevel,
+    isResolved: isResolved ?? this.isResolved,
+    lastNotified: lastNotified.present ? lastNotified.value : this.lastNotified,
+    notes: notes.present ? notes.value : this.notes,
+  );
+  Reminder copyWithCompanion(RemindersCompanion data) {
+    return Reminder(
+      id: data.id.present ? data.id.value : this.id,
+      type: data.type.present ? data.type.value : this.type,
+      referenceId: data.referenceId.present
+          ? data.referenceId.value
+          : this.referenceId,
+      referenceType: data.referenceType.present
+          ? data.referenceType.value
+          : this.referenceType,
+      dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+      escalationLevel: data.escalationLevel.present
+          ? data.escalationLevel.value
+          : this.escalationLevel,
+      isResolved: data.isResolved.present
+          ? data.isResolved.value
+          : this.isResolved,
+      lastNotified: data.lastNotified.present
+          ? data.lastNotified.value
+          : this.lastNotified,
+      notes: data.notes.present ? data.notes.value : this.notes,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Reminder(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('referenceId: $referenceId, ')
+          ..write('referenceType: $referenceType, ')
+          ..write('dueDate: $dueDate, ')
+          ..write('escalationLevel: $escalationLevel, ')
+          ..write('isResolved: $isResolved, ')
+          ..write('lastNotified: $lastNotified, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    type,
+    referenceId,
+    referenceType,
+    dueDate,
+    escalationLevel,
+    isResolved,
+    lastNotified,
+    notes,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Reminder &&
+          other.id == this.id &&
+          other.type == this.type &&
+          other.referenceId == this.referenceId &&
+          other.referenceType == this.referenceType &&
+          other.dueDate == this.dueDate &&
+          other.escalationLevel == this.escalationLevel &&
+          other.isResolved == this.isResolved &&
+          other.lastNotified == this.lastNotified &&
+          other.notes == this.notes);
+}
+
+class RemindersCompanion extends UpdateCompanion<Reminder> {
+  final Value<int> id;
+  final Value<String> type;
+  final Value<int?> referenceId;
+  final Value<String?> referenceType;
+  final Value<String> dueDate;
+  final Value<int> escalationLevel;
+  final Value<bool> isResolved;
+  final Value<String?> lastNotified;
+  final Value<String?> notes;
+  const RemindersCompanion({
+    this.id = const Value.absent(),
+    this.type = const Value.absent(),
+    this.referenceId = const Value.absent(),
+    this.referenceType = const Value.absent(),
+    this.dueDate = const Value.absent(),
+    this.escalationLevel = const Value.absent(),
+    this.isResolved = const Value.absent(),
+    this.lastNotified = const Value.absent(),
+    this.notes = const Value.absent(),
+  });
+  RemindersCompanion.insert({
+    this.id = const Value.absent(),
+    required String type,
+    this.referenceId = const Value.absent(),
+    this.referenceType = const Value.absent(),
+    required String dueDate,
+    this.escalationLevel = const Value.absent(),
+    this.isResolved = const Value.absent(),
+    this.lastNotified = const Value.absent(),
+    this.notes = const Value.absent(),
+  }) : type = Value(type),
+       dueDate = Value(dueDate);
+  static Insertable<Reminder> custom({
+    Expression<int>? id,
+    Expression<String>? type,
+    Expression<int>? referenceId,
+    Expression<String>? referenceType,
+    Expression<String>? dueDate,
+    Expression<int>? escalationLevel,
+    Expression<bool>? isResolved,
+    Expression<String>? lastNotified,
+    Expression<String>? notes,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (type != null) 'type': type,
+      if (referenceId != null) 'reference_id': referenceId,
+      if (referenceType != null) 'reference_type': referenceType,
+      if (dueDate != null) 'due_date': dueDate,
+      if (escalationLevel != null) 'escalation_level': escalationLevel,
+      if (isResolved != null) 'is_resolved': isResolved,
+      if (lastNotified != null) 'last_notified': lastNotified,
+      if (notes != null) 'notes': notes,
+    });
+  }
+
+  RemindersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? type,
+    Value<int?>? referenceId,
+    Value<String?>? referenceType,
+    Value<String>? dueDate,
+    Value<int>? escalationLevel,
+    Value<bool>? isResolved,
+    Value<String?>? lastNotified,
+    Value<String?>? notes,
+  }) {
+    return RemindersCompanion(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      referenceId: referenceId ?? this.referenceId,
+      referenceType: referenceType ?? this.referenceType,
+      dueDate: dueDate ?? this.dueDate,
+      escalationLevel: escalationLevel ?? this.escalationLevel,
+      isResolved: isResolved ?? this.isResolved,
+      lastNotified: lastNotified ?? this.lastNotified,
+      notes: notes ?? this.notes,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (referenceId.present) {
+      map['reference_id'] = Variable<int>(referenceId.value);
+    }
+    if (referenceType.present) {
+      map['reference_type'] = Variable<String>(referenceType.value);
+    }
+    if (dueDate.present) {
+      map['due_date'] = Variable<String>(dueDate.value);
+    }
+    if (escalationLevel.present) {
+      map['escalation_level'] = Variable<int>(escalationLevel.value);
+    }
+    if (isResolved.present) {
+      map['is_resolved'] = Variable<bool>(isResolved.value);
+    }
+    if (lastNotified.present) {
+      map['last_notified'] = Variable<String>(lastNotified.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('RemindersCompanion(')
+          ..write('id: $id, ')
+          ..write('type: $type, ')
+          ..write('referenceId: $referenceId, ')
+          ..write('referenceType: $referenceType, ')
+          ..write('dueDate: $dueDate, ')
+          ..write('escalationLevel: $escalationLevel, ')
+          ..write('isResolved: $isResolved, ')
+          ..write('lastNotified: $lastNotified, ')
+          ..write('notes: $notes')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EmailLogsTable extends EmailLogs
+    with TableInfo<$EmailLogsTable, EmailLog> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EmailLogsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _invoiceIdMeta = const VerificationMeta(
+    'invoiceId',
+  );
+  @override
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+    'invoice_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _directionMeta = const VerificationMeta(
+    'direction',
+  );
+  @override
+  late final GeneratedColumn<String> direction = GeneratedColumn<String>(
+    'direction',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _subjectMeta = const VerificationMeta(
+    'subject',
+  );
+  @override
+  late final GeneratedColumn<String> subject = GeneratedColumn<String>(
+    'subject',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _bodyMeta = const VerificationMeta('body');
+  @override
+  late final GeneratedColumn<String> body = GeneratedColumn<String>(
+    'body',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _sentAtMeta = const VerificationMeta('sentAt');
+  @override
+  late final GeneratedColumn<String> sentAt = GeneratedColumn<String>(
+    'sent_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _gmailMessageIdMeta = const VerificationMeta(
+    'gmailMessageId',
+  );
+  @override
+  late final GeneratedColumn<String> gmailMessageId = GeneratedColumn<String>(
+    'gmail_message_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    invoiceId,
+    direction,
+    subject,
+    body,
+    sentAt,
+    gmailMessageId,
+    status,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'email_logs';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EmailLog> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('invoice_id')) {
+      context.handle(
+        _invoiceIdMeta,
+        invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta),
+      );
+    }
+    if (data.containsKey('direction')) {
+      context.handle(
+        _directionMeta,
+        direction.isAcceptableOrUnknown(data['direction']!, _directionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_directionMeta);
+    }
+    if (data.containsKey('subject')) {
+      context.handle(
+        _subjectMeta,
+        subject.isAcceptableOrUnknown(data['subject']!, _subjectMeta),
+      );
+    }
+    if (data.containsKey('body')) {
+      context.handle(
+        _bodyMeta,
+        body.isAcceptableOrUnknown(data['body']!, _bodyMeta),
+      );
+    }
+    if (data.containsKey('sent_at')) {
+      context.handle(
+        _sentAtMeta,
+        sentAt.isAcceptableOrUnknown(data['sent_at']!, _sentAtMeta),
+      );
+    }
+    if (data.containsKey('gmail_message_id')) {
+      context.handle(
+        _gmailMessageIdMeta,
+        gmailMessageId.isAcceptableOrUnknown(
+          data['gmail_message_id']!,
+          _gmailMessageIdMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EmailLog map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EmailLog(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      invoiceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}invoice_id'],
+      ),
+      direction: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}direction'],
+      )!,
+      subject: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subject'],
+      ),
+      body: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}body'],
+      ),
+      sentAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}sent_at'],
+      ),
+      gmailMessageId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}gmail_message_id'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      ),
+    );
+  }
+
+  @override
+  $EmailLogsTable createAlias(String alias) {
+    return $EmailLogsTable(attachedDatabase, alias);
+  }
+}
+
+class EmailLog extends DataClass implements Insertable<EmailLog> {
+  final int id;
+  final int? invoiceId;
+  final String direction;
+  final String? subject;
+  final String? body;
+  final String? sentAt;
+  final String? gmailMessageId;
+  final String? status;
+  const EmailLog({
+    required this.id,
+    this.invoiceId,
+    required this.direction,
+    this.subject,
+    this.body,
+    this.sentAt,
+    this.gmailMessageId,
+    this.status,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || invoiceId != null) {
+      map['invoice_id'] = Variable<int>(invoiceId);
+    }
+    map['direction'] = Variable<String>(direction);
+    if (!nullToAbsent || subject != null) {
+      map['subject'] = Variable<String>(subject);
+    }
+    if (!nullToAbsent || body != null) {
+      map['body'] = Variable<String>(body);
+    }
+    if (!nullToAbsent || sentAt != null) {
+      map['sent_at'] = Variable<String>(sentAt);
+    }
+    if (!nullToAbsent || gmailMessageId != null) {
+      map['gmail_message_id'] = Variable<String>(gmailMessageId);
+    }
+    if (!nullToAbsent || status != null) {
+      map['status'] = Variable<String>(status);
+    }
+    return map;
+  }
+
+  EmailLogsCompanion toCompanion(bool nullToAbsent) {
+    return EmailLogsCompanion(
+      id: Value(id),
+      invoiceId: invoiceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceId),
+      direction: Value(direction),
+      subject: subject == null && nullToAbsent
+          ? const Value.absent()
+          : Value(subject),
+      body: body == null && nullToAbsent ? const Value.absent() : Value(body),
+      sentAt: sentAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(sentAt),
+      gmailMessageId: gmailMessageId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(gmailMessageId),
+      status: status == null && nullToAbsent
+          ? const Value.absent()
+          : Value(status),
+    );
+  }
+
+  factory EmailLog.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EmailLog(
+      id: serializer.fromJson<int>(json['id']),
+      invoiceId: serializer.fromJson<int?>(json['invoiceId']),
+      direction: serializer.fromJson<String>(json['direction']),
+      subject: serializer.fromJson<String?>(json['subject']),
+      body: serializer.fromJson<String?>(json['body']),
+      sentAt: serializer.fromJson<String?>(json['sentAt']),
+      gmailMessageId: serializer.fromJson<String?>(json['gmailMessageId']),
+      status: serializer.fromJson<String?>(json['status']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'invoiceId': serializer.toJson<int?>(invoiceId),
+      'direction': serializer.toJson<String>(direction),
+      'subject': serializer.toJson<String?>(subject),
+      'body': serializer.toJson<String?>(body),
+      'sentAt': serializer.toJson<String?>(sentAt),
+      'gmailMessageId': serializer.toJson<String?>(gmailMessageId),
+      'status': serializer.toJson<String?>(status),
+    };
+  }
+
+  EmailLog copyWith({
+    int? id,
+    Value<int?> invoiceId = const Value.absent(),
+    String? direction,
+    Value<String?> subject = const Value.absent(),
+    Value<String?> body = const Value.absent(),
+    Value<String?> sentAt = const Value.absent(),
+    Value<String?> gmailMessageId = const Value.absent(),
+    Value<String?> status = const Value.absent(),
+  }) => EmailLog(
+    id: id ?? this.id,
+    invoiceId: invoiceId.present ? invoiceId.value : this.invoiceId,
+    direction: direction ?? this.direction,
+    subject: subject.present ? subject.value : this.subject,
+    body: body.present ? body.value : this.body,
+    sentAt: sentAt.present ? sentAt.value : this.sentAt,
+    gmailMessageId: gmailMessageId.present
+        ? gmailMessageId.value
+        : this.gmailMessageId,
+    status: status.present ? status.value : this.status,
+  );
+  EmailLog copyWithCompanion(EmailLogsCompanion data) {
+    return EmailLog(
+      id: data.id.present ? data.id.value : this.id,
+      invoiceId: data.invoiceId.present ? data.invoiceId.value : this.invoiceId,
+      direction: data.direction.present ? data.direction.value : this.direction,
+      subject: data.subject.present ? data.subject.value : this.subject,
+      body: data.body.present ? data.body.value : this.body,
+      sentAt: data.sentAt.present ? data.sentAt.value : this.sentAt,
+      gmailMessageId: data.gmailMessageId.present
+          ? data.gmailMessageId.value
+          : this.gmailMessageId,
+      status: data.status.present ? data.status.value : this.status,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmailLog(')
+          ..write('id: $id, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('direction: $direction, ')
+          ..write('subject: $subject, ')
+          ..write('body: $body, ')
+          ..write('sentAt: $sentAt, ')
+          ..write('gmailMessageId: $gmailMessageId, ')
+          ..write('status: $status')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    invoiceId,
+    direction,
+    subject,
+    body,
+    sentAt,
+    gmailMessageId,
+    status,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EmailLog &&
+          other.id == this.id &&
+          other.invoiceId == this.invoiceId &&
+          other.direction == this.direction &&
+          other.subject == this.subject &&
+          other.body == this.body &&
+          other.sentAt == this.sentAt &&
+          other.gmailMessageId == this.gmailMessageId &&
+          other.status == this.status);
+}
+
+class EmailLogsCompanion extends UpdateCompanion<EmailLog> {
+  final Value<int> id;
+  final Value<int?> invoiceId;
+  final Value<String> direction;
+  final Value<String?> subject;
+  final Value<String?> body;
+  final Value<String?> sentAt;
+  final Value<String?> gmailMessageId;
+  final Value<String?> status;
+  const EmailLogsCompanion({
+    this.id = const Value.absent(),
+    this.invoiceId = const Value.absent(),
+    this.direction = const Value.absent(),
+    this.subject = const Value.absent(),
+    this.body = const Value.absent(),
+    this.sentAt = const Value.absent(),
+    this.gmailMessageId = const Value.absent(),
+    this.status = const Value.absent(),
+  });
+  EmailLogsCompanion.insert({
+    this.id = const Value.absent(),
+    this.invoiceId = const Value.absent(),
+    required String direction,
+    this.subject = const Value.absent(),
+    this.body = const Value.absent(),
+    this.sentAt = const Value.absent(),
+    this.gmailMessageId = const Value.absent(),
+    this.status = const Value.absent(),
+  }) : direction = Value(direction);
+  static Insertable<EmailLog> custom({
+    Expression<int>? id,
+    Expression<int>? invoiceId,
+    Expression<String>? direction,
+    Expression<String>? subject,
+    Expression<String>? body,
+    Expression<String>? sentAt,
+    Expression<String>? gmailMessageId,
+    Expression<String>? status,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (invoiceId != null) 'invoice_id': invoiceId,
+      if (direction != null) 'direction': direction,
+      if (subject != null) 'subject': subject,
+      if (body != null) 'body': body,
+      if (sentAt != null) 'sent_at': sentAt,
+      if (gmailMessageId != null) 'gmail_message_id': gmailMessageId,
+      if (status != null) 'status': status,
+    });
+  }
+
+  EmailLogsCompanion copyWith({
+    Value<int>? id,
+    Value<int?>? invoiceId,
+    Value<String>? direction,
+    Value<String?>? subject,
+    Value<String?>? body,
+    Value<String?>? sentAt,
+    Value<String?>? gmailMessageId,
+    Value<String?>? status,
+  }) {
+    return EmailLogsCompanion(
+      id: id ?? this.id,
+      invoiceId: invoiceId ?? this.invoiceId,
+      direction: direction ?? this.direction,
+      subject: subject ?? this.subject,
+      body: body ?? this.body,
+      sentAt: sentAt ?? this.sentAt,
+      gmailMessageId: gmailMessageId ?? this.gmailMessageId,
+      status: status ?? this.status,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (invoiceId.present) {
+      map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (direction.present) {
+      map['direction'] = Variable<String>(direction.value);
+    }
+    if (subject.present) {
+      map['subject'] = Variable<String>(subject.value);
+    }
+    if (body.present) {
+      map['body'] = Variable<String>(body.value);
+    }
+    if (sentAt.present) {
+      map['sent_at'] = Variable<String>(sentAt.value);
+    }
+    if (gmailMessageId.present) {
+      map['gmail_message_id'] = Variable<String>(gmailMessageId.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmailLogsCompanion(')
+          ..write('id: $id, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('direction: $direction, ')
+          ..write('subject: $subject, ')
+          ..write('body: $body, ')
+          ..write('sentAt: $sentAt, ')
+          ..write('gmailMessageId: $gmailMessageId, ')
+          ..write('status: $status')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $AuditLogTable extends AuditLog
+    with TableInfo<$AuditLogTable, AuditLogEntry> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $AuditLogTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
+  @override
+  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
+    'entity_type',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityIdMeta = const VerificationMeta(
+    'entityId',
+  );
+  @override
+  late final GeneratedColumn<int> entityId = GeneratedColumn<int>(
+    'entity_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _actionMeta = const VerificationMeta('action');
+  @override
+  late final GeneratedColumn<String> action = GeneratedColumn<String>(
+    'action',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _oldValueMeta = const VerificationMeta(
+    'oldValue',
+  );
+  @override
+  late final GeneratedColumn<String> oldValue = GeneratedColumn<String>(
+    'old_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _newValueMeta = const VerificationMeta(
+    'newValue',
+  );
+  @override
+  late final GeneratedColumn<String> newValue = GeneratedColumn<String>(
+    'new_value',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _userNoteMeta = const VerificationMeta(
+    'userNote',
+  );
+  @override
+  late final GeneratedColumn<String> userNote = GeneratedColumn<String>(
+    'user_note',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    entityType,
+    entityId,
+    action,
+    oldValue,
+    newValue,
+    userNote,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'audit_log';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<AuditLogEntry> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('entity_type')) {
+      context.handle(
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityTypeMeta);
+    }
+    if (data.containsKey('entity_id')) {
+      context.handle(
+        _entityIdMeta,
+        entityId.isAcceptableOrUnknown(data['entity_id']!, _entityIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_entityIdMeta);
+    }
+    if (data.containsKey('action')) {
+      context.handle(
+        _actionMeta,
+        action.isAcceptableOrUnknown(data['action']!, _actionMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_actionMeta);
+    }
+    if (data.containsKey('old_value')) {
+      context.handle(
+        _oldValueMeta,
+        oldValue.isAcceptableOrUnknown(data['old_value']!, _oldValueMeta),
+      );
+    }
+    if (data.containsKey('new_value')) {
+      context.handle(
+        _newValueMeta,
+        newValue.isAcceptableOrUnknown(data['new_value']!, _newValueMeta),
+      );
+    }
+    if (data.containsKey('user_note')) {
+      context.handle(
+        _userNoteMeta,
+        userNote.isAcceptableOrUnknown(data['user_note']!, _userNoteMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AuditLogEntry map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AuditLogEntry(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      )!,
+      entityId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}entity_id'],
+      )!,
+      action: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}action'],
+      )!,
+      oldValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}old_value'],
+      ),
+      newValue: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}new_value'],
+      ),
+      userNote: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}user_note'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      ),
+    );
+  }
+
+  @override
+  $AuditLogTable createAlias(String alias) {
+    return $AuditLogTable(attachedDatabase, alias);
+  }
+}
+
+class AuditLogEntry extends DataClass implements Insertable<AuditLogEntry> {
+  final int id;
+  final String entityType;
+  final int entityId;
+  final String action;
+  final String? oldValue;
+  final String? newValue;
+  final String? userNote;
+  final String? createdAt;
+  const AuditLogEntry({
+    required this.id,
+    required this.entityType,
+    required this.entityId,
+    required this.action,
+    this.oldValue,
+    this.newValue,
+    this.userNote,
+    this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['entity_type'] = Variable<String>(entityType);
+    map['entity_id'] = Variable<int>(entityId);
+    map['action'] = Variable<String>(action);
+    if (!nullToAbsent || oldValue != null) {
+      map['old_value'] = Variable<String>(oldValue);
+    }
+    if (!nullToAbsent || newValue != null) {
+      map['new_value'] = Variable<String>(newValue);
+    }
+    if (!nullToAbsent || userNote != null) {
+      map['user_note'] = Variable<String>(userNote);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<String>(createdAt);
+    }
+    return map;
+  }
+
+  AuditLogCompanion toCompanion(bool nullToAbsent) {
+    return AuditLogCompanion(
+      id: Value(id),
+      entityType: Value(entityType),
+      entityId: Value(entityId),
+      action: Value(action),
+      oldValue: oldValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(oldValue),
+      newValue: newValue == null && nullToAbsent
+          ? const Value.absent()
+          : Value(newValue),
+      userNote: userNote == null && nullToAbsent
+          ? const Value.absent()
+          : Value(userNote),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+    );
+  }
+
+  factory AuditLogEntry.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AuditLogEntry(
+      id: serializer.fromJson<int>(json['id']),
+      entityType: serializer.fromJson<String>(json['entityType']),
+      entityId: serializer.fromJson<int>(json['entityId']),
+      action: serializer.fromJson<String>(json['action']),
+      oldValue: serializer.fromJson<String?>(json['oldValue']),
+      newValue: serializer.fromJson<String?>(json['newValue']),
+      userNote: serializer.fromJson<String?>(json['userNote']),
+      createdAt: serializer.fromJson<String?>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'entityType': serializer.toJson<String>(entityType),
+      'entityId': serializer.toJson<int>(entityId),
+      'action': serializer.toJson<String>(action),
+      'oldValue': serializer.toJson<String?>(oldValue),
+      'newValue': serializer.toJson<String?>(newValue),
+      'userNote': serializer.toJson<String?>(userNote),
+      'createdAt': serializer.toJson<String?>(createdAt),
+    };
+  }
+
+  AuditLogEntry copyWith({
+    int? id,
+    String? entityType,
+    int? entityId,
+    String? action,
+    Value<String?> oldValue = const Value.absent(),
+    Value<String?> newValue = const Value.absent(),
+    Value<String?> userNote = const Value.absent(),
+    Value<String?> createdAt = const Value.absent(),
+  }) => AuditLogEntry(
+    id: id ?? this.id,
+    entityType: entityType ?? this.entityType,
+    entityId: entityId ?? this.entityId,
+    action: action ?? this.action,
+    oldValue: oldValue.present ? oldValue.value : this.oldValue,
+    newValue: newValue.present ? newValue.value : this.newValue,
+    userNote: userNote.present ? userNote.value : this.userNote,
+    createdAt: createdAt.present ? createdAt.value : this.createdAt,
+  );
+  AuditLogEntry copyWithCompanion(AuditLogCompanion data) {
+    return AuditLogEntry(
+      id: data.id.present ? data.id.value : this.id,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
+      entityId: data.entityId.present ? data.entityId.value : this.entityId,
+      action: data.action.present ? data.action.value : this.action,
+      oldValue: data.oldValue.present ? data.oldValue.value : this.oldValue,
+      newValue: data.newValue.present ? data.newValue.value : this.newValue,
+      userNote: data.userNote.present ? data.userNote.value : this.userNote,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AuditLogEntry(')
+          ..write('id: $id, ')
+          ..write('entityType: $entityType, ')
+          ..write('entityId: $entityId, ')
+          ..write('action: $action, ')
+          ..write('oldValue: $oldValue, ')
+          ..write('newValue: $newValue, ')
+          ..write('userNote: $userNote, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    entityType,
+    entityId,
+    action,
+    oldValue,
+    newValue,
+    userNote,
+    createdAt,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AuditLogEntry &&
+          other.id == this.id &&
+          other.entityType == this.entityType &&
+          other.entityId == this.entityId &&
+          other.action == this.action &&
+          other.oldValue == this.oldValue &&
+          other.newValue == this.newValue &&
+          other.userNote == this.userNote &&
+          other.createdAt == this.createdAt);
+}
+
+class AuditLogCompanion extends UpdateCompanion<AuditLogEntry> {
+  final Value<int> id;
+  final Value<String> entityType;
+  final Value<int> entityId;
+  final Value<String> action;
+  final Value<String?> oldValue;
+  final Value<String?> newValue;
+  final Value<String?> userNote;
+  final Value<String?> createdAt;
+  const AuditLogCompanion({
+    this.id = const Value.absent(),
+    this.entityType = const Value.absent(),
+    this.entityId = const Value.absent(),
+    this.action = const Value.absent(),
+    this.oldValue = const Value.absent(),
+    this.newValue = const Value.absent(),
+    this.userNote = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  AuditLogCompanion.insert({
+    this.id = const Value.absent(),
+    required String entityType,
+    required int entityId,
+    required String action,
+    this.oldValue = const Value.absent(),
+    this.newValue = const Value.absent(),
+    this.userNote = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : entityType = Value(entityType),
+       entityId = Value(entityId),
+       action = Value(action);
+  static Insertable<AuditLogEntry> custom({
+    Expression<int>? id,
+    Expression<String>? entityType,
+    Expression<int>? entityId,
+    Expression<String>? action,
+    Expression<String>? oldValue,
+    Expression<String>? newValue,
+    Expression<String>? userNote,
+    Expression<String>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (entityType != null) 'entity_type': entityType,
+      if (entityId != null) 'entity_id': entityId,
+      if (action != null) 'action': action,
+      if (oldValue != null) 'old_value': oldValue,
+      if (newValue != null) 'new_value': newValue,
+      if (userNote != null) 'user_note': userNote,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  AuditLogCompanion copyWith({
+    Value<int>? id,
+    Value<String>? entityType,
+    Value<int>? entityId,
+    Value<String>? action,
+    Value<String?>? oldValue,
+    Value<String?>? newValue,
+    Value<String?>? userNote,
+    Value<String?>? createdAt,
+  }) {
+    return AuditLogCompanion(
+      id: id ?? this.id,
+      entityType: entityType ?? this.entityType,
+      entityId: entityId ?? this.entityId,
+      action: action ?? this.action,
+      oldValue: oldValue ?? this.oldValue,
+      newValue: newValue ?? this.newValue,
+      userNote: userNote ?? this.userNote,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (entityType.present) {
+      map['entity_type'] = Variable<String>(entityType.value);
+    }
+    if (entityId.present) {
+      map['entity_id'] = Variable<int>(entityId.value);
+    }
+    if (action.present) {
+      map['action'] = Variable<String>(action.value);
+    }
+    if (oldValue.present) {
+      map['old_value'] = Variable<String>(oldValue.value);
+    }
+    if (newValue.present) {
+      map['new_value'] = Variable<String>(newValue.value);
+    }
+    if (userNote.present) {
+      map['user_note'] = Variable<String>(userNote.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AuditLogCompanion(')
+          ..write('id: $id, ')
+          ..write('entityType: $entityType, ')
+          ..write('entityId: $entityId, ')
+          ..write('action: $action, ')
+          ..write('oldValue: $oldValue, ')
+          ..write('newValue: $newValue, ')
+          ..write('userNote: $userNote, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -8550,6 +10136,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $PartnerDistributionsTable partnerDistributions =
       $PartnerDistributionsTable(this);
   late final $SyncQueueTable syncQueue = $SyncQueueTable(this);
+  late final $RemindersTable reminders = $RemindersTable(this);
+  late final $EmailLogsTable emailLogs = $EmailLogsTable(this);
+  late final $AuditLogTable auditLog = $AuditLogTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -8567,6 +10156,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     payments,
     partnerDistributions,
     syncQueue,
+    reminders,
+    emailLogs,
+    auditLog,
   ];
 }
 
@@ -14960,6 +16552,780 @@ typedef $$SyncQueueTableProcessedTableManager =
       SyncQueueEntry,
       PrefetchHooks Function()
     >;
+typedef $$RemindersTableCreateCompanionBuilder =
+    RemindersCompanion Function({
+      Value<int> id,
+      required String type,
+      Value<int?> referenceId,
+      Value<String?> referenceType,
+      required String dueDate,
+      Value<int> escalationLevel,
+      Value<bool> isResolved,
+      Value<String?> lastNotified,
+      Value<String?> notes,
+    });
+typedef $$RemindersTableUpdateCompanionBuilder =
+    RemindersCompanion Function({
+      Value<int> id,
+      Value<String> type,
+      Value<int?> referenceId,
+      Value<String?> referenceType,
+      Value<String> dueDate,
+      Value<int> escalationLevel,
+      Value<bool> isResolved,
+      Value<String?> lastNotified,
+      Value<String?> notes,
+    });
+
+class $$RemindersTableFilterComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get referenceId => $composableBuilder(
+    column: $table.referenceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get referenceType => $composableBuilder(
+    column: $table.referenceType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get escalationLevel => $composableBuilder(
+    column: $table.escalationLevel,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isResolved => $composableBuilder(
+    column: $table.isResolved,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastNotified => $composableBuilder(
+    column: $table.lastNotified,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$RemindersTableOrderingComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get type => $composableBuilder(
+    column: $table.type,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get referenceId => $composableBuilder(
+    column: $table.referenceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get referenceType => $composableBuilder(
+    column: $table.referenceType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get dueDate => $composableBuilder(
+    column: $table.dueDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get escalationLevel => $composableBuilder(
+    column: $table.escalationLevel,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isResolved => $composableBuilder(
+    column: $table.isResolved,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastNotified => $composableBuilder(
+    column: $table.lastNotified,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+    column: $table.notes,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$RemindersTableAnnotationComposer
+    extends Composer<_$AppDatabase, $RemindersTable> {
+  $$RemindersTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<int> get referenceId => $composableBuilder(
+    column: $table.referenceId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get referenceType => $composableBuilder(
+    column: $table.referenceType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get dueDate =>
+      $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  GeneratedColumn<int> get escalationLevel => $composableBuilder(
+    column: $table.escalationLevel,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isResolved => $composableBuilder(
+    column: $table.isResolved,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get lastNotified => $composableBuilder(
+    column: $table.lastNotified,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+}
+
+class $$RemindersTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $RemindersTable,
+          Reminder,
+          $$RemindersTableFilterComposer,
+          $$RemindersTableOrderingComposer,
+          $$RemindersTableAnnotationComposer,
+          $$RemindersTableCreateCompanionBuilder,
+          $$RemindersTableUpdateCompanionBuilder,
+          (Reminder, BaseReferences<_$AppDatabase, $RemindersTable, Reminder>),
+          Reminder,
+          PrefetchHooks Function()
+        > {
+  $$RemindersTableTableManager(_$AppDatabase db, $RemindersTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$RemindersTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$RemindersTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$RemindersTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> type = const Value.absent(),
+                Value<int?> referenceId = const Value.absent(),
+                Value<String?> referenceType = const Value.absent(),
+                Value<String> dueDate = const Value.absent(),
+                Value<int> escalationLevel = const Value.absent(),
+                Value<bool> isResolved = const Value.absent(),
+                Value<String?> lastNotified = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => RemindersCompanion(
+                id: id,
+                type: type,
+                referenceId: referenceId,
+                referenceType: referenceType,
+                dueDate: dueDate,
+                escalationLevel: escalationLevel,
+                isResolved: isResolved,
+                lastNotified: lastNotified,
+                notes: notes,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String type,
+                Value<int?> referenceId = const Value.absent(),
+                Value<String?> referenceType = const Value.absent(),
+                required String dueDate,
+                Value<int> escalationLevel = const Value.absent(),
+                Value<bool> isResolved = const Value.absent(),
+                Value<String?> lastNotified = const Value.absent(),
+                Value<String?> notes = const Value.absent(),
+              }) => RemindersCompanion.insert(
+                id: id,
+                type: type,
+                referenceId: referenceId,
+                referenceType: referenceType,
+                dueDate: dueDate,
+                escalationLevel: escalationLevel,
+                isResolved: isResolved,
+                lastNotified: lastNotified,
+                notes: notes,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$RemindersTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $RemindersTable,
+      Reminder,
+      $$RemindersTableFilterComposer,
+      $$RemindersTableOrderingComposer,
+      $$RemindersTableAnnotationComposer,
+      $$RemindersTableCreateCompanionBuilder,
+      $$RemindersTableUpdateCompanionBuilder,
+      (Reminder, BaseReferences<_$AppDatabase, $RemindersTable, Reminder>),
+      Reminder,
+      PrefetchHooks Function()
+    >;
+typedef $$EmailLogsTableCreateCompanionBuilder =
+    EmailLogsCompanion Function({
+      Value<int> id,
+      Value<int?> invoiceId,
+      required String direction,
+      Value<String?> subject,
+      Value<String?> body,
+      Value<String?> sentAt,
+      Value<String?> gmailMessageId,
+      Value<String?> status,
+    });
+typedef $$EmailLogsTableUpdateCompanionBuilder =
+    EmailLogsCompanion Function({
+      Value<int> id,
+      Value<int?> invoiceId,
+      Value<String> direction,
+      Value<String?> subject,
+      Value<String?> body,
+      Value<String?> sentAt,
+      Value<String?> gmailMessageId,
+      Value<String?> status,
+    });
+
+class $$EmailLogsTableFilterComposer
+    extends Composer<_$AppDatabase, $EmailLogsTable> {
+  $$EmailLogsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get invoiceId => $composableBuilder(
+    column: $table.invoiceId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get direction => $composableBuilder(
+    column: $table.direction,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subject => $composableBuilder(
+    column: $table.subject,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get gmailMessageId => $composableBuilder(
+    column: $table.gmailMessageId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$EmailLogsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EmailLogsTable> {
+  $$EmailLogsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get invoiceId => $composableBuilder(
+    column: $table.invoiceId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get direction => $composableBuilder(
+    column: $table.direction,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subject => $composableBuilder(
+    column: $table.subject,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get body => $composableBuilder(
+    column: $table.body,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get sentAt => $composableBuilder(
+    column: $table.sentAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get gmailMessageId => $composableBuilder(
+    column: $table.gmailMessageId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$EmailLogsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EmailLogsTable> {
+  $$EmailLogsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get invoiceId =>
+      $composableBuilder(column: $table.invoiceId, builder: (column) => column);
+
+  GeneratedColumn<String> get direction =>
+      $composableBuilder(column: $table.direction, builder: (column) => column);
+
+  GeneratedColumn<String> get subject =>
+      $composableBuilder(column: $table.subject, builder: (column) => column);
+
+  GeneratedColumn<String> get body =>
+      $composableBuilder(column: $table.body, builder: (column) => column);
+
+  GeneratedColumn<String> get sentAt =>
+      $composableBuilder(column: $table.sentAt, builder: (column) => column);
+
+  GeneratedColumn<String> get gmailMessageId => $composableBuilder(
+    column: $table.gmailMessageId,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+}
+
+class $$EmailLogsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EmailLogsTable,
+          EmailLog,
+          $$EmailLogsTableFilterComposer,
+          $$EmailLogsTableOrderingComposer,
+          $$EmailLogsTableAnnotationComposer,
+          $$EmailLogsTableCreateCompanionBuilder,
+          $$EmailLogsTableUpdateCompanionBuilder,
+          (EmailLog, BaseReferences<_$AppDatabase, $EmailLogsTable, EmailLog>),
+          EmailLog,
+          PrefetchHooks Function()
+        > {
+  $$EmailLogsTableTableManager(_$AppDatabase db, $EmailLogsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EmailLogsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EmailLogsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EmailLogsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> invoiceId = const Value.absent(),
+                Value<String> direction = const Value.absent(),
+                Value<String?> subject = const Value.absent(),
+                Value<String?> body = const Value.absent(),
+                Value<String?> sentAt = const Value.absent(),
+                Value<String?> gmailMessageId = const Value.absent(),
+                Value<String?> status = const Value.absent(),
+              }) => EmailLogsCompanion(
+                id: id,
+                invoiceId: invoiceId,
+                direction: direction,
+                subject: subject,
+                body: body,
+                sentAt: sentAt,
+                gmailMessageId: gmailMessageId,
+                status: status,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<int?> invoiceId = const Value.absent(),
+                required String direction,
+                Value<String?> subject = const Value.absent(),
+                Value<String?> body = const Value.absent(),
+                Value<String?> sentAt = const Value.absent(),
+                Value<String?> gmailMessageId = const Value.absent(),
+                Value<String?> status = const Value.absent(),
+              }) => EmailLogsCompanion.insert(
+                id: id,
+                invoiceId: invoiceId,
+                direction: direction,
+                subject: subject,
+                body: body,
+                sentAt: sentAt,
+                gmailMessageId: gmailMessageId,
+                status: status,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$EmailLogsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EmailLogsTable,
+      EmailLog,
+      $$EmailLogsTableFilterComposer,
+      $$EmailLogsTableOrderingComposer,
+      $$EmailLogsTableAnnotationComposer,
+      $$EmailLogsTableCreateCompanionBuilder,
+      $$EmailLogsTableUpdateCompanionBuilder,
+      (EmailLog, BaseReferences<_$AppDatabase, $EmailLogsTable, EmailLog>),
+      EmailLog,
+      PrefetchHooks Function()
+    >;
+typedef $$AuditLogTableCreateCompanionBuilder =
+    AuditLogCompanion Function({
+      Value<int> id,
+      required String entityType,
+      required int entityId,
+      required String action,
+      Value<String?> oldValue,
+      Value<String?> newValue,
+      Value<String?> userNote,
+      Value<String?> createdAt,
+    });
+typedef $$AuditLogTableUpdateCompanionBuilder =
+    AuditLogCompanion Function({
+      Value<int> id,
+      Value<String> entityType,
+      Value<int> entityId,
+      Value<String> action,
+      Value<String?> oldValue,
+      Value<String?> newValue,
+      Value<String?> userNote,
+      Value<String?> createdAt,
+    });
+
+class $$AuditLogTableFilterComposer
+    extends Composer<_$AppDatabase, $AuditLogTable> {
+  $$AuditLogTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get entityId => $composableBuilder(
+    column: $table.entityId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get action => $composableBuilder(
+    column: $table.action,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get oldValue => $composableBuilder(
+    column: $table.oldValue,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get newValue => $composableBuilder(
+    column: $table.newValue,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get userNote => $composableBuilder(
+    column: $table.userNote,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $$AuditLogTableOrderingComposer
+    extends Composer<_$AppDatabase, $AuditLogTable> {
+  $$AuditLogTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get entityId => $composableBuilder(
+    column: $table.entityId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get action => $composableBuilder(
+    column: $table.action,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get oldValue => $composableBuilder(
+    column: $table.oldValue,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get newValue => $composableBuilder(
+    column: $table.newValue,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get userNote => $composableBuilder(
+    column: $table.userNote,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$AuditLogTableAnnotationComposer
+    extends Composer<_$AppDatabase, $AuditLogTable> {
+  $$AuditLogTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get entityId =>
+      $composableBuilder(column: $table.entityId, builder: (column) => column);
+
+  GeneratedColumn<String> get action =>
+      $composableBuilder(column: $table.action, builder: (column) => column);
+
+  GeneratedColumn<String> get oldValue =>
+      $composableBuilder(column: $table.oldValue, builder: (column) => column);
+
+  GeneratedColumn<String> get newValue =>
+      $composableBuilder(column: $table.newValue, builder: (column) => column);
+
+  GeneratedColumn<String> get userNote =>
+      $composableBuilder(column: $table.userNote, builder: (column) => column);
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+}
+
+class $$AuditLogTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $AuditLogTable,
+          AuditLogEntry,
+          $$AuditLogTableFilterComposer,
+          $$AuditLogTableOrderingComposer,
+          $$AuditLogTableAnnotationComposer,
+          $$AuditLogTableCreateCompanionBuilder,
+          $$AuditLogTableUpdateCompanionBuilder,
+          (
+            AuditLogEntry,
+            BaseReferences<_$AppDatabase, $AuditLogTable, AuditLogEntry>,
+          ),
+          AuditLogEntry,
+          PrefetchHooks Function()
+        > {
+  $$AuditLogTableTableManager(_$AppDatabase db, $AuditLogTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$AuditLogTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$AuditLogTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$AuditLogTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> entityType = const Value.absent(),
+                Value<int> entityId = const Value.absent(),
+                Value<String> action = const Value.absent(),
+                Value<String?> oldValue = const Value.absent(),
+                Value<String?> newValue = const Value.absent(),
+                Value<String?> userNote = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => AuditLogCompanion(
+                id: id,
+                entityType: entityType,
+                entityId: entityId,
+                action: action,
+                oldValue: oldValue,
+                newValue: newValue,
+                userNote: userNote,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String entityType,
+                required int entityId,
+                required String action,
+                Value<String?> oldValue = const Value.absent(),
+                Value<String?> newValue = const Value.absent(),
+                Value<String?> userNote = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => AuditLogCompanion.insert(
+                id: id,
+                entityType: entityType,
+                entityId: entityId,
+                action: action,
+                oldValue: oldValue,
+                newValue: newValue,
+                userNote: userNote,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $$AuditLogTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $AuditLogTable,
+      AuditLogEntry,
+      $$AuditLogTableFilterComposer,
+      $$AuditLogTableOrderingComposer,
+      $$AuditLogTableAnnotationComposer,
+      $$AuditLogTableCreateCompanionBuilder,
+      $$AuditLogTableUpdateCompanionBuilder,
+      (
+        AuditLogEntry,
+        BaseReferences<_$AppDatabase, $AuditLogTable, AuditLogEntry>,
+      ),
+      AuditLogEntry,
+      PrefetchHooks Function()
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -14988,4 +17354,10 @@ class $AppDatabaseManager {
       $$PartnerDistributionsTableTableManager(_db, _db.partnerDistributions);
   $$SyncQueueTableTableManager get syncQueue =>
       $$SyncQueueTableTableManager(_db, _db.syncQueue);
+  $$RemindersTableTableManager get reminders =>
+      $$RemindersTableTableManager(_db, _db.reminders);
+  $$EmailLogsTableTableManager get emailLogs =>
+      $$EmailLogsTableTableManager(_db, _db.emailLogs);
+  $$AuditLogTableTableManager get auditLog =>
+      $$AuditLogTableTableManager(_db, _db.auditLog);
 }
