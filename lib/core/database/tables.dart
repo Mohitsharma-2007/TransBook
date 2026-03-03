@@ -181,3 +181,14 @@ class PartnerDistributions extends Table {
   TextColumn get paidDate => text().nullable()();
   TextColumn get createdAt => text().nullable()();
 }
+
+@DataClassName('SyncQueueEntry')
+class SyncQueue extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get entityType => text()(); // INVOICE|SUMMARY_BILL
+  IntColumn get entityId => integer()();
+  TextColumn get action => text()(); // UPLOAD|UPDATE|DELETE
+  IntColumn get attempts => integer().withDefault(const Constant(0))();
+  TextColumn get lastAttempt => text().nullable()();
+  TextColumn get createdAt => text().nullable()();
+}

@@ -9,7 +9,7 @@ import 'tables.dart';
 
 part 'database.g.dart';
 
-@DriftDatabase(tables: [Firms, Companies, FreightRateCards, Partners, Vehicles, Invoices, InvoiceRows, SummaryBills, SummaryBillInvoices, Payments, PartnerDistributions])
+@DriftDatabase(tables: [Firms, Companies, FreightRateCards, Partners, Vehicles, Invoices, InvoiceRows, SummaryBills, SummaryBillInvoices, Payments, PartnerDistributions, SyncQueue])
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
