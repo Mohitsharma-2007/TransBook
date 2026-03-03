@@ -15,17 +15,17 @@
    - Vehicles (List + Add/Edit Dialog)
    - Rate Cards (List + Add/Edit Dialog)
 - Compiled application successfully via `flutter build windows`
-- Executed Phase 2: Invoicing Heart
-   - Implemented `InvoiceRepository` with nested relational inserts handling Drift transactions.
-   - Implemented `GSTCalculator` and `IndianAmountWords`.
-   - Created `InvoicesScreen` Dashboard with an optimized DataTable view.
-   - Built `NewInvoiceScreen` with complex dynamic row manipulation and real-time computation of GST and limits.
-   - Connected `pdf` and `printing` packages to native platform dialogues to output complex A4 structured invoices with `InvoicePdfGenerator`.
+- Executed Phase 3: Billing Management
+   - Added `SummaryBills` and `SummaryBillInvoices` tables to Drift schema.
+   - Built `SummaryBillRepository` with transactional inserts and status transitions.
+   - Created `SummaryBillsScreen` dashboard with DataTable2.
+   - Built `NewSummaryBillScreen` with company/date filtering and invoice selection.
+   - Implemented `SummaryPdfGenerator` for consolidated PDF output.
 
 ## Current Position
-- **Phase**: 3 (Billing Management)
-- **Task**: Planning complete
-- **Status**: Ready for execution
+- **Phase**: 4 (Payments & Distribution)
+- **Task**: Not started
+- **Status**: Pending `/plan 4`
 
 ## Next Steps
-1. `/execute 3`
+1. `/plan 4`

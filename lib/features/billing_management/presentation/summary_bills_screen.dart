@@ -2,9 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:data_table_2/data_table_2.dart';
 import 'package:intl/intl.dart';
+import 'package:printing/printing.dart';
+import 'package:pdf/pdf.dart';
 
 import '../../../core/constants/app_theme.dart';
 import '../data/summary_bill_repository.dart';
+import '../../pdf_excel/domain/summary_pdf_generator.dart';
 import 'new_summary_bill_screen.dart';
 
 class SummaryBillsScreen extends ConsumerWidget {
@@ -89,8 +92,16 @@ class SummaryBillsScreen extends ConsumerWidget {
                               children: [
                                 IconButton(
                                   icon: const Icon(Icons.print, size: 20, color: AppTheme.textSecondary),
-                                  onPressed: () {
-                                    // Implementation for Wave 4
+                                  onPressed: () async {
+                                    final repo = ref.read(summaryBillRepositoryProvider);
+                                    final fullData = await repo.getSummaryBillWithInvoices(summary.id);
+                                    if (fullData != null) {
+                                      final pdfBytes = await SummaryPdfGenerator.generate(fullData);
+                                      await Printing.layoutPdf(
+                                        onLayout: (PdfPageFormat format) async => pdfBytes,
+                                        name: 'Summary_${summary.summaryNumber ?? summary.id}',
+                                      );
+                                    }
                                   },
                                   tooltip: 'Print PDF',
                                 ),
