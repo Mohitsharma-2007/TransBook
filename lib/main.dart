@@ -7,6 +7,7 @@ import 'features/invoicing/presentation/invoices_screen.dart';
 import 'features/billing_management/presentation/summary_bills_screen.dart';
 import 'features/payment_distribution/presentation/payments_screen.dart';
 import 'features/reminders/presentation/reminders_screen.dart';
+import 'features/record_book/presentation/record_book_screen.dart';
 import 'features/ai/presentation/ai_sidebar.dart';
 import 'core/constants/app_theme.dart';
 
@@ -44,6 +45,7 @@ class _MainShellState extends State<MainShell> {
     const SummaryBillsScreen(),
     const PaymentsScreen(),
     const RemindersScreen(),
+    const RecordBookScreen(),
     const CompaniesScreen(),
     const VehiclesScreen(),
     const RateCardScreen(),
@@ -79,10 +81,11 @@ class _MainShellState extends State<MainShell> {
                 _NavItem(Icons.summarize, 'Summary Bills', selected: _selectedIndex == 1, onTap: () => setState(() => _selectedIndex = 1)),
                 _NavItem(Icons.payments, 'Payments', selected: _selectedIndex == 2, onTap: () => setState(() => _selectedIndex = 2)),
                 _NavItem(Icons.notifications_active, 'Reminders', selected: _selectedIndex == 3, onTap: () => setState(() => _selectedIndex = 3)),
+                _NavItem(Icons.menu_book, 'Record Book', selected: _selectedIndex == 4, onTap: () => setState(() => _selectedIndex = 4)),
                 _NavHeader('Master Data'),
-                _NavItem(Icons.business, 'Companies', selected: _selectedIndex == 4, onTap: () => setState(() => _selectedIndex = 4)),
-                _NavItem(Icons.local_shipping, 'Vehicles', selected: _selectedIndex == 5, onTap: () => setState(() => _selectedIndex = 5)),
-                _NavItem(Icons.monetization_on, 'Rate Cards', selected: _selectedIndex == 6, onTap: () => setState(() => _selectedIndex = 6)),
+                _NavItem(Icons.business, 'Companies', selected: _selectedIndex == 5, onTap: () => setState(() => _selectedIndex = 5)),
+                _NavItem(Icons.local_shipping, 'Vehicles', selected: _selectedIndex == 6, onTap: () => setState(() => _selectedIndex = 6)),
+                _NavItem(Icons.monetization_on, 'Rate Cards', selected: _selectedIndex == 7, onTap: () => setState(() => _selectedIndex = 7)),
               ],
             ),
           ),
