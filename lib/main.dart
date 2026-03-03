@@ -6,6 +6,7 @@ import 'features/master_data/presentation/rate_card_screen.dart';
 import 'features/invoicing/presentation/invoices_screen.dart';
 import 'features/billing_management/presentation/summary_bills_screen.dart';
 import 'features/payment_distribution/presentation/payments_screen.dart';
+import 'features/ai/presentation/ai_sidebar.dart';
 import 'core/constants/app_theme.dart';
 
 void main() {
@@ -54,9 +55,15 @@ class _MainShellState extends State<MainShell> {
         actions: [
           IconButton(icon: const Icon(Icons.search), onPressed: () {}),
           IconButton(icon: const Icon(Icons.notifications), onPressed: () {}),
+          IconButton(
+            icon: const Icon(Icons.smart_toy),
+            tooltip: 'AI Assistant',
+            onPressed: () => Scaffold.of(context).openEndDrawer(),
+          ),
           IconButton(icon: const Icon(Icons.person), onPressed: () {}),
         ],
       ),
+      endDrawer: const AISidebar(),
       body: Row(
         children: [
           // Left Navigation

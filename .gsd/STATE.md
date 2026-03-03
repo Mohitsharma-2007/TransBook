@@ -15,16 +15,18 @@
    - Vehicles (List + Add/Edit Dialog)
    - Rate Cards (List + Add/Edit Dialog)
 - Compiled application successfully via `flutter build windows`
-- Executed Phase 4: Payments & Distribution
-   - Added `Payments` and `PartnerDistributions` tables.
-   - Built `PaymentRepository` with auto-PAID status transition.
-   - Implemented `TDSDistributor` and `PaymentDistributor` engines.
-   - Created `PaymentsScreen` ledger and `RecordPaymentDialog`.
+- Executed Phase 5: Cloud, Email & AI
+   - Built `OpenRouterClient` with 4-model fallback chain.
+   - Built `AIContextBuilder` for invoice/global context prompts.
+   - Added `SyncQueue` table and `GoogleDriveService` skeleton.
+   - Built `GmailService` with MIME + PDF attachment construction.
+   - Created `AIEmailGenerator` for AI-powered email drafts.
+   - Built `AISidebar` chat panel as endDrawer in main shell.
 
 ## Current Position
-- **Phase**: 5 (Cloud, Email & AI)
-- **Task**: Planning complete
-- **Status**: Ready for execution
+- **Phase**: 6 (Polish & Installer)
+- **Task**: Not started
+- **Status**: Pending `/plan 6`
 
 ## Next Steps
-1. `/execute 5`
+1. `/plan 6`
