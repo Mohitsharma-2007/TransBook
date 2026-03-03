@@ -1,3 +1,4 @@
+import 'package:drift/drift.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../../../core/database/database.dart';
@@ -31,52 +32,46 @@ class TDSDistributor {
     required String periodTo,
     int? companyId,
   }) async {
-    // 1. Fetch invoice rows in the period, joined with invoices for date + company filter
-    var query = _db.select(_db.invoiceRows).join([
-      innerJoin(_db.invoices, _db.invoices.id.equalsExp(_db.invoiceRows.invoiceId)),
-    ]);
-
-    query.where(
-      _db.invoices.invoiceDate.isBiggerOrEqualValue(periodFrom) &
-      _db.invoices.invoiceDate.isSmallerOrEqualValue(periodTo),
-    );
-
+    // 1. Get invoices in period
+    var invoiceQuery = _db.select(_db.invoices)
+      ..where((tbl) =>
+          tbl.invoiceDate.isBiggerOrEqualValue(periodFrom) &
+          tbl.invoiceDate.isSmallerOrEqualValue(periodTo));
     if (companyId != null) {
-      query.where(_db.invoices.companyId.equals(companyId));
+      invoiceQuery = _db.select(_db.invoices)
+        ..where((tbl) =>
+            tbl.invoiceDate.isBiggerOrEqualValue(periodFrom) &
+            tbl.invoiceDate.isSmallerOrEqualValue(periodTo) &
+            tbl.companyId.equals(companyId));
     }
+    final invoices = await invoiceQuery.get();
+    final invoiceIds = invoices.map((i) => i.id).toList();
+    if (invoiceIds.isEmpty) return [];
 
-    final rows = await query.get();
+    // 2. Fetch invoice rows for those invoices
+    final invoiceRows = await (_db.select(_db.invoiceRows)
+          ..where((tbl) => tbl.invoiceId.isIn(invoiceIds)))
+        .get();
 
-    // 2. Group by vehicleId / vehicleNoText
+    // 3. Group by vehicleId / vehicleNoText
     final Map<String, _VehicleAccum> vehicleMap = {};
-
-    for (final row in rows) {
-      final invoiceRow = row.readTable(_db.invoiceRows);
-      final key = invoiceRow.vehicleNoText ?? 'Vehicle-${invoiceRow.vehicleId ?? 0}';
-
+    for (final row in invoiceRows) {
+      final key = row.vehicleNoText ?? 'Vehicle-${row.vehicleId ?? 0}';
       vehicleMap.putIfAbsent(key, () => _VehicleAccum(
-        vehicleId: invoiceRow.vehicleId,
+        vehicleId: row.vehicleId,
         vehicleNo: key,
       ));
       vehicleMap[key]!.tripCount++;
-      vehicleMap[key]!.freightTotal += invoiceRow.freightCharge;
+      vehicleMap[key]!.freightTotal += row.freightCharge;
     }
 
-    // 3. Get total TDS deducted from payments in the period
-    final paymentsQuery = _db.select(_db.payments).join([
-      innerJoin(_db.invoices, _db.invoices.id.equalsExp(_db.payments.invoiceId)),
-    ]);
-    paymentsQuery.where(
-      _db.payments.paymentDate.isBiggerOrEqualValue(periodFrom) &
-      _db.payments.paymentDate.isSmallerOrEqualValue(periodTo),
-    );
-    if (companyId != null) {
-      paymentsQuery.where(_db.invoices.companyId.equals(companyId));
-    }
-    final paymentRows = await paymentsQuery.get();
+    // 4. Get total TDS from payments linked to these invoices
+    final payments = await (_db.select(_db.payments)
+          ..where((tbl) => tbl.invoiceId.isIn(invoiceIds)))
+        .get();
     double totalTDS = 0;
-    for (final pr in paymentRows) {
-      totalTDS += pr.readTable(_db.payments).tdsDeducted;
+    for (final p in payments) {
+      totalTDS += p.tdsDeducted;
     }
 
     // 4. Distribute proportionally

@@ -5,6 +5,7 @@ import 'features/master_data/presentation/vehicles_screen.dart';
 import 'features/master_data/presentation/rate_card_screen.dart';
 import 'features/invoicing/presentation/invoices_screen.dart';
 import 'features/billing_management/presentation/summary_bills_screen.dart';
+import 'features/payment_distribution/presentation/payments_screen.dart';
 import 'core/constants/app_theme.dart';
 
 void main() {
@@ -39,6 +40,7 @@ class _MainShellState extends State<MainShell> {
   final List<Widget> _screens = [
     const InvoicesScreen(),
     const SummaryBillsScreen(),
+    const PaymentsScreen(),
     const CompaniesScreen(),
     const VehiclesScreen(),
     const RateCardScreen(),
@@ -66,10 +68,11 @@ class _MainShellState extends State<MainShell> {
                 _NavHeader('Start'),
                 _NavItem(Icons.dashboard, 'Dashboard', selected: _selectedIndex == 0, onTap: () => setState(() => _selectedIndex = 0)),
                 _NavItem(Icons.summarize, 'Summary Bills', selected: _selectedIndex == 1, onTap: () => setState(() => _selectedIndex = 1)),
+                _NavItem(Icons.payments, 'Payments', selected: _selectedIndex == 2, onTap: () => setState(() => _selectedIndex = 2)),
                 _NavHeader('Master Data'),
-                _NavItem(Icons.business, 'Companies', selected: _selectedIndex == 2, onTap: () => setState(() => _selectedIndex = 2)),
-                _NavItem(Icons.local_shipping, 'Vehicles', selected: _selectedIndex == 3, onTap: () => setState(() => _selectedIndex = 3)),
-                _NavItem(Icons.monetization_on, 'Rate Cards', selected: _selectedIndex == 4, onTap: () => setState(() => _selectedIndex = 4)),
+                _NavItem(Icons.business, 'Companies', selected: _selectedIndex == 3, onTap: () => setState(() => _selectedIndex = 3)),
+                _NavItem(Icons.local_shipping, 'Vehicles', selected: _selectedIndex == 4, onTap: () => setState(() => _selectedIndex = 4)),
+                _NavItem(Icons.monetization_on, 'Rate Cards', selected: _selectedIndex == 5, onTap: () => setState(() => _selectedIndex = 5)),
               ],
             ),
           ),

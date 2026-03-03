@@ -15,17 +15,16 @@
    - Vehicles (List + Add/Edit Dialog)
    - Rate Cards (List + Add/Edit Dialog)
 - Compiled application successfully via `flutter build windows`
-- Executed Phase 3: Billing Management
-   - Added `SummaryBills` and `SummaryBillInvoices` tables to Drift schema.
-   - Built `SummaryBillRepository` with transactional inserts and status transitions.
-   - Created `SummaryBillsScreen` dashboard with DataTable2.
-   - Built `NewSummaryBillScreen` with company/date filtering and invoice selection.
-   - Implemented `SummaryPdfGenerator` for consolidated PDF output.
+- Executed Phase 4: Payments & Distribution
+   - Added `Payments` and `PartnerDistributions` tables.
+   - Built `PaymentRepository` with auto-PAID status transition.
+   - Implemented `TDSDistributor` and `PaymentDistributor` engines.
+   - Created `PaymentsScreen` ledger and `RecordPaymentDialog`.
 
 ## Current Position
-- **Phase**: 4 (Payments & Distribution)
-- **Task**: Planning complete
-- **Status**: Ready for execution
+- **Phase**: 5 (Cloud, Email & AI)
+- **Task**: Not started
+- **Status**: Pending `/plan 5`
 
 ## Next Steps
-1. `/execute 4`
+1. `/plan 5`
