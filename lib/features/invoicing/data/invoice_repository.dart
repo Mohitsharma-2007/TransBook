@@ -87,6 +87,16 @@ class InvoiceRepository {
       return updated;
     });
   }
+
+  Future<List<Invoice>> getDraftInvoicesForCompany(int companyId, String fromDate, String toDate) {
+    return (_db.select(_db.invoices)
+          ..where((tbl) =>
+              tbl.companyId.equals(companyId) &
+              tbl.status.equals('DRAFT') &
+              tbl.invoiceDate.isBiggerOrEqualValue(fromDate) &
+              tbl.invoiceDate.isSmallerOrEqualValue(toDate)))
+        .get();
+  }
 }
 
 @riverpod
