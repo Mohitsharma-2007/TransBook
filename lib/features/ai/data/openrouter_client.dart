@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'openrouter_client.g.dart';
 
@@ -15,6 +16,7 @@ class OpenRouterClient {
 
   final Dio _dio;
   String? _apiKey;
+  bool _initialized = false;
 
   final List<AIModel> modelPriority = [
     AIModel('openai/gpt-4o', rateLimit: 200),
@@ -29,11 +31,20 @@ class OpenRouterClient {
 
   void setApiKey(String key) {
     _apiKey = key;
+    _initialized = true;
   }
 
   bool get isConfigured => _apiKey != null && _apiKey!.isNotEmpty;
 
-  Future<String> chat(List<Map<String, String>> messages, {String? preferredModel}) async {
+  Future<void> init() async {
+    if (_initialized) return;
+    final prefs = await SharedPreferences.getInstance();
+    _apiKey = prefs.getString('openrouter_api_key');
+    _initialized = true;
+  }
+
+  Future<String> chat(List<Map<String, dynamic>> messages, {String? preferredModel}) async {
+    await init();
     if (!isConfigured) {
       return 'AI is not configured. Please set your OpenRouter API key in Settings.';
     }
@@ -45,7 +56,7 @@ class OpenRouterClient {
     for (final model in models) {
       try {
         final response = await _callModel(model.id, messages);
-        return response;
+        return response['content'] as String? ?? '';
       } on DioException catch (e) {
         if (e.response?.statusCode == 429 || e.response?.statusCode == 402) {
           // Rate limit or quota exceeded — try next model
@@ -58,7 +69,48 @@ class OpenRouterClient {
     return 'All AI models are currently unavailable. Please try again later.';
   }
 
-  Future<String> _callModel(String modelId, List<Map<String, String>> messages) async {
+  Future<Map<String, dynamic>> chatWithTools(
+    List<Map<String, dynamic>> messages,
+    List<Map<String, dynamic>> tools, {
+    String? preferredModel,
+  }) async {
+    await init();
+    if (!isConfigured) {
+      return {'content': 'AI is not configured. Please set your OpenRouter API key in Settings.'};
+    }
+
+    final models = preferredModel != null ? [AIModel(preferredModel), ...modelPriority] : modelPriority;
+
+    for (final model in models) {
+      try {
+        return await _callModel(model.id, messages, tools: tools);
+      } on DioException catch (e) {
+        if (e.response?.statusCode == 429 || e.response?.statusCode == 402) {
+          continue;
+        }
+        rethrow;
+      }
+    }
+
+    return {'content': 'All AI models are currently unavailable. Please try again later.'};
+  }
+
+  Future<Map<String, dynamic>> _callModel(
+    String modelId,
+    List<Map<String, dynamic>> messages, {
+    List<Map<String, dynamic>>? tools,
+  }) async {
+    final payload = {
+      'model': modelId,
+      'messages': messages,
+      'max_tokens': 2048,
+    };
+
+    if (tools != null && tools.isNotEmpty) {
+      payload['tools'] = tools;
+      payload['tool_choice'] = 'auto';
+    }
+
     final response = await _dio.post(
       _baseUrl,
       options: Options(
@@ -78,9 +130,9 @@ class OpenRouterClient {
 
     final data = response.data;
     if (data is Map && data['choices'] is List && (data['choices'] as List).isNotEmpty) {
-      return data['choices'][0]['message']['content'] as String? ?? '';
+      return data['choices'][0]['message'] as Map<String, dynamic>;
     }
-    return '';
+    return {'content': ''};
   }
 }
 

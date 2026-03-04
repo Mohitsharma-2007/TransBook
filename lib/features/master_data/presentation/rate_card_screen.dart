@@ -128,9 +128,25 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
                             DataCell(Text('₹${rate.rateAmount.toStringAsFixed(2)}')),
                             DataCell(
                               IconButton(
-                                icon: const Icon(Icons.delete, size: 18, color: AppTheme.statusOverdue),
-                                onPressed: () {
-                                  ref.read(rateCardRepositoryProvider).deleteRate(rate.id);
+                                icon: const Icon(Icons.delete_outline, size: 18, color: AppTheme.errorColor),
+                                onPressed: () async {
+                                  final confirm = await showDialog<bool>(
+                                    context: context,
+                                    builder: (ctx) => AlertDialog(
+                                      title: const Text('Delete Rate?'),
+                                      content: Text('Are you sure you want to delete the rate to ${rate.unloadingPlace}?'),
+                                      actions: [
+                                        TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                                        TextButton(
+                                          onPressed: () => Navigator.pop(ctx, true), 
+                                          child: const Text('Delete', style: TextStyle(color: AppTheme.errorColor))
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                  if (confirm == true) {
+                                    ref.read(rateCardRepositoryProvider).deleteRate(rate.id);
+                                  }
                                 },
                                 tooltip: 'Delete',
                                 splashRadius: 20,

@@ -74,12 +74,40 @@ class VehiclesScreen extends ConsumerWidget {
                           DataCell(Text(vehicle.vehicleType ?? '-')),
                           DataCell(Text(vehicle.isActive == 1 ? 'Active' : 'Inactive')),
                           DataCell(
-                            IconButton(
-                              icon: const Icon(Icons.edit, size: 18, color: AppTheme.textSecondary),
-                              onPressed: () {},
-                              tooltip: 'Edit',
-                              splashRadius: 20,
-                            ),
+                            Row(
+                              children: [
+                                IconButton(
+                                  icon: const Icon(Icons.edit, size: 18, color: AppTheme.textSecondary),
+                                  onPressed: () {},
+                                  tooltip: 'Edit',
+                                  splashRadius: 20,
+                                ),
+                                IconButton(
+                                  icon: const Icon(Icons.delete_outline, size: 18, color: AppTheme.errorColor),
+                                  onPressed: () async {
+                                    final confirm = await showDialog<bool>(
+                                      context: context,
+                                      builder: (ctx) => AlertDialog(
+                                        title: const Text('Delete Vehicle?'),
+                                        content: Text('Are you sure you want to delete ${vehicle.vehicleNo}?'),
+                                        actions: [
+                                          TextButton(onPressed: () => Navigator.pop(ctx, false), child: const Text('Cancel')),
+                                          TextButton(
+                                            onPressed: () => Navigator.pop(ctx, true), 
+                                            child: const Text('Delete', style: TextStyle(color: AppTheme.errorColor))
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                    if (confirm == true) {
+                                      await ref.read(vehicleRepositoryProvider).deleteVehicle(vehicle.id);
+                                    }
+                                  },
+                                  tooltip: 'Delete',
+                                  splashRadius: 20,
+                                ),
+                              ]
+                            )
                           ),
                         ],
                       );

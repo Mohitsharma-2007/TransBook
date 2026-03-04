@@ -6,7 +6,7 @@ part of 'gmail_service.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$gmailServiceHash() => r'806748eb0790df359c974295060a3f5807e87816';
+String _$gmailServiceHash() => r'98fdb4612249457bff9351e3ca0f2b40902cada5';
 
 /// See also [gmailService].
 @ProviderFor(gmailService)

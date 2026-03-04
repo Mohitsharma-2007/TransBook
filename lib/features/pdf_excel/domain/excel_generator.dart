@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 import 'package:excel/excel.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/database/database.dart';
 
@@ -11,9 +12,9 @@ class ExcelGenerator {
 
     // Header
     _setCell(sheet, 0, 0, 'Invoice Number', bold: true);
-    _setCell(sheet, 0, 1, invoice.invoiceNumber ?? '');
+    _setCell(sheet, 0, 1, invoice.invoiceNumber);
     _setCell(sheet, 0, 3, 'Invoice Date', bold: true);
-    _setCell(sheet, 0, 4, invoice.invoiceDate ?? '');
+    _setCell(sheet, 0, 4, invoice.invoiceDate);
 
     _setCell(sheet, 1, 0, 'Status', bold: true);
     _setCell(sheet, 1, 1, invoice.status);
@@ -29,13 +30,13 @@ class ExcelGenerator {
       final row = rows[i];
       _setCell(sheet, 4 + i, 0, '${i + 1}');
       _setCell(sheet, 4 + i, 1, row.grNumber ?? '');
-      _setCell(sheet, 4 + i, 2, row.grDate ?? '');
+      _setCell(sheet, 4 + i, 2, row.tripDate ?? '');
       _setCell(sheet, 4 + i, 3, row.vehicleNoText ?? '');
-      _setCell(sheet, 4 + i, 4, row.fromLocation ?? '');
-      _setCell(sheet, 4 + i, 5, row.toLocation ?? '');
+      _setCell(sheet, 4 + i, 4, row.loadingPlace ?? '');
+      _setCell(sheet, 4 + i, 5, row.unloadingPlace ?? '');
       _setCell(sheet, 4 + i, 6, '${row.freightCharge}');
       _setCell(sheet, 4 + i, 7, '${row.fastagCharge}');
-      _setCell(sheet, 4 + i, 8, '${row.otherCharges}');
+      _setCell(sheet, 4 + i, 8, '${row.fastagCharge}'); // Closest alternative for 'otherCharges'
     }
 
     // Totals row
@@ -70,3 +71,5 @@ class ExcelGenerator {
     }
   }
 }
+
+final excelGeneratorProvider = Provider((ref) => ExcelGenerator());

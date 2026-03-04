@@ -227,3 +227,33 @@ class AuditLog extends Table {
   TextColumn get userNote => text().nullable()();
   TextColumn get createdAt => text().nullable()();
 }
+
+@DataClassName('Label')
+class Labels extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text()();
+  TextColumn get colorHex => text()();
+  TextColumn get entityType => text().nullable()(); // ALL, COMPANY, INVOICE
+  TextColumn get createdAt => text().nullable()();
+}
+
+@DataClassName('EmailThread')
+class EmailThreads extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get threadId => text().unique()(); // Gmail Thread ID
+  IntColumn get invoiceId => integer().nullable().references(Invoices, #id)();
+  TextColumn get subject => text()();
+  TextColumn get lastSnippet => text().nullable()();
+  TextColumn get status => text().withDefault(const Constant('SENT'))(); // SENT, REPLIED, ERROR
+  TextColumn get lastMessageDate => text().nullable()();
+  TextColumn get participantEmail => text().nullable()();
+}
+
+@DataClassName('InvoiceLabel')
+class InvoiceLabels extends Table {
+  IntColumn get invoiceId => integer().references(Invoices, #id)();
+  IntColumn get labelId => integer().references(Labels, #id)();
+
+  @override
+  Set<Column> get primaryKey => {invoiceId, labelId};
+}

@@ -12,7 +12,8 @@ import '../domain/gst_calculator.dart';
 import '../../../core/utils/amount_in_words.dart';
 
 class NewInvoiceScreen extends ConsumerStatefulWidget {
-  const NewInvoiceScreen({super.key});
+  final int? existingInvoiceId;
+  const NewInvoiceScreen({super.key, this.existingInvoiceId});
 
   @override
   ConsumerState<NewInvoiceScreen> createState() => _NewInvoiceScreenState();
@@ -40,8 +41,41 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
   @override
   void initState() {
     super.initState();
-    _dateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
-    _addRow();
+    if (widget.existingInvoiceId != null) {
+      _loadExistingInvoice();
+    } else {
+      _dateController.text = DateFormat('yyyy-MM-dd').format(DateTime.now());
+      _addRow();
+    }
+  }
+
+  Future<void> _loadExistingInvoice() async {
+    final repo = ref.read(invoiceRepositoryProvider);
+    final data = await repo.getInvoiceWithRows(widget.existingInvoiceId!);
+    if (data == null) return;
+    
+    _invoiceNoController.text = data.invoice.invoiceNumber;
+    _dateController.text = data.invoice.invoiceDate;
+    
+    // Rows
+    for (var r in data.rows) {
+      final newRow = InvoiceRowData(onAmountChanged: _recalculateTotals);
+      newRow.dateController.text = r.tripDate ?? '';
+      newRow.grNoController.text = r.grNumber ?? '';
+      newRow.vehicleController.text = r.vehicleNoText ?? '';
+      newRow.loadingController.text = r.loadingPlace ?? '';
+      newRow.unloadingController.text = r.unloadingPlace ?? '';
+      newRow.freightController.text = r.freightCharge > 0 ? r.freightCharge.toString() : '';
+      newRow.fastagController.text = r.fastagCharge > 0 ? r.fastagCharge.toString() : '';
+      _rows.add(newRow);
+    }
+    
+    if (_rows.isEmpty) { _addRow(); }
+    
+    setState(() {
+      _selectedCompany = data.company;
+      _recalculateTotals();
+    });
   }
 
   @override
@@ -103,8 +137,8 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
 
     final repo = ref.read(invoiceRepositoryProvider);
 
-    // Build main Companion
     final invoiceCompanion = InvoicesCompanion(
+      id: widget.existingInvoiceId != null ? drift.Value(widget.existingInvoiceId!) : const drift.Value.absent(),
       invoiceNumber: drift.Value(_invoiceNoController.text),
       invoiceDate: drift.Value(_dateController.text),
       companyId: drift.Value(_selectedCompany!.id),
@@ -141,10 +175,17 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
     }).toList();
 
     try {
-      await repo.insertInvoiceWithRows(invoiceCompanion, rowCompanions);
+      if (widget.existingInvoiceId != null) {
+        await repo.updateInvoiceWithRows(invoiceCompanion, rowCompanions, widget.existingInvoiceId!);
+      } else {
+        await repo.insertInvoiceWithRows(invoiceCompanion, rowCompanions);
+      }
+      
       if (mounted) {
         Navigator.of(context).pop(); // Go back to dashboard on success
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Invoice created successfully')));
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(widget.existingInvoiceId != null ? 'Invoice updated successfully' : 'Invoice created successfully')
+        ));
       }
     } catch (e) {
       if (mounted) {
@@ -159,12 +200,12 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('New Invoice'),
+        title: Text(widget.existingInvoiceId != null ? 'Edit Invoice' : 'New Invoice'),
         actions: [
           TextButton.icon(
             onPressed: _saveInvoice,
             icon: const Icon(Icons.save, color: AppTheme.brandPrimary),
-            label: const Text('Save Draft', style: TextStyle(color: AppTheme.brandPrimary)),
+            label: Text(widget.existingInvoiceId != null ? 'Update Invoice' : 'Save Draft', style: const TextStyle(color: AppTheme.brandPrimary)),
           ),
           const SizedBox(width: 16),
         ],
@@ -217,6 +258,7 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: _invoiceNoController,
+                          textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             labelText: 'Invoice Number',
                             border: OutlineInputBorder(),
@@ -228,6 +270,7 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
                       Expanded(
                         child: TextFormField(
                           controller: _dateController,
+                          textInputAction: TextInputAction.next,
                           decoration: const InputDecoration(
                             labelText: 'Invoice Date (YYYY-MM-DD)',
                             border: OutlineInputBorder(),
@@ -333,6 +376,7 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
   Widget _buildTextField(TextEditingController controller, String label) {
     return TextFormField(
       controller: controller,
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         labelText: label,
         isDense: true,
@@ -345,6 +389,7 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
     return TextFormField(
       controller: controller,
       keyboardType: const TextInputType.numberWithOptions(decimal: true),
+      textInputAction: TextInputAction.next,
       decoration: InputDecoration(
         labelText: label,
         isDense: true,

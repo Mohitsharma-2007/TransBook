@@ -44,6 +44,21 @@ class InvoiceRepository {
     });
   }
 
+  Future<List<InvoiceWithCompany>> getAllInvoices() async {
+    final query = _db.select(_db.invoices).join([
+      leftOuterJoin(_db.companies, _db.companies.id.equalsExp(_db.invoices.companyId)),
+    ])..orderBy([OrderingTerm.desc(_db.invoices.invoiceDate)]);
+
+    final rows = await query.get();
+    return rows.map((row) {
+      return InvoiceWithCompany(
+        invoice: row.readTable(_db.invoices),
+        company: row.readTableOrNull(_db.companies),
+      );
+    }).toList();
+  }
+
+
   Future<InvoiceWithRows?> getInvoiceWithRows(int invoiceId) async {
     final invoiceQuery = _db.select(_db.invoices)..where((tbl) => tbl.id.equals(invoiceId));
     final invoice = await invoiceQuery.getSingleOrNull();
@@ -85,6 +100,13 @@ class InvoiceRepository {
       }
       
       return updated;
+    });
+  }
+
+  Future<void> deleteInvoice(int invoiceId) async {
+    return await _db.transaction(() async {
+      await (_db.delete(_db.invoiceRows)..where((tbl) => tbl.invoiceId.equals(invoiceId))).go();
+      await (_db.delete(_db.invoices)..where((tbl) => tbl.id.equals(invoiceId))).go();
     });
   }
 

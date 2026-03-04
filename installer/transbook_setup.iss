@@ -12,7 +12,7 @@ OutputDir=..\dist
 OutputBaseFilename=TransBook_Setup_v1.0.0
 Compression=lzma2/ultra64
 SolidCompression=yes
-SetupIconFile=..\assets\app_icon.ico
+SetupIconFile=..\windows\runner\resources\app_icon.ico
 MinVersion=10.0.19041
 ArchitecturesAllowed=x64compatible
 ArchitecturesInstallIn64BitMode=x64compatible
@@ -27,7 +27,7 @@ Source: "..\build\windows\x64\runner\Release\*"; DestDir: "{app}"; Flags: recurs
 
 [Icons]
 Name: "{group}\Trans Book"; Filename: "{app}\trans_book.exe"
-Name: "{commondesktop}\Trans Book"; Filename: "{app}\trans_book.exe"; Tasks: desktopicon
+Name: "{userdesktop}\Trans Book"; Filename: "{app}\trans_book.exe"; Tasks: desktopicon
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional icons:"

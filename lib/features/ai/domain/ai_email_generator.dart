@@ -38,6 +38,28 @@ Return ONLY the HTML content, no explanation.''',
     final response = await _client.chat(messages);
     return response;
   }
+
+  /// Generate an AI reply based on the email thread context.
+  Future<String> generateEmailReply(String threadContext, String subject) async {
+    final messages = [
+      {
+        'role': 'system',
+        'content': '''You are a professional business assistant. 
+Analyze the provided email thread context and suggest a professional, concise, and helpful reply.
+Maintain the subject: $subject
+Tone: Professional, solution-oriented, and courteous.
+Return the reply in HTML format.
+Return ONLY the HTML content, no explanation.''',
+      },
+      {
+        'role': 'user',
+        'content': 'Here is the current email thread history:\n\n$threadContext\n\nPlease suggest a professional reply.',
+      },
+    ];
+
+    final response = await _client.chat(messages);
+    return response;
+  }
 }
 
 @riverpod

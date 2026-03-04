@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/constants/app_theme.dart';
-import '../data/openrouter_client.dart';
 import '../domain/ai_context_builder.dart';
+import '../domain/ai_agent.dart';
 import '../../../core/di/database_provider.dart';
 
 class AISidebar extends ConsumerStatefulWidget {
@@ -38,18 +38,18 @@ class _AISidebarState extends ConsumerState<AISidebar> {
     _scrollToBottom();
 
     try {
-      final client = ref.read(openRouterClientProvider);
+      final agent = ref.read(aiAgentProvider);
       final db = ref.read(appDatabaseProvider);
       final invoices = await db.select(db.invoices).get();
       final contextBuilder = AIContextBuilder();
       final globalContext = contextBuilder.buildGlobalContext(invoices);
 
-      final chatMessages = [
-        {'role': 'system', 'content': globalContext},
+      final chatMessages = <Map<String, dynamic>>[
+        {'role': 'system', 'content': '$globalContext\nYou are a helpful AI agent. Use tools when needed to fetch details or draft emails.'},
         ..._messages.map((m) => {'role': m.role, 'content': m.content}),
       ];
 
-      final response = await client.chat(chatMessages);
+      final response = await agent.processMessage(chatMessages);
 
       setState(() {
         _messages.add(_ChatMessage(role: 'assistant', content: response));

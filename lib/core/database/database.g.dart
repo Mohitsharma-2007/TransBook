@@ -10117,6 +10117,1107 @@ class AuditLogCompanion extends UpdateCompanion<AuditLogEntry> {
   }
 }
 
+class $LabelsTable extends Labels with TableInfo<$LabelsTable, Label> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $LabelsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+    'name',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _colorHexMeta = const VerificationMeta(
+    'colorHex',
+  );
+  @override
+  late final GeneratedColumn<String> colorHex = GeneratedColumn<String>(
+    'color_hex',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _entityTypeMeta = const VerificationMeta(
+    'entityType',
+  );
+  @override
+  late final GeneratedColumn<String> entityType = GeneratedColumn<String>(
+    'entity_type',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _createdAtMeta = const VerificationMeta(
+    'createdAt',
+  );
+  @override
+  late final GeneratedColumn<String> createdAt = GeneratedColumn<String>(
+    'created_at',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    name,
+    colorHex,
+    entityType,
+    createdAt,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'labels';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<Label> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+        _nameMeta,
+        name.isAcceptableOrUnknown(data['name']!, _nameMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('color_hex')) {
+      context.handle(
+        _colorHexMeta,
+        colorHex.isAcceptableOrUnknown(data['color_hex']!, _colorHexMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_colorHexMeta);
+    }
+    if (data.containsKey('entity_type')) {
+      context.handle(
+        _entityTypeMeta,
+        entityType.isAcceptableOrUnknown(data['entity_type']!, _entityTypeMeta),
+      );
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(
+        _createdAtMeta,
+        createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Label map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Label(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      name: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}name'],
+      )!,
+      colorHex: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}color_hex'],
+      )!,
+      entityType: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}entity_type'],
+      ),
+      createdAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}created_at'],
+      ),
+    );
+  }
+
+  @override
+  $LabelsTable createAlias(String alias) {
+    return $LabelsTable(attachedDatabase, alias);
+  }
+}
+
+class Label extends DataClass implements Insertable<Label> {
+  final int id;
+  final String name;
+  final String colorHex;
+  final String? entityType;
+  final String? createdAt;
+  const Label({
+    required this.id,
+    required this.name,
+    required this.colorHex,
+    this.entityType,
+    this.createdAt,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    map['color_hex'] = Variable<String>(colorHex);
+    if (!nullToAbsent || entityType != null) {
+      map['entity_type'] = Variable<String>(entityType);
+    }
+    if (!nullToAbsent || createdAt != null) {
+      map['created_at'] = Variable<String>(createdAt);
+    }
+    return map;
+  }
+
+  LabelsCompanion toCompanion(bool nullToAbsent) {
+    return LabelsCompanion(
+      id: Value(id),
+      name: Value(name),
+      colorHex: Value(colorHex),
+      entityType: entityType == null && nullToAbsent
+          ? const Value.absent()
+          : Value(entityType),
+      createdAt: createdAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(createdAt),
+    );
+  }
+
+  factory Label.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Label(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      colorHex: serializer.fromJson<String>(json['colorHex']),
+      entityType: serializer.fromJson<String?>(json['entityType']),
+      createdAt: serializer.fromJson<String?>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'colorHex': serializer.toJson<String>(colorHex),
+      'entityType': serializer.toJson<String?>(entityType),
+      'createdAt': serializer.toJson<String?>(createdAt),
+    };
+  }
+
+  Label copyWith({
+    int? id,
+    String? name,
+    String? colorHex,
+    Value<String?> entityType = const Value.absent(),
+    Value<String?> createdAt = const Value.absent(),
+  }) => Label(
+    id: id ?? this.id,
+    name: name ?? this.name,
+    colorHex: colorHex ?? this.colorHex,
+    entityType: entityType.present ? entityType.value : this.entityType,
+    createdAt: createdAt.present ? createdAt.value : this.createdAt,
+  );
+  Label copyWithCompanion(LabelsCompanion data) {
+    return Label(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      colorHex: data.colorHex.present ? data.colorHex.value : this.colorHex,
+      entityType: data.entityType.present
+          ? data.entityType.value
+          : this.entityType,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Label(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('colorHex: $colorHex, ')
+          ..write('entityType: $entityType, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, colorHex, entityType, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Label &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.colorHex == this.colorHex &&
+          other.entityType == this.entityType &&
+          other.createdAt == this.createdAt);
+}
+
+class LabelsCompanion extends UpdateCompanion<Label> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String> colorHex;
+  final Value<String?> entityType;
+  final Value<String?> createdAt;
+  const LabelsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.colorHex = const Value.absent(),
+    this.entityType = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  LabelsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    required String colorHex,
+    this.entityType = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  }) : name = Value(name),
+       colorHex = Value(colorHex);
+  static Insertable<Label> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? colorHex,
+    Expression<String>? entityType,
+    Expression<String>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (colorHex != null) 'color_hex': colorHex,
+      if (entityType != null) 'entity_type': entityType,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  LabelsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? name,
+    Value<String>? colorHex,
+    Value<String?>? entityType,
+    Value<String?>? createdAt,
+  }) {
+    return LabelsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      colorHex: colorHex ?? this.colorHex,
+      entityType: entityType ?? this.entityType,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (colorHex.present) {
+      map['color_hex'] = Variable<String>(colorHex.value);
+    }
+    if (entityType.present) {
+      map['entity_type'] = Variable<String>(entityType.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<String>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('LabelsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('colorHex: $colorHex, ')
+          ..write('entityType: $entityType, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $EmailThreadsTable extends EmailThreads
+    with TableInfo<$EmailThreadsTable, EmailThread> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $EmailThreadsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'PRIMARY KEY AUTOINCREMENT',
+    ),
+  );
+  static const VerificationMeta _threadIdMeta = const VerificationMeta(
+    'threadId',
+  );
+  @override
+  late final GeneratedColumn<String> threadId = GeneratedColumn<String>(
+    'thread_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'),
+  );
+  static const VerificationMeta _invoiceIdMeta = const VerificationMeta(
+    'invoiceId',
+  );
+  @override
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+    'invoice_id',
+    aliasedName,
+    true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES invoices (id)',
+    ),
+  );
+  static const VerificationMeta _subjectMeta = const VerificationMeta(
+    'subject',
+  );
+  @override
+  late final GeneratedColumn<String> subject = GeneratedColumn<String>(
+    'subject',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+  );
+  static const VerificationMeta _lastSnippetMeta = const VerificationMeta(
+    'lastSnippet',
+  );
+  @override
+  late final GeneratedColumn<String> lastSnippet = GeneratedColumn<String>(
+    'last_snippet',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _statusMeta = const VerificationMeta('status');
+  @override
+  late final GeneratedColumn<String> status = GeneratedColumn<String>(
+    'status',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+    defaultValue: const Constant('SENT'),
+  );
+  static const VerificationMeta _lastMessageDateMeta = const VerificationMeta(
+    'lastMessageDate',
+  );
+  @override
+  late final GeneratedColumn<String> lastMessageDate = GeneratedColumn<String>(
+    'last_message_date',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  static const VerificationMeta _participantEmailMeta = const VerificationMeta(
+    'participantEmail',
+  );
+  @override
+  late final GeneratedColumn<String> participantEmail = GeneratedColumn<String>(
+    'participant_email',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    threadId,
+    invoiceId,
+    subject,
+    lastSnippet,
+    status,
+    lastMessageDate,
+    participantEmail,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'email_threads';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<EmailThread> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('thread_id')) {
+      context.handle(
+        _threadIdMeta,
+        threadId.isAcceptableOrUnknown(data['thread_id']!, _threadIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_threadIdMeta);
+    }
+    if (data.containsKey('invoice_id')) {
+      context.handle(
+        _invoiceIdMeta,
+        invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta),
+      );
+    }
+    if (data.containsKey('subject')) {
+      context.handle(
+        _subjectMeta,
+        subject.isAcceptableOrUnknown(data['subject']!, _subjectMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_subjectMeta);
+    }
+    if (data.containsKey('last_snippet')) {
+      context.handle(
+        _lastSnippetMeta,
+        lastSnippet.isAcceptableOrUnknown(
+          data['last_snippet']!,
+          _lastSnippetMeta,
+        ),
+      );
+    }
+    if (data.containsKey('status')) {
+      context.handle(
+        _statusMeta,
+        status.isAcceptableOrUnknown(data['status']!, _statusMeta),
+      );
+    }
+    if (data.containsKey('last_message_date')) {
+      context.handle(
+        _lastMessageDateMeta,
+        lastMessageDate.isAcceptableOrUnknown(
+          data['last_message_date']!,
+          _lastMessageDateMeta,
+        ),
+      );
+    }
+    if (data.containsKey('participant_email')) {
+      context.handle(
+        _participantEmailMeta,
+        participantEmail.isAcceptableOrUnknown(
+          data['participant_email']!,
+          _participantEmailMeta,
+        ),
+      );
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  EmailThread map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return EmailThread(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      threadId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}thread_id'],
+      )!,
+      invoiceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}invoice_id'],
+      ),
+      subject: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}subject'],
+      )!,
+      lastSnippet: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_snippet'],
+      ),
+      status: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}status'],
+      )!,
+      lastMessageDate: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}last_message_date'],
+      ),
+      participantEmail: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}participant_email'],
+      ),
+    );
+  }
+
+  @override
+  $EmailThreadsTable createAlias(String alias) {
+    return $EmailThreadsTable(attachedDatabase, alias);
+  }
+}
+
+class EmailThread extends DataClass implements Insertable<EmailThread> {
+  final int id;
+  final String threadId;
+  final int? invoiceId;
+  final String subject;
+  final String? lastSnippet;
+  final String status;
+  final String? lastMessageDate;
+  final String? participantEmail;
+  const EmailThread({
+    required this.id,
+    required this.threadId,
+    this.invoiceId,
+    required this.subject,
+    this.lastSnippet,
+    required this.status,
+    this.lastMessageDate,
+    this.participantEmail,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['thread_id'] = Variable<String>(threadId);
+    if (!nullToAbsent || invoiceId != null) {
+      map['invoice_id'] = Variable<int>(invoiceId);
+    }
+    map['subject'] = Variable<String>(subject);
+    if (!nullToAbsent || lastSnippet != null) {
+      map['last_snippet'] = Variable<String>(lastSnippet);
+    }
+    map['status'] = Variable<String>(status);
+    if (!nullToAbsent || lastMessageDate != null) {
+      map['last_message_date'] = Variable<String>(lastMessageDate);
+    }
+    if (!nullToAbsent || participantEmail != null) {
+      map['participant_email'] = Variable<String>(participantEmail);
+    }
+    return map;
+  }
+
+  EmailThreadsCompanion toCompanion(bool nullToAbsent) {
+    return EmailThreadsCompanion(
+      id: Value(id),
+      threadId: Value(threadId),
+      invoiceId: invoiceId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(invoiceId),
+      subject: Value(subject),
+      lastSnippet: lastSnippet == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastSnippet),
+      status: Value(status),
+      lastMessageDate: lastMessageDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastMessageDate),
+      participantEmail: participantEmail == null && nullToAbsent
+          ? const Value.absent()
+          : Value(participantEmail),
+    );
+  }
+
+  factory EmailThread.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return EmailThread(
+      id: serializer.fromJson<int>(json['id']),
+      threadId: serializer.fromJson<String>(json['threadId']),
+      invoiceId: serializer.fromJson<int?>(json['invoiceId']),
+      subject: serializer.fromJson<String>(json['subject']),
+      lastSnippet: serializer.fromJson<String?>(json['lastSnippet']),
+      status: serializer.fromJson<String>(json['status']),
+      lastMessageDate: serializer.fromJson<String?>(json['lastMessageDate']),
+      participantEmail: serializer.fromJson<String?>(json['participantEmail']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'threadId': serializer.toJson<String>(threadId),
+      'invoiceId': serializer.toJson<int?>(invoiceId),
+      'subject': serializer.toJson<String>(subject),
+      'lastSnippet': serializer.toJson<String?>(lastSnippet),
+      'status': serializer.toJson<String>(status),
+      'lastMessageDate': serializer.toJson<String?>(lastMessageDate),
+      'participantEmail': serializer.toJson<String?>(participantEmail),
+    };
+  }
+
+  EmailThread copyWith({
+    int? id,
+    String? threadId,
+    Value<int?> invoiceId = const Value.absent(),
+    String? subject,
+    Value<String?> lastSnippet = const Value.absent(),
+    String? status,
+    Value<String?> lastMessageDate = const Value.absent(),
+    Value<String?> participantEmail = const Value.absent(),
+  }) => EmailThread(
+    id: id ?? this.id,
+    threadId: threadId ?? this.threadId,
+    invoiceId: invoiceId.present ? invoiceId.value : this.invoiceId,
+    subject: subject ?? this.subject,
+    lastSnippet: lastSnippet.present ? lastSnippet.value : this.lastSnippet,
+    status: status ?? this.status,
+    lastMessageDate: lastMessageDate.present
+        ? lastMessageDate.value
+        : this.lastMessageDate,
+    participantEmail: participantEmail.present
+        ? participantEmail.value
+        : this.participantEmail,
+  );
+  EmailThread copyWithCompanion(EmailThreadsCompanion data) {
+    return EmailThread(
+      id: data.id.present ? data.id.value : this.id,
+      threadId: data.threadId.present ? data.threadId.value : this.threadId,
+      invoiceId: data.invoiceId.present ? data.invoiceId.value : this.invoiceId,
+      subject: data.subject.present ? data.subject.value : this.subject,
+      lastSnippet: data.lastSnippet.present
+          ? data.lastSnippet.value
+          : this.lastSnippet,
+      status: data.status.present ? data.status.value : this.status,
+      lastMessageDate: data.lastMessageDate.present
+          ? data.lastMessageDate.value
+          : this.lastMessageDate,
+      participantEmail: data.participantEmail.present
+          ? data.participantEmail.value
+          : this.participantEmail,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmailThread(')
+          ..write('id: $id, ')
+          ..write('threadId: $threadId, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('subject: $subject, ')
+          ..write('lastSnippet: $lastSnippet, ')
+          ..write('status: $status, ')
+          ..write('lastMessageDate: $lastMessageDate, ')
+          ..write('participantEmail: $participantEmail')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    threadId,
+    invoiceId,
+    subject,
+    lastSnippet,
+    status,
+    lastMessageDate,
+    participantEmail,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is EmailThread &&
+          other.id == this.id &&
+          other.threadId == this.threadId &&
+          other.invoiceId == this.invoiceId &&
+          other.subject == this.subject &&
+          other.lastSnippet == this.lastSnippet &&
+          other.status == this.status &&
+          other.lastMessageDate == this.lastMessageDate &&
+          other.participantEmail == this.participantEmail);
+}
+
+class EmailThreadsCompanion extends UpdateCompanion<EmailThread> {
+  final Value<int> id;
+  final Value<String> threadId;
+  final Value<int?> invoiceId;
+  final Value<String> subject;
+  final Value<String?> lastSnippet;
+  final Value<String> status;
+  final Value<String?> lastMessageDate;
+  final Value<String?> participantEmail;
+  const EmailThreadsCompanion({
+    this.id = const Value.absent(),
+    this.threadId = const Value.absent(),
+    this.invoiceId = const Value.absent(),
+    this.subject = const Value.absent(),
+    this.lastSnippet = const Value.absent(),
+    this.status = const Value.absent(),
+    this.lastMessageDate = const Value.absent(),
+    this.participantEmail = const Value.absent(),
+  });
+  EmailThreadsCompanion.insert({
+    this.id = const Value.absent(),
+    required String threadId,
+    this.invoiceId = const Value.absent(),
+    required String subject,
+    this.lastSnippet = const Value.absent(),
+    this.status = const Value.absent(),
+    this.lastMessageDate = const Value.absent(),
+    this.participantEmail = const Value.absent(),
+  }) : threadId = Value(threadId),
+       subject = Value(subject);
+  static Insertable<EmailThread> custom({
+    Expression<int>? id,
+    Expression<String>? threadId,
+    Expression<int>? invoiceId,
+    Expression<String>? subject,
+    Expression<String>? lastSnippet,
+    Expression<String>? status,
+    Expression<String>? lastMessageDate,
+    Expression<String>? participantEmail,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (threadId != null) 'thread_id': threadId,
+      if (invoiceId != null) 'invoice_id': invoiceId,
+      if (subject != null) 'subject': subject,
+      if (lastSnippet != null) 'last_snippet': lastSnippet,
+      if (status != null) 'status': status,
+      if (lastMessageDate != null) 'last_message_date': lastMessageDate,
+      if (participantEmail != null) 'participant_email': participantEmail,
+    });
+  }
+
+  EmailThreadsCompanion copyWith({
+    Value<int>? id,
+    Value<String>? threadId,
+    Value<int?>? invoiceId,
+    Value<String>? subject,
+    Value<String?>? lastSnippet,
+    Value<String>? status,
+    Value<String?>? lastMessageDate,
+    Value<String?>? participantEmail,
+  }) {
+    return EmailThreadsCompanion(
+      id: id ?? this.id,
+      threadId: threadId ?? this.threadId,
+      invoiceId: invoiceId ?? this.invoiceId,
+      subject: subject ?? this.subject,
+      lastSnippet: lastSnippet ?? this.lastSnippet,
+      status: status ?? this.status,
+      lastMessageDate: lastMessageDate ?? this.lastMessageDate,
+      participantEmail: participantEmail ?? this.participantEmail,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (threadId.present) {
+      map['thread_id'] = Variable<String>(threadId.value);
+    }
+    if (invoiceId.present) {
+      map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (subject.present) {
+      map['subject'] = Variable<String>(subject.value);
+    }
+    if (lastSnippet.present) {
+      map['last_snippet'] = Variable<String>(lastSnippet.value);
+    }
+    if (status.present) {
+      map['status'] = Variable<String>(status.value);
+    }
+    if (lastMessageDate.present) {
+      map['last_message_date'] = Variable<String>(lastMessageDate.value);
+    }
+    if (participantEmail.present) {
+      map['participant_email'] = Variable<String>(participantEmail.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('EmailThreadsCompanion(')
+          ..write('id: $id, ')
+          ..write('threadId: $threadId, ')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('subject: $subject, ')
+          ..write('lastSnippet: $lastSnippet, ')
+          ..write('status: $status, ')
+          ..write('lastMessageDate: $lastMessageDate, ')
+          ..write('participantEmail: $participantEmail')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $InvoiceLabelsTable extends InvoiceLabels
+    with TableInfo<$InvoiceLabelsTable, InvoiceLabel> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $InvoiceLabelsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _invoiceIdMeta = const VerificationMeta(
+    'invoiceId',
+  );
+  @override
+  late final GeneratedColumn<int> invoiceId = GeneratedColumn<int>(
+    'invoice_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES invoices (id)',
+    ),
+  );
+  static const VerificationMeta _labelIdMeta = const VerificationMeta(
+    'labelId',
+  );
+  @override
+  late final GeneratedColumn<int> labelId = GeneratedColumn<int>(
+    'label_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    defaultConstraints: GeneratedColumn.constraintIsAlways(
+      'REFERENCES labels (id)',
+    ),
+  );
+  @override
+  List<GeneratedColumn> get $columns => [invoiceId, labelId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'invoice_labels';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<InvoiceLabel> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('invoice_id')) {
+      context.handle(
+        _invoiceIdMeta,
+        invoiceId.isAcceptableOrUnknown(data['invoice_id']!, _invoiceIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_invoiceIdMeta);
+    }
+    if (data.containsKey('label_id')) {
+      context.handle(
+        _labelIdMeta,
+        labelId.isAcceptableOrUnknown(data['label_id']!, _labelIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_labelIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {invoiceId, labelId};
+  @override
+  InvoiceLabel map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return InvoiceLabel(
+      invoiceId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}invoice_id'],
+      )!,
+      labelId: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}label_id'],
+      )!,
+    );
+  }
+
+  @override
+  $InvoiceLabelsTable createAlias(String alias) {
+    return $InvoiceLabelsTable(attachedDatabase, alias);
+  }
+}
+
+class InvoiceLabel extends DataClass implements Insertable<InvoiceLabel> {
+  final int invoiceId;
+  final int labelId;
+  const InvoiceLabel({required this.invoiceId, required this.labelId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['invoice_id'] = Variable<int>(invoiceId);
+    map['label_id'] = Variable<int>(labelId);
+    return map;
+  }
+
+  InvoiceLabelsCompanion toCompanion(bool nullToAbsent) {
+    return InvoiceLabelsCompanion(
+      invoiceId: Value(invoiceId),
+      labelId: Value(labelId),
+    );
+  }
+
+  factory InvoiceLabel.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return InvoiceLabel(
+      invoiceId: serializer.fromJson<int>(json['invoiceId']),
+      labelId: serializer.fromJson<int>(json['labelId']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'invoiceId': serializer.toJson<int>(invoiceId),
+      'labelId': serializer.toJson<int>(labelId),
+    };
+  }
+
+  InvoiceLabel copyWith({int? invoiceId, int? labelId}) => InvoiceLabel(
+    invoiceId: invoiceId ?? this.invoiceId,
+    labelId: labelId ?? this.labelId,
+  );
+  InvoiceLabel copyWithCompanion(InvoiceLabelsCompanion data) {
+    return InvoiceLabel(
+      invoiceId: data.invoiceId.present ? data.invoiceId.value : this.invoiceId,
+      labelId: data.labelId.present ? data.labelId.value : this.labelId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceLabel(')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('labelId: $labelId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(invoiceId, labelId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is InvoiceLabel &&
+          other.invoiceId == this.invoiceId &&
+          other.labelId == this.labelId);
+}
+
+class InvoiceLabelsCompanion extends UpdateCompanion<InvoiceLabel> {
+  final Value<int> invoiceId;
+  final Value<int> labelId;
+  final Value<int> rowid;
+  const InvoiceLabelsCompanion({
+    this.invoiceId = const Value.absent(),
+    this.labelId = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  InvoiceLabelsCompanion.insert({
+    required int invoiceId,
+    required int labelId,
+    this.rowid = const Value.absent(),
+  }) : invoiceId = Value(invoiceId),
+       labelId = Value(labelId);
+  static Insertable<InvoiceLabel> custom({
+    Expression<int>? invoiceId,
+    Expression<int>? labelId,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (invoiceId != null) 'invoice_id': invoiceId,
+      if (labelId != null) 'label_id': labelId,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  InvoiceLabelsCompanion copyWith({
+    Value<int>? invoiceId,
+    Value<int>? labelId,
+    Value<int>? rowid,
+  }) {
+    return InvoiceLabelsCompanion(
+      invoiceId: invoiceId ?? this.invoiceId,
+      labelId: labelId ?? this.labelId,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (invoiceId.present) {
+      map['invoice_id'] = Variable<int>(invoiceId.value);
+    }
+    if (labelId.present) {
+      map['label_id'] = Variable<int>(labelId.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('InvoiceLabelsCompanion(')
+          ..write('invoiceId: $invoiceId, ')
+          ..write('labelId: $labelId, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -10139,6 +11240,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $RemindersTable reminders = $RemindersTable(this);
   late final $EmailLogsTable emailLogs = $EmailLogsTable(this);
   late final $AuditLogTable auditLog = $AuditLogTable(this);
+  late final $LabelsTable labels = $LabelsTable(this);
+  late final $EmailThreadsTable emailThreads = $EmailThreadsTable(this);
+  late final $InvoiceLabelsTable invoiceLabels = $InvoiceLabelsTable(this);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -10159,6 +11263,9 @@ abstract class _$AppDatabase extends GeneratedDatabase {
     reminders,
     emailLogs,
     auditLog,
+    labels,
+    emailThreads,
+    invoiceLabels,
   ];
 }
 
@@ -12909,6 +14016,42 @@ final class $$InvoicesTableReferences
       manager.$state.copyWith(prefetchedData: cache),
     );
   }
+
+  static MultiTypedResultKey<$EmailThreadsTable, List<EmailThread>>
+  _emailThreadsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.emailThreads,
+    aliasName: $_aliasNameGenerator(db.invoices.id, db.emailThreads.invoiceId),
+  );
+
+  $$EmailThreadsTableProcessedTableManager get emailThreadsRefs {
+    final manager = $$EmailThreadsTableTableManager(
+      $_db,
+      $_db.emailThreads,
+    ).filter((f) => f.invoiceId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_emailThreadsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+
+  static MultiTypedResultKey<$InvoiceLabelsTable, List<InvoiceLabel>>
+  _invoiceLabelsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.invoiceLabels,
+    aliasName: $_aliasNameGenerator(db.invoices.id, db.invoiceLabels.invoiceId),
+  );
+
+  $$InvoiceLabelsTableProcessedTableManager get invoiceLabelsRefs {
+    final manager = $$InvoiceLabelsTableTableManager(
+      $_db,
+      $_db.invoiceLabels,
+    ).filter((f) => f.invoiceId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_invoiceLabelsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
 }
 
 class $$InvoicesTableFilterComposer
@@ -13154,6 +14297,56 @@ class $$InvoicesTableFilterComposer
           }) => $$PaymentsTableFilterComposer(
             $db: $db,
             $table: $db.payments,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> emailThreadsRefs(
+    Expression<bool> Function($$EmailThreadsTableFilterComposer f) f,
+  ) {
+    final $$EmailThreadsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.emailThreads,
+      getReferencedColumn: (t) => t.invoiceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EmailThreadsTableFilterComposer(
+            $db: $db,
+            $table: $db.emailThreads,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<bool> invoiceLabelsRefs(
+    Expression<bool> Function($$InvoiceLabelsTableFilterComposer f) f,
+  ) {
+    final $$InvoiceLabelsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.invoiceLabels,
+      getReferencedColumn: (t) => t.invoiceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoiceLabelsTableFilterComposer(
+            $db: $db,
+            $table: $db.invoiceLabels,
             $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
             joinBuilder: joinBuilder,
             $removeJoinBuilderFromRootComposer:
@@ -13572,6 +14765,56 @@ class $$InvoicesTableAnnotationComposer
     );
     return f(composer);
   }
+
+  Expression<T> emailThreadsRefs<T extends Object>(
+    Expression<T> Function($$EmailThreadsTableAnnotationComposer a) f,
+  ) {
+    final $$EmailThreadsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.emailThreads,
+      getReferencedColumn: (t) => t.invoiceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$EmailThreadsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.emailThreads,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+
+  Expression<T> invoiceLabelsRefs<T extends Object>(
+    Expression<T> Function($$InvoiceLabelsTableAnnotationComposer a) f,
+  ) {
+    final $$InvoiceLabelsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.invoiceLabels,
+      getReferencedColumn: (t) => t.invoiceId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoiceLabelsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.invoiceLabels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
 }
 
 class $$InvoicesTableTableManager
@@ -13592,6 +14835,8 @@ class $$InvoicesTableTableManager
             bool invoiceRowsRefs,
             bool summaryBillInvoicesRefs,
             bool paymentsRefs,
+            bool emailThreadsRefs,
+            bool invoiceLabelsRefs,
           })
         > {
   $$InvoicesTableTableManager(_$AppDatabase db, $InvoicesTable table)
@@ -13747,6 +14992,8 @@ class $$InvoicesTableTableManager
                 invoiceRowsRefs = false,
                 summaryBillInvoicesRefs = false,
                 paymentsRefs = false,
+                emailThreadsRefs = false,
+                invoiceLabelsRefs = false,
               }) {
                 return PrefetchHooks(
                   db: db,
@@ -13754,6 +15001,8 @@ class $$InvoicesTableTableManager
                     if (invoiceRowsRefs) db.invoiceRows,
                     if (summaryBillInvoicesRefs) db.summaryBillInvoices,
                     if (paymentsRefs) db.payments,
+                    if (emailThreadsRefs) db.emailThreads,
+                    if (invoiceLabelsRefs) db.invoiceLabels,
                   ],
                   addJoins:
                       <
@@ -13852,6 +15101,48 @@ class $$InvoicesTableTableManager
                               ),
                           typedResults: items,
                         ),
+                      if (emailThreadsRefs)
+                        await $_getPrefetchedData<
+                          Invoice,
+                          $InvoicesTable,
+                          EmailThread
+                        >(
+                          currentTable: table,
+                          referencedTable: $$InvoicesTableReferences
+                              ._emailThreadsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$InvoicesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).emailThreadsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.invoiceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
+                      if (invoiceLabelsRefs)
+                        await $_getPrefetchedData<
+                          Invoice,
+                          $InvoicesTable,
+                          InvoiceLabel
+                        >(
+                          currentTable: table,
+                          referencedTable: $$InvoicesTableReferences
+                              ._invoiceLabelsRefsTable(db),
+                          managerFromTypedResult: (p0) =>
+                              $$InvoicesTableReferences(
+                                db,
+                                table,
+                                p0,
+                              ).invoiceLabelsRefs,
+                          referencedItemsForCurrentItem:
+                              (item, referencedItems) => referencedItems.where(
+                                (e) => e.invoiceId == item.id,
+                              ),
+                          typedResults: items,
+                        ),
                     ];
                   },
                 );
@@ -13877,6 +15168,8 @@ typedef $$InvoicesTableProcessedTableManager =
         bool invoiceRowsRefs,
         bool summaryBillInvoicesRefs,
         bool paymentsRefs,
+        bool emailThreadsRefs,
+        bool invoiceLabelsRefs,
       })
     >;
 typedef $$InvoiceRowsTableCreateCompanionBuilder =
@@ -17326,6 +18619,1031 @@ typedef $$AuditLogTableProcessedTableManager =
       AuditLogEntry,
       PrefetchHooks Function()
     >;
+typedef $$LabelsTableCreateCompanionBuilder =
+    LabelsCompanion Function({
+      Value<int> id,
+      required String name,
+      required String colorHex,
+      Value<String?> entityType,
+      Value<String?> createdAt,
+    });
+typedef $$LabelsTableUpdateCompanionBuilder =
+    LabelsCompanion Function({
+      Value<int> id,
+      Value<String> name,
+      Value<String> colorHex,
+      Value<String?> entityType,
+      Value<String?> createdAt,
+    });
+
+final class $$LabelsTableReferences
+    extends BaseReferences<_$AppDatabase, $LabelsTable, Label> {
+  $$LabelsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$InvoiceLabelsTable, List<InvoiceLabel>>
+  _invoiceLabelsRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
+    db.invoiceLabels,
+    aliasName: $_aliasNameGenerator(db.labels.id, db.invoiceLabels.labelId),
+  );
+
+  $$InvoiceLabelsTableProcessedTableManager get invoiceLabelsRefs {
+    final manager = $$InvoiceLabelsTableTableManager(
+      $_db,
+      $_db.invoiceLabels,
+    ).filter((f) => f.labelId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_invoiceLabelsRefsTable($_db));
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: cache),
+    );
+  }
+}
+
+class $$LabelsTableFilterComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get colorHex => $composableBuilder(
+    column: $table.colorHex,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  Expression<bool> invoiceLabelsRefs(
+    Expression<bool> Function($$InvoiceLabelsTableFilterComposer f) f,
+  ) {
+    final $$InvoiceLabelsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.invoiceLabels,
+      getReferencedColumn: (t) => t.labelId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoiceLabelsTableFilterComposer(
+            $db: $db,
+            $table: $db.invoiceLabels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$LabelsTableOrderingComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get name => $composableBuilder(
+    column: $table.name,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get colorHex => $composableBuilder(
+    column: $table.colorHex,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get createdAt => $composableBuilder(
+    column: $table.createdAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $$LabelsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $LabelsTable> {
+  $$LabelsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get colorHex =>
+      $composableBuilder(column: $table.colorHex, builder: (column) => column);
+
+  GeneratedColumn<String> get entityType => $composableBuilder(
+    column: $table.entityType,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  Expression<T> invoiceLabelsRefs<T extends Object>(
+    Expression<T> Function($$InvoiceLabelsTableAnnotationComposer a) f,
+  ) {
+    final $$InvoiceLabelsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.id,
+      referencedTable: $db.invoiceLabels,
+      getReferencedColumn: (t) => t.labelId,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoiceLabelsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.invoiceLabels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return f(composer);
+  }
+}
+
+class $$LabelsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $LabelsTable,
+          Label,
+          $$LabelsTableFilterComposer,
+          $$LabelsTableOrderingComposer,
+          $$LabelsTableAnnotationComposer,
+          $$LabelsTableCreateCompanionBuilder,
+          $$LabelsTableUpdateCompanionBuilder,
+          (Label, $$LabelsTableReferences),
+          Label,
+          PrefetchHooks Function({bool invoiceLabelsRefs})
+        > {
+  $$LabelsTableTableManager(_$AppDatabase db, $LabelsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$LabelsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$LabelsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$LabelsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> name = const Value.absent(),
+                Value<String> colorHex = const Value.absent(),
+                Value<String?> entityType = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => LabelsCompanion(
+                id: id,
+                name: name,
+                colorHex: colorHex,
+                entityType: entityType,
+                createdAt: createdAt,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String name,
+                required String colorHex,
+                Value<String?> entityType = const Value.absent(),
+                Value<String?> createdAt = const Value.absent(),
+              }) => LabelsCompanion.insert(
+                id: id,
+                name: name,
+                colorHex: colorHex,
+                entityType: entityType,
+                createdAt: createdAt,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) =>
+                    (e.readTable(table), $$LabelsTableReferences(db, table, e)),
+              )
+              .toList(),
+          prefetchHooksCallback: ({invoiceLabelsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (invoiceLabelsRefs) db.invoiceLabels,
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (invoiceLabelsRefs)
+                    await $_getPrefetchedData<
+                      Label,
+                      $LabelsTable,
+                      InvoiceLabel
+                    >(
+                      currentTable: table,
+                      referencedTable: $$LabelsTableReferences
+                          ._invoiceLabelsRefsTable(db),
+                      managerFromTypedResult: (p0) => $$LabelsTableReferences(
+                        db,
+                        table,
+                        p0,
+                      ).invoiceLabelsRefs,
+                      referencedItemsForCurrentItem: (item, referencedItems) =>
+                          referencedItems.where((e) => e.labelId == item.id),
+                      typedResults: items,
+                    ),
+                ];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$LabelsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $LabelsTable,
+      Label,
+      $$LabelsTableFilterComposer,
+      $$LabelsTableOrderingComposer,
+      $$LabelsTableAnnotationComposer,
+      $$LabelsTableCreateCompanionBuilder,
+      $$LabelsTableUpdateCompanionBuilder,
+      (Label, $$LabelsTableReferences),
+      Label,
+      PrefetchHooks Function({bool invoiceLabelsRefs})
+    >;
+typedef $$EmailThreadsTableCreateCompanionBuilder =
+    EmailThreadsCompanion Function({
+      Value<int> id,
+      required String threadId,
+      Value<int?> invoiceId,
+      required String subject,
+      Value<String?> lastSnippet,
+      Value<String> status,
+      Value<String?> lastMessageDate,
+      Value<String?> participantEmail,
+    });
+typedef $$EmailThreadsTableUpdateCompanionBuilder =
+    EmailThreadsCompanion Function({
+      Value<int> id,
+      Value<String> threadId,
+      Value<int?> invoiceId,
+      Value<String> subject,
+      Value<String?> lastSnippet,
+      Value<String> status,
+      Value<String?> lastMessageDate,
+      Value<String?> participantEmail,
+    });
+
+final class $$EmailThreadsTableReferences
+    extends BaseReferences<_$AppDatabase, $EmailThreadsTable, EmailThread> {
+  $$EmailThreadsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $InvoicesTable _invoiceIdTable(_$AppDatabase db) =>
+      db.invoices.createAlias(
+        $_aliasNameGenerator(db.emailThreads.invoiceId, db.invoices.id),
+      );
+
+  $$InvoicesTableProcessedTableManager? get invoiceId {
+    final $_column = $_itemColumn<int>('invoice_id');
+    if ($_column == null) return null;
+    final manager = $$InvoicesTableTableManager(
+      $_db,
+      $_db.invoices,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_invoiceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$EmailThreadsTableFilterComposer
+    extends Composer<_$AppDatabase, $EmailThreadsTable> {
+  $$EmailThreadsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get threadId => $composableBuilder(
+    column: $table.threadId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get subject => $composableBuilder(
+    column: $table.subject,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastSnippet => $composableBuilder(
+    column: $table.lastSnippet,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get lastMessageDate => $composableBuilder(
+    column: $table.lastMessageDate,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get participantEmail => $composableBuilder(
+    column: $table.participantEmail,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  $$InvoicesTableFilterComposer get invoiceId {
+    final $$InvoicesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableFilterComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EmailThreadsTableOrderingComposer
+    extends Composer<_$AppDatabase, $EmailThreadsTable> {
+  $$EmailThreadsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get threadId => $composableBuilder(
+    column: $table.threadId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get subject => $composableBuilder(
+    column: $table.subject,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastSnippet => $composableBuilder(
+    column: $table.lastSnippet,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get status => $composableBuilder(
+    column: $table.status,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get lastMessageDate => $composableBuilder(
+    column: $table.lastMessageDate,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get participantEmail => $composableBuilder(
+    column: $table.participantEmail,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  $$InvoicesTableOrderingComposer get invoiceId {
+    final $$InvoicesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableOrderingComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EmailThreadsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $EmailThreadsTable> {
+  $$EmailThreadsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get threadId =>
+      $composableBuilder(column: $table.threadId, builder: (column) => column);
+
+  GeneratedColumn<String> get subject =>
+      $composableBuilder(column: $table.subject, builder: (column) => column);
+
+  GeneratedColumn<String> get lastSnippet => $composableBuilder(
+    column: $table.lastSnippet,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get status =>
+      $composableBuilder(column: $table.status, builder: (column) => column);
+
+  GeneratedColumn<String> get lastMessageDate => $composableBuilder(
+    column: $table.lastMessageDate,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<String> get participantEmail => $composableBuilder(
+    column: $table.participantEmail,
+    builder: (column) => column,
+  );
+
+  $$InvoicesTableAnnotationComposer get invoiceId {
+    final $$InvoicesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$EmailThreadsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $EmailThreadsTable,
+          EmailThread,
+          $$EmailThreadsTableFilterComposer,
+          $$EmailThreadsTableOrderingComposer,
+          $$EmailThreadsTableAnnotationComposer,
+          $$EmailThreadsTableCreateCompanionBuilder,
+          $$EmailThreadsTableUpdateCompanionBuilder,
+          (EmailThread, $$EmailThreadsTableReferences),
+          EmailThread,
+          PrefetchHooks Function({bool invoiceId})
+        > {
+  $$EmailThreadsTableTableManager(_$AppDatabase db, $EmailThreadsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$EmailThreadsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$EmailThreadsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$EmailThreadsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> threadId = const Value.absent(),
+                Value<int?> invoiceId = const Value.absent(),
+                Value<String> subject = const Value.absent(),
+                Value<String?> lastSnippet = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> lastMessageDate = const Value.absent(),
+                Value<String?> participantEmail = const Value.absent(),
+              }) => EmailThreadsCompanion(
+                id: id,
+                threadId: threadId,
+                invoiceId: invoiceId,
+                subject: subject,
+                lastSnippet: lastSnippet,
+                status: status,
+                lastMessageDate: lastMessageDate,
+                participantEmail: participantEmail,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String threadId,
+                Value<int?> invoiceId = const Value.absent(),
+                required String subject,
+                Value<String?> lastSnippet = const Value.absent(),
+                Value<String> status = const Value.absent(),
+                Value<String?> lastMessageDate = const Value.absent(),
+                Value<String?> participantEmail = const Value.absent(),
+              }) => EmailThreadsCompanion.insert(
+                id: id,
+                threadId: threadId,
+                invoiceId: invoiceId,
+                subject: subject,
+                lastSnippet: lastSnippet,
+                status: status,
+                lastMessageDate: lastMessageDate,
+                participantEmail: participantEmail,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$EmailThreadsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({invoiceId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (invoiceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.invoiceId,
+                                referencedTable: $$EmailThreadsTableReferences
+                                    ._invoiceIdTable(db),
+                                referencedColumn: $$EmailThreadsTableReferences
+                                    ._invoiceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$EmailThreadsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $EmailThreadsTable,
+      EmailThread,
+      $$EmailThreadsTableFilterComposer,
+      $$EmailThreadsTableOrderingComposer,
+      $$EmailThreadsTableAnnotationComposer,
+      $$EmailThreadsTableCreateCompanionBuilder,
+      $$EmailThreadsTableUpdateCompanionBuilder,
+      (EmailThread, $$EmailThreadsTableReferences),
+      EmailThread,
+      PrefetchHooks Function({bool invoiceId})
+    >;
+typedef $$InvoiceLabelsTableCreateCompanionBuilder =
+    InvoiceLabelsCompanion Function({
+      required int invoiceId,
+      required int labelId,
+      Value<int> rowid,
+    });
+typedef $$InvoiceLabelsTableUpdateCompanionBuilder =
+    InvoiceLabelsCompanion Function({
+      Value<int> invoiceId,
+      Value<int> labelId,
+      Value<int> rowid,
+    });
+
+final class $$InvoiceLabelsTableReferences
+    extends BaseReferences<_$AppDatabase, $InvoiceLabelsTable, InvoiceLabel> {
+  $$InvoiceLabelsTableReferences(
+    super.$_db,
+    super.$_table,
+    super.$_typedResult,
+  );
+
+  static $InvoicesTable _invoiceIdTable(_$AppDatabase db) =>
+      db.invoices.createAlias(
+        $_aliasNameGenerator(db.invoiceLabels.invoiceId, db.invoices.id),
+      );
+
+  $$InvoicesTableProcessedTableManager get invoiceId {
+    final $_column = $_itemColumn<int>('invoice_id')!;
+
+    final manager = $$InvoicesTableTableManager(
+      $_db,
+      $_db.invoices,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_invoiceIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+
+  static $LabelsTable _labelIdTable(_$AppDatabase db) => db.labels.createAlias(
+    $_aliasNameGenerator(db.invoiceLabels.labelId, db.labels.id),
+  );
+
+  $$LabelsTableProcessedTableManager get labelId {
+    final $_column = $_itemColumn<int>('label_id')!;
+
+    final manager = $$LabelsTableTableManager(
+      $_db,
+      $_db.labels,
+    ).filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_labelIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+      manager.$state.copyWith(prefetchedData: [item]),
+    );
+  }
+}
+
+class $$InvoiceLabelsTableFilterComposer
+    extends Composer<_$AppDatabase, $InvoiceLabelsTable> {
+  $$InvoiceLabelsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$InvoicesTableFilterComposer get invoiceId {
+    final $$InvoicesTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableFilterComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$LabelsTableFilterComposer get labelId {
+    final $$LabelsTableFilterComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.labelId,
+      referencedTable: $db.labels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LabelsTableFilterComposer(
+            $db: $db,
+            $table: $db.labels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$InvoiceLabelsTableOrderingComposer
+    extends Composer<_$AppDatabase, $InvoiceLabelsTable> {
+  $$InvoiceLabelsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$InvoicesTableOrderingComposer get invoiceId {
+    final $$InvoicesTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableOrderingComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$LabelsTableOrderingComposer get labelId {
+    final $$LabelsTableOrderingComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.labelId,
+      referencedTable: $db.labels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LabelsTableOrderingComposer(
+            $db: $db,
+            $table: $db.labels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$InvoiceLabelsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $InvoiceLabelsTable> {
+  $$InvoiceLabelsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  $$InvoicesTableAnnotationComposer get invoiceId {
+    final $$InvoicesTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.invoiceId,
+      referencedTable: $db.invoices,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$InvoicesTableAnnotationComposer(
+            $db: $db,
+            $table: $db.invoices,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+
+  $$LabelsTableAnnotationComposer get labelId {
+    final $$LabelsTableAnnotationComposer composer = $composerBuilder(
+      composer: this,
+      getCurrentColumn: (t) => t.labelId,
+      referencedTable: $db.labels,
+      getReferencedColumn: (t) => t.id,
+      builder:
+          (
+            joinBuilder, {
+            $addJoinBuilderToRootComposer,
+            $removeJoinBuilderFromRootComposer,
+          }) => $$LabelsTableAnnotationComposer(
+            $db: $db,
+            $table: $db.labels,
+            $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+            joinBuilder: joinBuilder,
+            $removeJoinBuilderFromRootComposer:
+                $removeJoinBuilderFromRootComposer,
+          ),
+    );
+    return composer;
+  }
+}
+
+class $$InvoiceLabelsTableTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          $InvoiceLabelsTable,
+          InvoiceLabel,
+          $$InvoiceLabelsTableFilterComposer,
+          $$InvoiceLabelsTableOrderingComposer,
+          $$InvoiceLabelsTableAnnotationComposer,
+          $$InvoiceLabelsTableCreateCompanionBuilder,
+          $$InvoiceLabelsTableUpdateCompanionBuilder,
+          (InvoiceLabel, $$InvoiceLabelsTableReferences),
+          InvoiceLabel,
+          PrefetchHooks Function({bool invoiceId, bool labelId})
+        > {
+  $$InvoiceLabelsTableTableManager(_$AppDatabase db, $InvoiceLabelsTable table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$InvoiceLabelsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$InvoiceLabelsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$InvoiceLabelsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> invoiceId = const Value.absent(),
+                Value<int> labelId = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => InvoiceLabelsCompanion(
+                invoiceId: invoiceId,
+                labelId: labelId,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required int invoiceId,
+                required int labelId,
+                Value<int> rowid = const Value.absent(),
+              }) => InvoiceLabelsCompanion.insert(
+                invoiceId: invoiceId,
+                labelId: labelId,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map(
+                (e) => (
+                  e.readTable(table),
+                  $$InvoiceLabelsTableReferences(db, table, e),
+                ),
+              )
+              .toList(),
+          prefetchHooksCallback: ({invoiceId = false, labelId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins:
+                  <
+                    T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic
+                    >
+                  >(state) {
+                    if (invoiceId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.invoiceId,
+                                referencedTable: $$InvoiceLabelsTableReferences
+                                    ._invoiceIdTable(db),
+                                referencedColumn: $$InvoiceLabelsTableReferences
+                                    ._invoiceIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+                    if (labelId) {
+                      state =
+                          state.withJoin(
+                                currentTable: table,
+                                currentColumn: table.labelId,
+                                referencedTable: $$InvoiceLabelsTableReferences
+                                    ._labelIdTable(db),
+                                referencedColumn: $$InvoiceLabelsTableReferences
+                                    ._labelIdTable(db)
+                                    .id,
+                              )
+                              as T;
+                    }
+
+                    return state;
+                  },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ),
+      );
+}
+
+typedef $$InvoiceLabelsTableProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      $InvoiceLabelsTable,
+      InvoiceLabel,
+      $$InvoiceLabelsTableFilterComposer,
+      $$InvoiceLabelsTableOrderingComposer,
+      $$InvoiceLabelsTableAnnotationComposer,
+      $$InvoiceLabelsTableCreateCompanionBuilder,
+      $$InvoiceLabelsTableUpdateCompanionBuilder,
+      (InvoiceLabel, $$InvoiceLabelsTableReferences),
+      InvoiceLabel,
+      PrefetchHooks Function({bool invoiceId, bool labelId})
+    >;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -17360,4 +19678,10 @@ class $AppDatabaseManager {
       $$EmailLogsTableTableManager(_db, _db.emailLogs);
   $$AuditLogTableTableManager get auditLog =>
       $$AuditLogTableTableManager(_db, _db.auditLog);
+  $$LabelsTableTableManager get labels =>
+      $$LabelsTableTableManager(_db, _db.labels);
+  $$EmailThreadsTableTableManager get emailThreads =>
+      $$EmailThreadsTableTableManager(_db, _db.emailThreads);
+  $$InvoiceLabelsTableTableManager get invoiceLabels =>
+      $$InvoiceLabelsTableTableManager(_db, _db.invoiceLabels);
 }
