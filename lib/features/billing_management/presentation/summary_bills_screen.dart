@@ -14,6 +14,7 @@ import 'new_summary_bill_screen.dart';
 import '../../invoicing/presentation/invoice_preview_dialog.dart';
 import '../../profile/data/user_profile_repository.dart';
 import '../../../core/services/file_storage_service.dart';
+import '../../pdf_excel/domain/pdf_template_config.dart';
 
 class SummaryBillsScreen extends ConsumerWidget {
   const SummaryBillsScreen({super.key});

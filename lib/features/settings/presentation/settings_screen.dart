@@ -6,6 +6,7 @@ import '../../../core/theme/theme_provider.dart';
 import '../../../core/constants/app_theme.dart';
 import '../../ai/data/openrouter_client.dart';
 import '../../profile/data/user_profile_repository.dart';
+import '../../pdf_excel/presentation/template_settings_screen.dart';
 
 // A provider to manage the API key synchronously after it is loaded
 final apiKeyProvider = StateProvider<String>((ref) => '');

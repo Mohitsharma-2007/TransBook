@@ -15,6 +15,7 @@ import 'invoice_preview_dialog.dart';
 import 'new_invoice_screen.dart';
 import '../../profile/data/user_profile_repository.dart';
 import '../../../core/services/file_storage_service.dart';
+import '../../pdf_excel/domain/pdf_template_config.dart';
 
 class InvoicesScreen extends ConsumerStatefulWidget {
   const InvoicesScreen({super.key});
@@ -224,7 +225,8 @@ class _InvoicesScreenState extends ConsumerState<InvoicesScreen> {
                       final fullInvoice = await ref.read(invoiceRepositoryProvider).getInvoiceWithRows(inv.id);
                       if (fullInvoice != null) {
                         final profile = ref.read(userProfileProvider);
-                        final pdfBytesFuture = InvoicePdfGenerator.generate(fullInvoice, profile);
+                        final config = ref.read(pdfTemplateConfigProvider);
+                        final pdfBytesFuture = InvoicePdfGenerator.generate(fullInvoice, profile, config: config);
                         
                         // Auto-save the file
                         pdfBytesFuture.then((bytes) async {
