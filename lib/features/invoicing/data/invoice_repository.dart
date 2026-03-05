@@ -119,6 +119,14 @@ class InvoiceRepository {
               tbl.invoiceDate.isSmallerOrEqualValue(toDate)))
         .get();
   }
+
+  Future<List<Invoice>> getInvoicesByDateRange(String fromDate, String toDate) {
+    return (_db.select(_db.invoices)
+          ..where((tbl) =>
+              tbl.invoiceDate.isBiggerOrEqualValue(fromDate) &
+              tbl.invoiceDate.isSmallerOrEqualValue(toDate)))
+        .get();
+  }
 }
 
 @riverpod

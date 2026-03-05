@@ -6,6 +6,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:data_table_2/data_table_2.dart';
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/constants/app_theme.dart';
 import '../../../core/constants/app_constants.dart';
@@ -537,10 +538,29 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
                         child: TextFormField(
                           controller: _dateController,
                           textInputAction: TextInputAction.next,
-                          decoration: const InputDecoration(
+                          keyboardType: TextInputType.datetime,
+                          inputFormatters: [
+                            MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})
+                          ],
+                          decoration: InputDecoration(
                             labelText: 'Invoice Date (YYYY-MM-DD)',
-                            border: OutlineInputBorder(),
-                            suffixIcon: Icon(Icons.calendar_today),
+                            border: const OutlineInputBorder(),
+                            suffixIcon: IconButton(
+                              icon: const Icon(Icons.calendar_today),
+                              onPressed: () async {
+                                final currentTxt = _dateController.text;
+                                final initialDate = DateTime.tryParse(currentTxt) ?? DateTime.now();
+                                final dt = await showDatePicker(
+                                  context: context,
+                                  initialDate: initialDate,
+                                  firstDate: DateTime(2000),
+                                  lastDate: DateTime(2100),
+                                );
+                                if (dt != null) {
+                                  _dateController.text = DateFormat('yyyy-MM-dd').format(dt);
+                                }
+                              },
+                            ),
                           ),
                           validator: (val) => val == null || val.isEmpty ? 'Required' : null,
                         ),
@@ -624,7 +644,7 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
                     return DataRow(
                       cells: [
                         DataCell(Text('${idx + 1}', style: const TextStyle(color: AppTheme.textSecondary))),
-                        DataCell(_buildCellEntry(row.dateController)),
+                        DataCell(_buildCellEntry(row.dateController, isDate: true)),
                         DataCell(_buildCellEntry(row.grNoController)),
                         DataCell(_buildCellEntry(row.vehicleController, suggestions: ref.watch(vehicleSuggestionsProvider).value ?? [])),
                         DataCell(_buildCellEntry(
@@ -732,13 +752,21 @@ class _NewInvoiceScreenState extends ConsumerState<NewInvoiceScreen> {
 
   Widget _buildCellEntry(TextEditingController controller, {
     bool isNumeric = false,
+    bool isDate = false,
     List<String> suggestions = const [],
     VoidCallback? onEditingComplete,
   }) {
+    List<TextInputFormatter>? formatters;
+    if (isDate) {
+      formatters = [MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})];
+    }
+
     if (suggestions.isEmpty) {
       return TextFormField(
         controller: controller,
-        keyboardType: isNumeric ? const TextInputType.numberWithOptions(decimal: true) : TextInputType.text,
+        keyboardType: isNumeric ? const TextInputType.numberWithOptions(decimal: true) : 
+                      isDate ? TextInputType.datetime : TextInputType.text,
+        inputFormatters: formatters,
         style: const TextStyle(fontSize: 13),
         textInputAction: TextInputAction.next,
         onEditingComplete: onEditingComplete,

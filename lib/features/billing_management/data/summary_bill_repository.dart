@@ -53,13 +53,16 @@ class SummaryBillRepository {
     final invoiceIds = invoiceIdsQuery.map((row) => row.invoiceId).toList();
 
     List<Invoice> invoices = [];
+    List<InvoiceRow> invoiceRows = [];
     if (invoiceIds.isNotEmpty) {
       invoices = await (_db.select(_db.invoices)..where((tbl) => tbl.id.isIn(invoiceIds))).get();
+      invoiceRows = await (_db.select(_db.invoiceRows)..where((tbl) => tbl.invoiceId.isIn(invoiceIds))).get();
     }
 
     return SummaryBillWithInvoices(
       summaryBill: summaryBill,
       invoices: invoices,
+      invoiceRows: invoiceRows,
       company: company,
     );
   }

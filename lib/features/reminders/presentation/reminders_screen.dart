@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/constants/app_theme.dart';
 import '../../../core/database/database.dart';
@@ -97,10 +99,23 @@ class RemindersScreen extends ConsumerWidget {
                 const SizedBox(height: 12),
                 TextFormField(
                   controller: dateCtrl,
-                  decoration: const InputDecoration(
+                  keyboardType: TextInputType.datetime,
+                  inputFormatters: [MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})],
+                  decoration: InputDecoration(
                     labelText: 'Due Date (YYYY-MM-DD)',
-                    border: OutlineInputBorder(),
-                    suffixIcon: Icon(Icons.calendar_today),
+                    border: const OutlineInputBorder(),
+                    suffixIcon: IconButton(
+                      icon: const Icon(Icons.calendar_today),
+                      onPressed: () async {
+                        final dt = await showDatePicker(
+                          context: ctx,
+                          initialDate: DateTime.tryParse(dateCtrl.text) ?? DateTime.now(),
+                          firstDate: DateTime(2020),
+                          lastDate: DateTime(2100),
+                        );
+                        if (dt != null) dateCtrl.text = DateFormat('yyyy-MM-dd').format(dt);
+                      },
+                    ),
                   ),
                 ),
                 const SizedBox(height: 12),

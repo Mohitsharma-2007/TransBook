@@ -4,6 +4,7 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'features/master_data/presentation/companies_screen.dart';
 import 'features/master_data/presentation/vehicles_screen.dart';
+import 'features/master_data/presentation/partners_screen.dart';
 import 'features/master_data/presentation/rate_card_screen.dart';
 import 'features/invoicing/presentation/invoices_screen.dart';
 import 'features/billing_management/presentation/summary_bills_screen.dart';
@@ -72,6 +73,7 @@ class _MainShellState extends State<MainShell> {
     const EmailsScreen(),
     const CompaniesScreen(),
     const VehiclesScreen(),
+    const PartnersScreen(),
     const RateCardScreen(),
     const LabelsScreen(),
     const SettingsScreen(),
@@ -137,7 +139,7 @@ class _MainShellState extends State<MainShell> {
               child: IconButton(
                 icon: const Icon(Icons.person_outline, color: AppTheme.brandSecondary),
                 tooltip: 'Profile & Settings',
-                onPressed: () => setState(() => _selectedIndex = 11),
+                onPressed: () => setState(() => _selectedIndex = 12),
               ),
             ),
           ),
@@ -165,11 +167,12 @@ class _MainShellState extends State<MainShell> {
                 _NavHeader('Master Data'),
                 _NavItem(Icons.business_outlined, Icons.business_rounded, 'Companies', selected: _selectedIndex == 7, onTap: () => setState(() => _selectedIndex = 7)),
                 _NavItem(Icons.local_shipping_outlined, Icons.local_shipping_rounded, 'Vehicles', selected: _selectedIndex == 8, onTap: () => setState(() => _selectedIndex = 8)),
-                _NavItem(Icons.monetization_on_outlined, Icons.monetization_on_rounded, 'Rate Cards', selected: _selectedIndex == 9, onTap: () => setState(() => _selectedIndex = 9)),
-                _NavItem(Icons.label_outline, Icons.label_rounded, 'Labels', selected: _selectedIndex == 10, onTap: () => setState(() => _selectedIndex = 10)),
+                _NavItem(Icons.handshake_outlined, Icons.handshake_rounded, 'Partners', selected: _selectedIndex == 9, onTap: () => setState(() => _selectedIndex = 9)),
+                _NavItem(Icons.monetization_on_outlined, Icons.monetization_on_rounded, 'Rate Cards', selected: _selectedIndex == 10, onTap: () => setState(() => _selectedIndex = 10)),
+                _NavItem(Icons.label_outline, Icons.label_rounded, 'Labels', selected: _selectedIndex == 11, onTap: () => setState(() => _selectedIndex = 11)),
                 const SizedBox(height: 16),
                 const Divider(color: AppTheme.borderLight),
-                _NavItem(Icons.settings_outlined, Icons.settings, 'Settings', selected: _selectedIndex == 11, onTap: () => setState(() => _selectedIndex = 11)),
+                _NavItem(Icons.settings_outlined, Icons.settings, 'Settings', selected: _selectedIndex == 12, onTap: () => setState(() => _selectedIndex = 12)),
               ],
             ),
           ),

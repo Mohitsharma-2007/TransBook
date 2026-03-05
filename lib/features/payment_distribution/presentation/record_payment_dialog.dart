@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drift/drift.dart' as drift;
+import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/constants/app_theme.dart';
 import '../../../core/database/database.dart';
@@ -19,7 +21,7 @@ class _RecordPaymentDialogState extends ConsumerState<RecordPaymentDialog> {
   final _amountController = TextEditingController();
   final _tdsController = TextEditingController(text: '0');
   final _referenceController = TextEditingController();
-  final _dateController = TextEditingController();
+  final _dateController = TextEditingController(text: DateFormat('yyyy-MM-dd').format(DateTime.now()));
   String _selectedMode = 'NEFT';
 
   final _modes = ['NEFT', 'RTGS', 'CHEQUE', 'CASH'];
@@ -103,10 +105,23 @@ class _RecordPaymentDialogState extends ConsumerState<RecordPaymentDialog> {
               const SizedBox(height: 12),
               TextFormField(
                 controller: _dateController,
-                decoration: const InputDecoration(
+                keyboardType: TextInputType.datetime,
+                inputFormatters: [MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})],
+                decoration: InputDecoration(
                   labelText: 'Payment Date (YYYY-MM-DD)',
-                  border: OutlineInputBorder(),
-                  suffixIcon: Icon(Icons.calendar_today),
+                  border: const OutlineInputBorder(),
+                  suffixIcon: IconButton(
+                    icon: const Icon(Icons.calendar_today),
+                    onPressed: () async {
+                      final dt = await showDatePicker(
+                        context: context,
+                        initialDate: DateTime.tryParse(_dateController.text) ?? DateTime.now(),
+                        firstDate: DateTime(2000),
+                        lastDate: DateTime(2100),
+                      );
+                      if (dt != null) _dateController.text = DateFormat('yyyy-MM-dd').format(dt);
+                    },
+                  ),
                 ),
                 validator: (v) => v == null || v.isEmpty ? 'Required' : null,
               ),

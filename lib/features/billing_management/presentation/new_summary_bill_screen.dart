@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:drift/drift.dart' as drift;
 import 'package:intl/intl.dart';
+import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 
 import '../../../core/constants/app_theme.dart';
 import '../../../core/database/database.dart';
@@ -198,10 +199,23 @@ class _NewSummaryBillScreenState extends ConsumerState<NewSummaryBillScreen> {
                           Expanded(
                             child: TextFormField(
                               controller: _fromDateController,
-                              decoration: const InputDecoration(
+                              keyboardType: TextInputType.datetime,
+                              inputFormatters: [MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})],
+                              decoration: InputDecoration(
                                 labelText: 'Period From (YYYY-MM-DD)',
-                                border: OutlineInputBorder(),
-                                suffixIcon: Icon(Icons.calendar_today),
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.calendar_today),
+                                  onPressed: () async {
+                                    final dt = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.tryParse(_fromDateController.text) ?? DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    );
+                                    if (dt != null) _fromDateController.text = DateFormat('yyyy-MM-dd').format(dt);
+                                  },
+                                ),
                               ),
                               validator: (val) =>
                                   val == null || val.isEmpty ? 'Required' : null,
@@ -211,10 +225,23 @@ class _NewSummaryBillScreenState extends ConsumerState<NewSummaryBillScreen> {
                           Expanded(
                             child: TextFormField(
                               controller: _toDateController,
-                              decoration: const InputDecoration(
+                              keyboardType: TextInputType.datetime,
+                              inputFormatters: [MaskTextInputFormatter(mask: '####-##-##', filter: {"#": RegExp(r'[0-9]')})],
+                              decoration: InputDecoration(
                                 labelText: 'Period To (YYYY-MM-DD)',
-                                border: OutlineInputBorder(),
-                                suffixIcon: Icon(Icons.calendar_today),
+                                border: const OutlineInputBorder(),
+                                suffixIcon: IconButton(
+                                  icon: const Icon(Icons.calendar_today),
+                                  onPressed: () async {
+                                    final dt = await showDatePicker(
+                                      context: context,
+                                      initialDate: DateTime.tryParse(_toDateController.text) ?? DateTime.now(),
+                                      firstDate: DateTime(2000),
+                                      lastDate: DateTime(2100),
+                                    );
+                                    if (dt != null) _toDateController.text = DateFormat('yyyy-MM-dd').format(dt);
+                                  },
+                                ),
                               ),
                               validator: (val) =>
                                   val == null || val.isEmpty ? 'Required' : null,

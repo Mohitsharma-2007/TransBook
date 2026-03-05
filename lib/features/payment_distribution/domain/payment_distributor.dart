@@ -9,6 +9,7 @@ class PartnerShare {
   final int? partnerId;
   final String partnerName;
   final int vehicleCount;
+  final int tripCount;
   final double freightTotal;
   final double tdsShare;
   final double netPayable;
@@ -17,6 +18,7 @@ class PartnerShare {
     this.partnerId,
     required this.partnerName,
     required this.vehicleCount,
+    required this.tripCount,
     required this.freightTotal,
     required this.tdsShare,
     required this.netPayable,
@@ -38,10 +40,12 @@ class PaymentDistributor {
 
     // 2. Group by vehicleId
     final Map<int, double> vehicleFreight = {};
+    final Map<int, int> vehicleTrips = {};
     for (final row in invoiceRows) {
       final vid = row.vehicleId;
       if (vid != null) {
         vehicleFreight[vid] = (vehicleFreight[vid] ?? 0) + row.freightCharge;
+        vehicleTrips[vid] = (vehicleTrips[vid] ?? 0) + 1;
       }
     }
 
@@ -77,6 +81,7 @@ class PaymentDistributor {
         );
         accum[partnerId]!.vehicleIds.add(entry.key);
         accum[partnerId]!.freightTotal += entry.value;
+        accum[partnerId]!.tripCount += (vehicleTrips[entry.key] ?? 0);
       }
     }
 
@@ -95,6 +100,7 @@ class PaymentDistributor {
         partnerId: a.partnerId,
         partnerName: a.partnerName,
         vehicleCount: a.vehicleIds.length,
+        tripCount: a.tripCount,
         freightTotal: a.freightTotal,
         tdsShare: tds,
         netPayable: a.freightTotal - tds,
@@ -107,6 +113,7 @@ class _PartnerAccum {
   final int partnerId;
   final String partnerName;
   final Set<int> vehicleIds = {};
+  int tripCount = 0;
   double freightTotal = 0;
 
   _PartnerAccum({required this.partnerId, required this.partnerName});

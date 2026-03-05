@@ -33,6 +33,10 @@ class SummaryPdfGenerator {
               style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10)),
           pw.SizedBox(height: 8),
           _buildInvoiceTable(invoices, currencyFormat, cfg, primaryColor),
+          if (data.invoiceRows.isNotEmpty) ...[
+            pw.SizedBox(height: 10),
+            _buildVehicleWiseSummaryTable(data.invoiceRows, currencyFormat, cfg, primaryColor),
+          ],
           _buildTotals(summary, currencyFormat, cfg, primaryColor),
           pw.SizedBox(height: 10),
           _buildFooter(profile, cfg, primaryColor),
@@ -166,6 +170,54 @@ class SummaryPdfGenerator {
           ];
         },
       ),
+    );
+  }
+
+  static pw.Widget _buildVehicleWiseSummaryTable(List<dynamic> rows, NumberFormat currencyFormat, PdfTemplateConfig config, PdfColor primaryColor) {
+    // 1. Group by Vehicle No
+    final Map<String, Map<String, dynamic>> vehicleStats = {};
+    for (var r in rows) {
+      final vNo = r.vehicleNoText ?? 'Unknown Vehicle';
+      vehicleStats.putIfAbsent(vNo, () => {'trips': 0, 'freight': 0.0});
+      vehicleStats[vNo]!['trips'] += 1;
+      vehicleStats[vNo]!['freight'] += (r.freightCharge ?? 0.0);
+    }
+    
+    final sortedLocs = vehicleStats.entries.toList()
+      ..sort((a, b) => b.value['freight'].compareTo(a.value['freight']));
+
+    return pw.Column(
+      crossAxisAlignment: pw.CrossAxisAlignment.start,
+      children: [
+        pw.Text('Vehicle-Wise Trip Summary', style: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 10)),
+        pw.SizedBox(height: 4),
+        pw.TableHelper.fromTextArray(
+          headers: ['S.NO', 'VEHICLE NO.', 'TOTAL TRIPS', 'TOTAL FREIGHT'],
+          headerStyle: pw.TextStyle(fontWeight: pw.FontWeight.bold, fontSize: 8, color: PdfColors.white),
+          headerDecoration: pw.BoxDecoration(color: primaryColor),
+          cellStyle: const pw.TextStyle(fontSize: 8),
+          cellHeight: 20,
+          border: pw.TableBorder.all(color: PdfColors.black, width: 1),
+          cellAlignments: {
+            0: pw.Alignment.center,
+            1: pw.Alignment.centerLeft,
+            2: pw.Alignment.center,
+            3: pw.Alignment.centerRight,
+          },
+          data: List<List<String>>.generate(
+            sortedLocs.length,
+            (index) {
+              final item = sortedLocs[index];
+              return [
+                '${index + 1}',
+                item.key,
+                item.value['trips'].toString(),
+                currencyFormat.format(item.value['freight']),
+              ];
+            },
+          ),
+        ),
+      ],
     );
   }
 

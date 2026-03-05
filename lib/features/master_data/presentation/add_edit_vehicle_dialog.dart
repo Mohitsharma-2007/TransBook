@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' as drift;
 
 import '../../../../core/database/database.dart';
 import '../data/vehicle_repository.dart';
+import '../data/partner_repository.dart';
 
 class AddEditVehicleDialog extends ConsumerStatefulWidget {
   final Vehicle? vehicle;
@@ -19,6 +20,7 @@ class _AddEditVehicleDialogState extends ConsumerState<AddEditVehicleDialog> {
   late TextEditingController _vehicleNoController;
   late TextEditingController _vehicleTypeController;
   late TextEditingController _notesController;
+  int? _selectedPartnerId;
 
   @override
   void initState() {
@@ -27,6 +29,7 @@ class _AddEditVehicleDialogState extends ConsumerState<AddEditVehicleDialog> {
     _vehicleNoController = TextEditingController(text: v?.vehicleNo ?? '');
     _vehicleTypeController = TextEditingController(text: v?.vehicleType ?? '');
     _notesController = TextEditingController(text: v?.notes ?? '');
+    _selectedPartnerId = v?.partnerId;
   }
 
   @override
@@ -43,6 +46,7 @@ class _AddEditVehicleDialogState extends ConsumerState<AddEditVehicleDialog> {
       final companion = VehiclesCompanion.insert(
         vehicleNo: _vehicleNoController.text.trim().toUpperCase(),
         vehicleType: drift.Value(_vehicleTypeController.text.trim()),
+        partnerId: drift.Value(_selectedPartnerId),
         notes: drift.Value(_notesController.text.trim()),
       );
 
@@ -90,6 +94,32 @@ class _AddEditVehicleDialogState extends ConsumerState<AddEditVehicleDialog> {
               TextFormField(
                 controller: _vehicleTypeController,
                 decoration: const InputDecoration(labelText: 'Vehicle Type (e.g. 10 Tyre)'),
+              ),
+              const SizedBox(height: 16),
+              StreamBuilder<List<Partner>>(
+                stream: ref.watch(partnerRepositoryProvider).watchAllPartners(),
+                builder: (context, snapshot) {
+                  final partners = snapshot.data ?? [];
+                  return DropdownButtonFormField<int>(
+                    value: _selectedPartnerId,
+                    decoration: const InputDecoration(labelText: 'Assign Partner (Optional)', prefixIcon: Icon(Icons.handshake_outlined)),
+                    items: [
+                      const DropdownMenuItem<int>(
+                        value: null,
+                        child: Text('Self Owned / None'),
+                      ),
+                      ...partners.map((p) => DropdownMenuItem(
+                        value: p.id,
+                        child: Text('${p.name} ${p.phone != null ? '(${p.phone})' : ''}'),
+                      )),
+                    ],
+                    onChanged: (val) {
+                      setState(() {
+                        _selectedPartnerId = val;
+                      });
+                    },
+                  );
+                },
               ),
               const SizedBox(height: 16),
               TextFormField(
