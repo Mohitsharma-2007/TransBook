@@ -14,7 +14,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -37,6 +37,9 @@ class AppDatabase extends _$AppDatabase {
           try { await m.createTable(labels); } catch (e) {}
           try { await m.createTable(emailThreads); } catch (e) {}
           try { await m.createTable(invoiceLabels); } catch (e) {}
+        }
+        if (from < 3) {
+          try { await m.addColumn(invoiceRows, invoiceRows.customFields); } catch (e) {}
         }
       },
     );

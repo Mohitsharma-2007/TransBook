@@ -61,9 +61,13 @@ class PaymentsScreen extends ConsumerWidget {
                     return const Center(child: Text('No payments recorded yet.'));
                   }
                   return DataTable2(
-                    columnSpacing: 12,
-                    horizontalMargin: 24,
+                    columnSpacing: 16,
+                    horizontalMargin: 16,
                     minWidth: 800,
+                    headingRowHeight: 48,
+                    dataRowHeight: 48,
+                    dividerThickness: 1,
+                    headingRowColor: WidgetStateProperty.all(AppTheme.surfaceLight),
                     columns: const [
                       DataColumn2(label: Text('Date'), size: ColumnSize.S),
                       DataColumn2(label: Text('Invoice ID'), size: ColumnSize.S),

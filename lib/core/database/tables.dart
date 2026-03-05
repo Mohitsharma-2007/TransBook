@@ -127,6 +127,7 @@ class InvoiceRows extends Table {
   TextColumn get loadingPlace => text().nullable()();
   TextColumn get unloadingPlace => text().nullable()();
   RealColumn get rowAmount => real().withDefault(const Constant(0))();
+  TextColumn get customFields => text().nullable()(); // JSON: {"ColName": "value", ...}
 }
 
 @DataClassName('SummaryBill')

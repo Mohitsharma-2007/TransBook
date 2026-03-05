@@ -1,4 +1,4 @@
-# TransBook Build & Package Script
+﻿# TransBook Build & Package Script
 # Usage: .\scripts\build_installer.ps1
 # Prerequisites: Flutter SDK, Inno Setup 6 installed
 
@@ -11,8 +11,8 @@ $ErrorActionPreference = "Stop"
 $ProjectRoot = Split-Path -Parent $PSScriptRoot
 
 Write-Host "====================================" -ForegroundColor Cyan
-Write-Host "  TransBook Build & Package Script"    -ForegroundColor Cyan
-Write-Host "  Version: $Version"                   -ForegroundColor Cyan
+Write-Host "  TransBook Build & Package Script"   -ForegroundColor Cyan
+Write-Host "  Version: $Version"                  -ForegroundColor Cyan
 Write-Host "====================================" -ForegroundColor Cyan
 Write-Host ""
 
@@ -56,7 +56,14 @@ if (-not $ISCC) {
 
 $ISSFile = Join-Path $ProjectRoot "installer\transbook_setup.iss"
 $DistDir = Join-Path $ProjectRoot "dist"
+$TempOut = "C:\Temp\TransBook_Output"
 
+# Ensure temp output dir exists (outside project folder to avoid Defender blocking Inno Setup)
+if (-not (Test-Path $TempOut)) {
+    New-Item -ItemType Directory -Path $TempOut | Out-Null
+}
+
+# Ensure dist dir exists for final copy
 if (-not (Test-Path $DistDir)) {
     New-Item -ItemType Directory -Path $DistDir | Out-Null
 }
@@ -67,8 +74,20 @@ if ($LASTEXITCODE -ne 0) {
     exit 1
 }
 
+# Copy installer from temp dir back to project dist\
+$InstallerName = "TransBook_Setup_v${Version}.exe"
+$TempExe  = Join-Path $TempOut $InstallerName
+$FinalExe = Join-Path $DistDir $InstallerName
+
+if (Test-Path $TempExe) {
+    Copy-Item -Path $TempExe -Destination $FinalExe -Force
+    Write-Host "Installer copied to dist\$InstallerName" -ForegroundColor DarkGray
+} else {
+    Write-Warning "Installer not found at $TempExe. Check C:\Temp\TransBook_Output manually."
+}
+
 Write-Host ""
 Write-Host "====================================" -ForegroundColor Green
-Write-Host "  Build Complete!"                     -ForegroundColor Green
+Write-Host "  Build Complete!"                    -ForegroundColor Green
 Write-Host "  Installer: dist\TransBook_Setup_v${Version}.exe" -ForegroundColor Green
 Write-Host "====================================" -ForegroundColor Green

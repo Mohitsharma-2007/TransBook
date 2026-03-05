@@ -70,7 +70,13 @@ class SummaryPdfGenerator {
                     children: [
                       pw.Text(profile.companyName.isNotEmpty ? profile.companyName : 'YOUR COMPANY NAME', style: pw.TextStyle(fontSize: 20, fontWeight: pw.FontWeight.bold, color: PdfColors.blue900)),
                       if (profile.address.isNotEmpty) pw.Text(profile.address, style: pw.TextStyle(fontSize: 10)),
-                      if (profile.gstin.isNotEmpty) pw.Text('GSTIN: ${profile.gstin}', style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                      pw.Text([
+                        if (profile.gstin.isNotEmpty) 'GSTIN: ${profile.gstin}',
+                        if (profile.pan.isNotEmpty) 'PAN: ${profile.pan}',
+                      ].join(' | '), style: pw.TextStyle(fontSize: 10, fontWeight: pw.FontWeight.bold)),
+                      if (profile.phone.isNotEmpty || profile.email.isNotEmpty) 
+                        pw.Text([if (profile.phone.isNotEmpty) 'Tel: ${profile.phone}', if (profile.email.isNotEmpty) 'Email: ${profile.email}'].join(' | '), style: const pw.TextStyle(fontSize: 10)),
+                      if (profile.website.isNotEmpty) pw.Text('Web: ${profile.website}', style: const pw.TextStyle(fontSize: 10)),
                       pw.SizedBox(height: 4),
                     ],
                   ),

@@ -10,6 +10,13 @@ class UserProfile {
   final String gstin;
   final String address;
   final String bankDetails;
+  final String pan;
+  final String email;
+  final String phone;
+  final String website;
+  final String stateCode;
+  final String invoicePrefix;
+  final int nextInvoiceNumber;
 
   UserProfile({
     this.companyName = '',
@@ -17,9 +24,46 @@ class UserProfile {
     this.gstin = '',
     this.address = '',
     this.bankDetails = '',
+    this.pan = '',
+    this.email = '',
+    this.phone = '',
+    this.website = '',
+    this.stateCode = '',
+    this.invoicePrefix = 'JSV/25-26/',
+    this.nextInvoiceNumber = 1,
   });
 
   bool get isComplete => companyName.isNotEmpty;
+
+  UserProfile copyWith({
+    String? companyName,
+    String? logoPath,
+    String? gstin,
+    String? address,
+    String? bankDetails,
+    String? pan,
+    String? email,
+    String? phone,
+    String? website,
+    String? stateCode,
+    String? invoicePrefix,
+    int? nextInvoiceNumber,
+  }) {
+    return UserProfile(
+      companyName: companyName ?? this.companyName,
+      logoPath: logoPath ?? this.logoPath,
+      gstin: gstin ?? this.gstin,
+      address: address ?? this.address,
+      bankDetails: bankDetails ?? this.bankDetails,
+      pan: pan ?? this.pan,
+      email: email ?? this.email,
+      phone: phone ?? this.phone,
+      website: website ?? this.website,
+      stateCode: stateCode ?? this.stateCode,
+      invoicePrefix: invoicePrefix ?? this.invoicePrefix,
+      nextInvoiceNumber: nextInvoiceNumber ?? this.nextInvoiceNumber,
+    );
+  }
 
   Map<String, dynamic> toJson() {
     return {
@@ -28,6 +72,13 @@ class UserProfile {
       'gstin': gstin,
       'address': address,
       'bankDetails': bankDetails,
+      'pan': pan,
+      'email': email,
+      'phone': phone,
+      'website': website,
+      'stateCode': stateCode,
+      'invoicePrefix': invoicePrefix,
+      'nextInvoiceNumber': nextInvoiceNumber,
     };
   }
 
@@ -38,6 +89,13 @@ class UserProfile {
       gstin: json['gstin'] ?? '',
       address: json['address'] ?? '',
       bankDetails: json['bankDetails'] ?? '',
+      pan: json['pan'] ?? '',
+      email: json['email'] ?? '',
+      phone: json['phone'] ?? '',
+      website: json['website'] ?? '',
+      stateCode: json['stateCode'] ?? '',
+      invoicePrefix: json['invoicePrefix'] ?? 'JSV/25-26/',
+      nextInvoiceNumber: json['nextInvoiceNumber'] as int? ?? 1,
     );
   }
 }

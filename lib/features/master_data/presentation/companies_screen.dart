@@ -72,11 +72,13 @@ class CompaniesScreen extends ConsumerWidget {
                   }
 
                   return DataTable2(
-                    columnSpacing: 12,
-                    horizontalMargin: 24,
+                    columnSpacing: 16,
+                    horizontalMargin: 16,
                     minWidth: 800,
-                    headingRowHeight: 56,
-                    dataRowHeight: 64,
+                    headingRowHeight: 48,
+                    dataRowHeight: 48,
+                    dividerThickness: 1,
+                    headingRowColor: WidgetStateProperty.all(AppTheme.surfaceLight),
                     columns: const [
                       DataColumn2(label: Text('Company Name'), size: ColumnSize.L),
                       DataColumn2(label: Text('GSTIN'), size: ColumnSize.L),

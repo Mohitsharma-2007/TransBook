@@ -5261,6 +5261,17 @@ class $InvoiceRowsTable extends InvoiceRows
     requiredDuringInsert: false,
     defaultValue: const Constant(0),
   );
+  static const VerificationMeta _customFieldsMeta = const VerificationMeta(
+    'customFields',
+  );
+  @override
+  late final GeneratedColumn<String> customFields = GeneratedColumn<String>(
+    'custom_fields',
+    aliasedName,
+    true,
+    type: DriftSqlType.string,
+    requiredDuringInsert: false,
+  );
   @override
   List<GeneratedColumn> get $columns => [
     id,
@@ -5276,6 +5287,7 @@ class $InvoiceRowsTable extends InvoiceRows
     loadingPlace,
     unloadingPlace,
     rowAmount,
+    customFields,
   ];
   @override
   String get aliasedName => _alias ?? actualTableName;
@@ -5382,6 +5394,15 @@ class $InvoiceRowsTable extends InvoiceRows
         rowAmount.isAcceptableOrUnknown(data['row_amount']!, _rowAmountMeta),
       );
     }
+    if (data.containsKey('custom_fields')) {
+      context.handle(
+        _customFieldsMeta,
+        customFields.isAcceptableOrUnknown(
+          data['custom_fields']!,
+          _customFieldsMeta,
+        ),
+      );
+    }
     return context;
   }
 
@@ -5443,6 +5464,10 @@ class $InvoiceRowsTable extends InvoiceRows
         DriftSqlType.double,
         data['${effectivePrefix}row_amount'],
       )!,
+      customFields: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}custom_fields'],
+      ),
     );
   }
 
@@ -5466,6 +5491,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
   final String? loadingPlace;
   final String? unloadingPlace;
   final double rowAmount;
+  final String? customFields;
   const InvoiceRow({
     required this.id,
     this.invoiceId,
@@ -5480,6 +5506,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
     this.loadingPlace,
     this.unloadingPlace,
     required this.rowAmount,
+    this.customFields,
   });
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -5515,6 +5542,9 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
       map['unloading_place'] = Variable<String>(unloadingPlace);
     }
     map['row_amount'] = Variable<double>(rowAmount);
+    if (!nullToAbsent || customFields != null) {
+      map['custom_fields'] = Variable<String>(customFields);
+    }
     return map;
   }
 
@@ -5551,6 +5581,9 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
           ? const Value.absent()
           : Value(unloadingPlace),
       rowAmount: Value(rowAmount),
+      customFields: customFields == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customFields),
     );
   }
 
@@ -5573,6 +5606,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
       loadingPlace: serializer.fromJson<String?>(json['loadingPlace']),
       unloadingPlace: serializer.fromJson<String?>(json['unloadingPlace']),
       rowAmount: serializer.fromJson<double>(json['rowAmount']),
+      customFields: serializer.fromJson<String?>(json['customFields']),
     );
   }
   @override
@@ -5592,6 +5626,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
       'loadingPlace': serializer.toJson<String?>(loadingPlace),
       'unloadingPlace': serializer.toJson<String?>(unloadingPlace),
       'rowAmount': serializer.toJson<double>(rowAmount),
+      'customFields': serializer.toJson<String?>(customFields),
     };
   }
 
@@ -5609,6 +5644,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
     Value<String?> loadingPlace = const Value.absent(),
     Value<String?> unloadingPlace = const Value.absent(),
     double? rowAmount,
+    Value<String?> customFields = const Value.absent(),
   }) => InvoiceRow(
     id: id ?? this.id,
     invoiceId: invoiceId.present ? invoiceId.value : this.invoiceId,
@@ -5627,6 +5663,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
         ? unloadingPlace.value
         : this.unloadingPlace,
     rowAmount: rowAmount ?? this.rowAmount,
+    customFields: customFields.present ? customFields.value : this.customFields,
   );
   InvoiceRow copyWithCompanion(InvoiceRowsCompanion data) {
     return InvoiceRow(
@@ -5655,6 +5692,9 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
           ? data.unloadingPlace.value
           : this.unloadingPlace,
       rowAmount: data.rowAmount.present ? data.rowAmount.value : this.rowAmount,
+      customFields: data.customFields.present
+          ? data.customFields.value
+          : this.customFields,
     );
   }
 
@@ -5673,7 +5713,8 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
           ..write('invoiceRefNo: $invoiceRefNo, ')
           ..write('loadingPlace: $loadingPlace, ')
           ..write('unloadingPlace: $unloadingPlace, ')
-          ..write('rowAmount: $rowAmount')
+          ..write('rowAmount: $rowAmount, ')
+          ..write('customFields: $customFields')
           ..write(')'))
         .toString();
   }
@@ -5693,6 +5734,7 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
     loadingPlace,
     unloadingPlace,
     rowAmount,
+    customFields,
   );
   @override
   bool operator ==(Object other) =>
@@ -5710,7 +5752,8 @@ class InvoiceRow extends DataClass implements Insertable<InvoiceRow> {
           other.invoiceRefNo == this.invoiceRefNo &&
           other.loadingPlace == this.loadingPlace &&
           other.unloadingPlace == this.unloadingPlace &&
-          other.rowAmount == this.rowAmount);
+          other.rowAmount == this.rowAmount &&
+          other.customFields == this.customFields);
 }
 
 class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
@@ -5727,6 +5770,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
   final Value<String?> loadingPlace;
   final Value<String?> unloadingPlace;
   final Value<double> rowAmount;
+  final Value<String?> customFields;
   const InvoiceRowsCompanion({
     this.id = const Value.absent(),
     this.invoiceId = const Value.absent(),
@@ -5741,6 +5785,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
     this.loadingPlace = const Value.absent(),
     this.unloadingPlace = const Value.absent(),
     this.rowAmount = const Value.absent(),
+    this.customFields = const Value.absent(),
   });
   InvoiceRowsCompanion.insert({
     this.id = const Value.absent(),
@@ -5756,6 +5801,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
     this.loadingPlace = const Value.absent(),
     this.unloadingPlace = const Value.absent(),
     this.rowAmount = const Value.absent(),
+    this.customFields = const Value.absent(),
   });
   static Insertable<InvoiceRow> custom({
     Expression<int>? id,
@@ -5771,6 +5817,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
     Expression<String>? loadingPlace,
     Expression<String>? unloadingPlace,
     Expression<double>? rowAmount,
+    Expression<String>? customFields,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -5786,6 +5833,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
       if (loadingPlace != null) 'loading_place': loadingPlace,
       if (unloadingPlace != null) 'unloading_place': unloadingPlace,
       if (rowAmount != null) 'row_amount': rowAmount,
+      if (customFields != null) 'custom_fields': customFields,
     });
   }
 
@@ -5803,6 +5851,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
     Value<String?>? loadingPlace,
     Value<String?>? unloadingPlace,
     Value<double>? rowAmount,
+    Value<String?>? customFields,
   }) {
     return InvoiceRowsCompanion(
       id: id ?? this.id,
@@ -5818,6 +5867,7 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
       loadingPlace: loadingPlace ?? this.loadingPlace,
       unloadingPlace: unloadingPlace ?? this.unloadingPlace,
       rowAmount: rowAmount ?? this.rowAmount,
+      customFields: customFields ?? this.customFields,
     );
   }
 
@@ -5863,6 +5913,9 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
     if (rowAmount.present) {
       map['row_amount'] = Variable<double>(rowAmount.value);
     }
+    if (customFields.present) {
+      map['custom_fields'] = Variable<String>(customFields.value);
+    }
     return map;
   }
 
@@ -5881,7 +5934,8 @@ class InvoiceRowsCompanion extends UpdateCompanion<InvoiceRow> {
           ..write('invoiceRefNo: $invoiceRefNo, ')
           ..write('loadingPlace: $loadingPlace, ')
           ..write('unloadingPlace: $unloadingPlace, ')
-          ..write('rowAmount: $rowAmount')
+          ..write('rowAmount: $rowAmount, ')
+          ..write('customFields: $customFields')
           ..write(')'))
         .toString();
   }
@@ -15187,6 +15241,7 @@ typedef $$InvoiceRowsTableCreateCompanionBuilder =
       Value<String?> loadingPlace,
       Value<String?> unloadingPlace,
       Value<double> rowAmount,
+      Value<String?> customFields,
     });
 typedef $$InvoiceRowsTableUpdateCompanionBuilder =
     InvoiceRowsCompanion Function({
@@ -15203,6 +15258,7 @@ typedef $$InvoiceRowsTableUpdateCompanionBuilder =
       Value<String?> loadingPlace,
       Value<String?> unloadingPlace,
       Value<double> rowAmount,
+      Value<String?> customFields,
     });
 
 final class $$InvoiceRowsTableReferences
@@ -15309,6 +15365,11 @@ class $$InvoiceRowsTableFilterComposer
 
   ColumnFilters<double> get rowAmount => $composableBuilder(
     column: $table.rowAmount,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get customFields => $composableBuilder(
+    column: $table.customFields,
     builder: (column) => ColumnFilters(column),
   );
 
@@ -15423,6 +15484,11 @@ class $$InvoiceRowsTableOrderingComposer
     builder: (column) => ColumnOrderings(column),
   );
 
+  ColumnOrderings<String> get customFields => $composableBuilder(
+    column: $table.customFields,
+    builder: (column) => ColumnOrderings(column),
+  );
+
   $$InvoicesTableOrderingComposer get invoiceId {
     final $$InvoicesTableOrderingComposer composer = $composerBuilder(
       composer: this,
@@ -15524,6 +15590,11 @@ class $$InvoiceRowsTableAnnotationComposer
   GeneratedColumn<double> get rowAmount =>
       $composableBuilder(column: $table.rowAmount, builder: (column) => column);
 
+  GeneratedColumn<String> get customFields => $composableBuilder(
+    column: $table.customFields,
+    builder: (column) => column,
+  );
+
   $$InvoicesTableAnnotationComposer get invoiceId {
     final $$InvoicesTableAnnotationComposer composer = $composerBuilder(
       composer: this,
@@ -15612,6 +15683,7 @@ class $$InvoiceRowsTableTableManager
                 Value<String?> loadingPlace = const Value.absent(),
                 Value<String?> unloadingPlace = const Value.absent(),
                 Value<double> rowAmount = const Value.absent(),
+                Value<String?> customFields = const Value.absent(),
               }) => InvoiceRowsCompanion(
                 id: id,
                 invoiceId: invoiceId,
@@ -15626,6 +15698,7 @@ class $$InvoiceRowsTableTableManager
                 loadingPlace: loadingPlace,
                 unloadingPlace: unloadingPlace,
                 rowAmount: rowAmount,
+                customFields: customFields,
               ),
           createCompanionCallback:
               ({
@@ -15642,6 +15715,7 @@ class $$InvoiceRowsTableTableManager
                 Value<String?> loadingPlace = const Value.absent(),
                 Value<String?> unloadingPlace = const Value.absent(),
                 Value<double> rowAmount = const Value.absent(),
+                Value<String?> customFields = const Value.absent(),
               }) => InvoiceRowsCompanion.insert(
                 id: id,
                 invoiceId: invoiceId,
@@ -15656,6 +15730,7 @@ class $$InvoiceRowsTableTableManager
                 loadingPlace: loadingPlace,
                 unloadingPlace: unloadingPlace,
                 rowAmount: rowAmount,
+                customFields: customFields,
               ),
           withReferenceMapper: (p0) => p0
               .map(

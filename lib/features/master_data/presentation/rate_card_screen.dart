@@ -106,10 +106,12 @@ class _RateCardScreenState extends ConsumerState<RateCardScreen> {
                     }
 
                     return DataTable2(
-                      columnSpacing: 12,
-                      horizontalMargin: 12,
-                      headingRowColor: MaterialStateProperty.all(AppTheme.brandPrimary),
-                      headingTextStyle: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
+                      columnSpacing: 16,
+                      horizontalMargin: 16,
+                      headingRowHeight: 48,
+                      dataRowHeight: 48,
+                      dividerThickness: 1,
+                      headingRowColor: WidgetStateProperty.all(AppTheme.surfaceLight),
                       columns: const [
                         DataColumn2(label: Text('LOADING PLACE'), size: ColumnSize.M),
                         DataColumn2(label: Text('UNLOADING PLACE'), size: ColumnSize.L),

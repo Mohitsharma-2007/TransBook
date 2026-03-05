@@ -16,6 +16,7 @@ import 'new_invoice_screen.dart';
 import '../../profile/data/user_profile_repository.dart';
 import '../../../core/services/file_storage_service.dart';
 import '../../pdf_excel/domain/pdf_template_config.dart';
+import '../../pdf_excel/presentation/template_settings_screen.dart';
 
 class InvoicesScreen extends ConsumerStatefulWidget {
   const InvoicesScreen({super.key});
@@ -81,6 +82,17 @@ class _InvoicesScreenState extends ConsumerState<InvoicesScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
                 ),
               ).animate().fadeIn().slideX(begin: 0.1),
+              const SizedBox(width: 8),
+              OutlinedButton.icon(
+                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (_) => const TemplateSettingsScreen())),
+                icon: const Icon(Icons.picture_as_pdf_outlined, size: 16),
+                label: const Text('Templates'),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: AppTheme.brandPrimary,
+                  side: BorderSide(color: AppTheme.brandPrimary),
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                ),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -164,11 +176,13 @@ class _InvoicesScreenState extends ConsumerState<InvoicesScreen> {
     }
 
     return DataTable2(
-      columnSpacing: 12,
-      horizontalMargin: 24,
+      columnSpacing: 16,
+      horizontalMargin: 16,
       minWidth: 850,
-      headingRowHeight: 56,
-      dataRowHeight: 64,
+      headingRowHeight: 48,
+      dataRowHeight: 48,
+      dividerThickness: 1,
+      headingRowColor: WidgetStateProperty.all(AppTheme.surfaceLight),
       columns: const [
         DataColumn2(label: Text(''), size: ColumnSize.S, fixedWidth: 48),
         DataColumn2(label: Text('Invoice No'), size: ColumnSize.M),

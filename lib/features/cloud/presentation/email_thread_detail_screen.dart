@@ -10,11 +10,13 @@ import '../../ai/domain/ai_email_generator.dart';
 class EmailThreadDetailScreen extends ConsumerStatefulWidget {
   final String threadId;
   final String subject;
+  final bool isEmbedded;
 
   const EmailThreadDetailScreen({
     super.key,
     required this.threadId,
     required this.subject,
+    this.isEmbedded = false,
   });
 
   @override
@@ -44,6 +46,26 @@ class _EmailThreadDetailScreenState extends ConsumerState<EmailThreadDetailScree
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isEmbedded) {
+      // Inline pane — no Scaffold, just a column with header + body
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            decoration: BoxDecoration(border: Border(bottom: BorderSide(color: Colors.grey.shade200))),
+            child: Text(widget.subject.isNotEmpty ? widget.subject : '—',
+                style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
+          ),
+          Expanded(child: _isLoading
+              ? const Center(child: CircularProgressIndicator())
+              : _threadDetails == null
+                  ? const Center(child: Text('Select an email to preview.'))
+                  : _buildThreadView()),
+          _buildBottomActions(),
+        ],
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.subject, style: const TextStyle(fontSize: 16)),

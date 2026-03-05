@@ -12,6 +12,7 @@ import '../../pdf_excel/domain/invoice_pdf_generator.dart';
 import '../../profile/data/user_profile_repository.dart';
 import '../../../core/services/file_storage_service.dart';
 import '../../cloud/data/gmail_service.dart';
+import '../../cloud/data/google_auth_service.dart';
 
 class EmailPreviewDialog extends ConsumerStatefulWidget {
   final List<InvoiceWithCompany> invoices;
@@ -28,10 +29,30 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
   String? _error;
   List<EmailAttachment> _attachments = [];
 
+  // Editable email fields
+  final _toController = TextEditingController();
+  final _ccController = TextEditingController();
+  final _subjectController = TextEditingController();
+  bool _isSending = false;
+
   @override
   void initState() {
     super.initState();
+    // Pre-fill from company data
+    final first = widget.invoices.first;
+    _toController.text = first.company?.contactEmail ?? '';
+    _subjectController.text = widget.invoices.length == 1
+        ? 'Invoice ${first.invoice.invoiceNumber}'
+        : 'Invoices from ${first.company?.name ?? "Us"}';
     _generateEmail();
+  }
+
+  @override
+  void dispose() {
+    _toController.dispose();
+    _ccController.dispose();
+    _subjectController.dispose();
+    super.dispose();
   }
 
   Future<void> _generateEmail() async {
@@ -100,6 +121,14 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
   }
 
   Future<void> _sendViaGmailService() async {
+    final to = _toController.text.trim();
+    if (to.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Please enter a recipient email address in the To: field.'), backgroundColor: AppTheme.errorColor)
+      );
+      return;
+    }
+
     final gmail = ref.read(gmailServiceProvider);
     if (!gmail.isAuthenticated) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -108,23 +137,19 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
       return;
     }
 
-    final firstInvoice = widget.invoices.first;
-    final companyEmail = firstInvoice.company?.contactEmail ?? '';
-    final subject = widget.invoices.length == 1 
-        ? 'Invoice ${firstInvoice.invoice.invoiceNumber}'
-        : 'Multiple Invoices - ${widget.invoices.length} items';
-
-    setState(() => _isLoading = true);
+    setState(() => _isSending = true);
 
     final success = await gmail.sendEmail(
-      to: companyEmail,
-      subject: subject,
+      to: to,
+      subject: _subjectController.text.trim().isNotEmpty
+          ? _subjectController.text.trim()
+          : 'Invoice from TransBook',
       htmlBody: _htmlContent ?? '',
       attachments: _attachments,
     );
 
     if (mounted) {
-      setState(() => _isLoading = false);
+      setState(() => _isSending = false);
       if (success) {
         ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Email sent successfully!')));
         Navigator.pop(context, true);
@@ -182,22 +207,37 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: Container(
-        width: 800,
-        height: 600,
+        width: 860,
+        height: 700,
         padding: const EdgeInsets.all(24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ── Title bar ──
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Live Email Preview', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const Row(children: [
+                  Icon(Icons.email_outlined, color: AppTheme.brandPrimary),
+                  SizedBox(width: 10),
+                  Text('Compose & Send Email', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ]),
                 IconButton(icon: const Icon(Icons.close), onPressed: () => Navigator.pop(context)),
               ],
             ),
-            const Divider(),
+            const Divider(height: 20),
+
+            // ── Compose header fields ──
+            _EmailField(label: 'To *', controller: _toController, hint: 'recipient@company.com'),
+            const SizedBox(height: 6),
+            _EmailField(label: 'CC', controller: _ccController, hint: 'cc@address.com (optional)'),
+            const SizedBox(height: 6),
+            _EmailField(label: 'Subject', controller: _subjectController, hint: 'Email subject line'),
+            const Divider(height: 20),
+
+            // ── Email body preview ──
             Expanded(
-              child: _isLoading 
+              child: _isLoading
                 ? const Center(child: CircularProgressIndicator())
                 : _error != null 
                   ? Center(child: Text('Error generating email: \n$_error', style: const TextStyle(color: AppTheme.errorColor)))
@@ -214,10 +254,49 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
                     ),
             ),
             const SizedBox(height: 16),
+            // Auth status banner
+            Consumer(
+              builder: (context, ref, _) {
+                final authService = ref.read(googleAuthServiceProvider);
+                if (authService.currentUser == null) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+                    decoration: BoxDecoration(
+                      color: Colors.orange.shade50,
+                      border: Border.all(color: Colors.orange.shade300),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded, color: Colors.orange.shade700, size: 20),
+                        const SizedBox(width: 10),
+                        Expanded(child: Text(
+                          'Not signed in to Google. Open Settings → "Sign In with Google" to enable Gmail sending.',
+                          style: TextStyle(color: Colors.orange.shade800, fontSize: 13),
+                        )),
+                      ],
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Note: Attach the printed PDF manually in your mail client.', style: TextStyle(color: AppTheme.textSecondary, fontStyle: FontStyle.italic)),
+                // Attachment info
+                if (_attachments.isNotEmpty)
+                  Row(
+                    children: [
+                      const Icon(Icons.attach_file, size: 16, color: AppTheme.textSecondary),
+                      const SizedBox(width: 4),
+                      Text('${_attachments.length} PDF${_attachments.length > 1 ? 's' : ''} attached',
+                          style: const TextStyle(color: AppTheme.textSecondary, fontSize: 13)),
+                    ],
+                  )
+                else
+                  const SizedBox.shrink(),
                 Row(
                   children: [
                     TextButton(
@@ -226,9 +305,11 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
                     ),
                     const SizedBox(width: 16),
                     ElevatedButton.icon(
-                      onPressed: _isLoading || _error != null ? null : _sendViaGmailService,
-                      icon: const Icon(Icons.send),
-                      label: const Text('Send via Gmail API'),
+                      onPressed: _isLoading || _isSending || _error != null ? null : _sendViaGmailService,
+                      icon: _isSending
+                          ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                          : const Icon(Icons.send),
+                      label: Text(_isSending ? 'Sending...' : 'Send with PDF via Gmail'),
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppTheme.brandPrimary,
                         foregroundColor: AppTheme.surfaceWhite,
@@ -243,10 +324,45 @@ class _EmailPreviewDialogState extends ConsumerState<EmailPreviewDialog> {
                   ],
                 ),
               ],
-            )
+            ),
           ],
         ),
       ),
+    );
+  }
+}
+
+/// Compact labeled email field for the composer header
+class _EmailField extends StatelessWidget {
+  final String label;
+  final TextEditingController controller;
+  final String hint;
+
+  const _EmailField({required this.label, required this.controller, this.hint = ''});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        SizedBox(
+          width: 62,
+          child: Text(label, style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13, color: AppTheme.textSecondary)),
+        ),
+        Expanded(
+          child: TextField(
+            controller: controller,
+            style: const TextStyle(fontSize: 13),
+            decoration: InputDecoration(
+              hintText: hint,
+              hintStyle: const TextStyle(color: Colors.grey, fontSize: 13),
+              isDense: true,
+              contentPadding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+              border: OutlineInputBorder(borderRadius: BorderRadius.circular(6)),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

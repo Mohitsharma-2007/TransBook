@@ -76,6 +76,27 @@ class _AISidebarState extends ConsumerState<AISidebar> {
     });
   }
 
+  Widget _buildQuickActions() {
+    final actions = [
+      'Show pending balance',
+      'Search invoice #123',
+      'Summarize billing',
+    ];
+
+    return Wrap(
+      alignment: WrapAlignment.center,
+      spacing: 8,
+      runSpacing: 8,
+      children: actions.map((a) => ActionChip(
+        label: Text(a.toUpperCase(), style: const TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
+        onPressed: () {
+          _controller.text = a;
+          _sendMessage();
+        },
+      )).toList(),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -115,11 +136,20 @@ class _AISidebarState extends ConsumerState<AISidebar> {
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Icon(Icons.chat_bubble_outline, size: 48, color: Colors.grey.shade400),
-                          const SizedBox(height: 12),
-                          Text('Ask me about invoices, payments,\nor billing queries.',
+                          Icon(Icons.auto_awesome, size: 48, color: AppTheme.brandPrimary.withAlpha(100)),
+                          const SizedBox(height: 16),
+                          const Text('TransBook Intelligence Center', style: TextStyle(fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 8),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 32),
+                            child: Text(
+                              'Ask me to find pendency, draft emails, or summarize your billing cycle.',
                               textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.grey.shade500)),
+                              style: TextStyle(color: AppTheme.textSecondary, fontSize: 13),
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          _buildQuickActions(),
                         ],
                       ),
                     )

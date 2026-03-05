@@ -128,11 +128,13 @@ class SummaryBillsScreen extends ConsumerWidget {
     }
 
     return DataTable2(
-      columnSpacing: 12,
-      horizontalMargin: 24,
+      columnSpacing: 16,
+      horizontalMargin: 16,
       minWidth: 800,
-      headingRowHeight: 56,
-      dataRowHeight: 64,
+      headingRowHeight: 48,
+      dataRowHeight: 48,
+      dividerThickness: 1,
+      headingRowColor: WidgetStateProperty.all(AppTheme.surfaceLight),
       columns: const [
         DataColumn2(label: Text('Summary No'), size: ColumnSize.M),
         DataColumn2(label: Text('Period From'), size: ColumnSize.S),
